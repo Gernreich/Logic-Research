@@ -11,8 +11,12 @@ ones, rendered as English.
 so every set of weights that computes a given function is a *point in 3D*.
 Collect enough and each function has a visible solution region.
 
-**[Interactive viewer →](https://gernreich.github.io/weight-space-shells/)** — all sixteen
-functions, rotatable, comparing generated clouds against the 2019 archive.
+**[Read it and explore →](https://gernreich.github.io/weight-space-shells/)**
+
+- **[Weight Space Shells](https://gernreich.github.io/weight-space-shells/shells.html)**
+  — all sixteen functions as rotatable clouds, generated vs. the 2019 archive
+- **[Sixteen Cones](https://gernreich.github.io/weight-space-shells/cones.html)**
+  — the same regions from a cube, a ball, and as pure directions
 
 ## Layout
 
@@ -35,6 +39,12 @@ scripts are preserved untouched in each `original_2019/`.
     python3 ANN/generate_clouds.py --samples 200000000 --range 20 --n 0.9 \
         --seed 1 --cap 12000 --out ANN/generated_clouds
 
+    # ball-sampled and direction-only (used by the Cones viewer)
+    python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
+        --seed 2 --shape ball --cap 11000 --out ANN/clouds_ball
+    python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
+        --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir
+
 ## What this is and isn't
 
 The useful parts are empirical and pedagogical, not novel.
@@ -51,8 +61,24 @@ Sampling uniformly from ±20:
 | `XOR`, `XNOR` | 4.4 × 10⁻⁵ |
 
 Below about ±15, `XOR` is not merely rare — it is **absent**: zero hits in four
-million samples at ±10. That is a sharper statement of "XOR is hard" than the
-usual hand-wave, and the viewer makes it visible.
+million samples at ±10.
+
+The deeper reason: **each solution set is a cone.** If a weight vector works, so
+does every positive multiple of it — verified on 400 accepted sets across five
+scale factors, 2,000 checks, zero failures. The set is unbounded, so whatever
+region you sample from draws the cloud's outer surface; a cube gives flat faces,
+a ball gives a round hull, and neither is real. Only the directions are
+intrinsic, and on the unit sphere:
+
+| function | sphere covered |
+|---|---|
+| `TRUE` / `FALSE` | 47.2% |
+| `IMPLICATION` and kin | 35.0% |
+| `P`, `Q`, `NOT P`, `NOT Q` | 34.8% |
+| `AND` / `NAND` | 28.4% |
+| `XOR` / `XNOR` | **4.8%** |
+
+`XOR` is hard because only 4.8% of directions work for it.
 
 **Not novel.** Complementary functions have mirror-image solution regions
 because `sigmoid(−x) = 1 − sigmoid(x)`; that is one line of algebra, not a
@@ -83,6 +109,6 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 
 ## Publishing the viewer
 
-`docs/index.html` is self-contained — data inlined, no build step, no external
-requests beyond Google Fonts. In repository settings, set Pages to serve from
-**main / docs**, then update the viewer link above.
+`docs/` holds three self-contained pages — an explanation at `index.html` and
+the two viewers — with all data inlined, no build step, and no external requests
+beyond Google Fonts. Pages serves from **main / docs**.

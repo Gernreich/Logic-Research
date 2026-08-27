@@ -42,11 +42,32 @@ FUNCTIONS = {
 INPUTS = numpy.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=numpy.float64)
 
 
-def sweep(batch: int, rng_half: float, n: float, rs):
+def draw(batch: int, half: float, shape: str, rs):
+    """Sample syn1 from a cube or a ball.
+
+    The solution set for any function is a **cone**: if a weight vector works,
+    every positive multiple of it works too (scaling up drives the sigmoid
+    harder, which can only sharpen an already-accepted pattern). The set is
+    therefore unbounded, and whatever region you sample from draws the cloud's
+    outer surface. A cube gives flat faces and straight edges; a ball gives a
+    round hull. Neither boundary is real.
+
+    Only the *directions* are intrinsic -- see ``--normalise``.
+    """
+    if shape == "cube":
+        return 2.0 * half * rs.random((batch, 3, 1)) - half
+    # uniform inside a ball of radius half*sqrt(3), matching the cube's corner reach
+    v = rs.normal(size=(batch, 3))
+    v /= numpy.linalg.norm(v, axis=1, keepdims=True)
+    r = (half * numpy.sqrt(3.0)) * rs.random((batch, 1)) ** (1.0 / 3.0)
+    return (v * r)[:, :, None]
+
+
+def sweep(batch: int, rng_half: float, n: float, rs, shape="cube", normalise=False):
     """One vectorised batch. Returns {truth_table: syn1 array of hits}."""
     span = 2.0 * rng_half
     syn0 = span * rs.random((batch, 2, 3)) - rng_half
-    syn1 = span * rs.random((batch, 3, 1)) - rng_half
+    syn1 = draw(batch, rng_half, shape, rs)
 
     l1 = 1.0 / (1.0 + numpy.exp(-numpy.einsum("ij,bjk->bik", INPUTS, syn0)))
     l2 = 1.0 / (1.0 + numpy.exp(-numpy.einsum("bij,bjk->bik", l1, syn1)))
@@ -60,6 +81,8 @@ def sweep(batch: int, rng_half: float, n: float, rs):
 
     bits = high[decided].astype(numpy.uint8)
     keep = syn1[decided, :, 0]
+    if normalise:
+        keep = keep / numpy.linalg.norm(keep, axis=1, keepdims=True)
     codes = bits[:, 0] * 8 + bits[:, 1] * 4 + bits[:, 2] * 2 + bits[:, 3]
 
     found = {}
@@ -79,6 +102,11 @@ def main() -> int:
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=None, help="directory to write CSVs into")
     ap.add_argument("--cap", type=int, default=40_000, help="max points kept per function")
+    ap.add_argument("--shape", default="cube", choices=("cube", "ball"),
+                    help="sample syn1 from a cube (2019 behaviour) or a ball")
+    ap.add_argument("--normalise", action="store_true",
+                    help="scale every hit to unit length -- the cone's cross-section "
+                         "on the unit sphere, which is the only artefact-free view")
     ap.add_argument("--rates", action="store_true", help="measure yield only")
     args = ap.parse_args()
 
@@ -88,14 +116,16 @@ def main() -> int:
     done = 0
     while done < args.samples:
         b = min(args.batch, args.samples - done)
-        for table, pts in sweep(b, args.range, args.n, rs).items():
+        for table, pts in sweep(b, args.range, args.n, rs,
+                                args.shape, args.normalise).items():
             counts[table] += len(pts)
             have = sum(len(c) for c in collected[table])
             if have < args.cap:
                 collected[table].append(pts[: args.cap - have])
         done += b
 
-    print(f"{done:,} samples, range +/-{args.range:g}, n={args.n}\n")
+    print(f"{done:,} samples, {args.shape} +/-{args.range:g}, n={args.n}"
+          f"{', unit-normalised' if args.normalise else ''}\n")
     print(f"{'function':<16}{'hits':>12}{'rate':>12}")
     print("-" * 40)
     for table, name in FUNCTIONS.items():

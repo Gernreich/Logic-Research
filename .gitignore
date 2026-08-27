@@ -12,3 +12,11 @@ FirstSeven
 __pycache__/
 *.pyc
 .DS_Store
+
+# Ball-sampled and direction-projected clouds -- reproduce with:
+#   python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
+#           --seed 2 --shape ball --cap 11000 --out ANN/clouds_ball
+#   python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
+#           --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir
+ANN/clouds_ball/
+ANN/clouds_dir/
