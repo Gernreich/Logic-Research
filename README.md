@@ -11,7 +11,7 @@ ones, rendered as English.
 so every set of weights that computes a given function is a *point in 3D*.
 Collect enough and each function has a visible solution region.
 
-**[Interactive viewer →](https://USERNAME.github.io/REPO/)** — all sixteen
+**[Interactive viewer →](https://gernreich.github.io/weight-space-shells/)** — all sixteen
 functions, rotatable, comparing generated clouds against the 2019 archive.
 
 ## Layout
