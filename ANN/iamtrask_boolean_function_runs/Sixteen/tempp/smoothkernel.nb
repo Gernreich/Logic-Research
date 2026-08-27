@@ -1,0 +1,165 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5628,        157]
+NotebookOptionsPosition[      4460,        130]
+NotebookOutlinePosition[      4800,        145]
+CellTagsIndexPosition[      4757,        142]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{"data", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"Import", "[", 
+    RowBox[{
+    "\"\</Users/mcarnright/ANN/iamtrask/NAND/NAND_syn1.txt\>\"", ",", " ", 
+     "\"\<CSV\>\""}], "]"}], "//", "Short"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[ScriptCapitalD]", "=", 
+   RowBox[{"SmoothKernelDistribution", "[", "data", "]"}]}], ";"}]}], "Input",\
+
+ CellChangeTimes->{{3.774292712547331*^9, 3.77429271255451*^9}, {
+  3.774292746633965*^9, 3.774292776950582*^9}, {3.774293112970533*^9, 
+  3.7742931151287746`*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"fe085eac-10de-4c1c-8fcd-3da78e406a9d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dist", "=", 
+   RowBox[{"SmoothKernelDistribution", "[", "data", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.774293166145706*^9, 3.774293170803829*^9}, {
+  3.7742936184752493`*^9, 
+  3.774293619132433*^9}},ExpressionUUID->"a410f4d4-4b64-4484-acc9-\
+acd6185e3856"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SmoothKernelDistribution","invldd",
+   "\"The input data \\!\\(\\*RowBox[{\\\"SmoothKernelDistribution\\\", \\\"[\
+\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"-\\\", \\\"7.92643153`\\\"}], \\\",\\\", \\\"14.94582796`\
+\\\", \\\",\\\", \\\"12.98634369`\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"\
+\[LeftSkeleton]\\\", \\\"49\\\", \\\"\[RightSkeleton]\\\"}], \\\",\\\", \
+RowBox[{\\\"\[LeftSkeleton]\\\", \\\"950\\\", \\\"\[RightSkeleton]\\\"}]}], \
+\\\"}\\\"}], \\\"]\\\"}]\\) should be a vector or a matrix of real numbers or \
+a valid TemporalData object.\"",2,18,8,23496292308649121327,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.7742931158033943`*^9, 3.774293178920391*^9},
+ CellLabel->
+  "During evaluation of \
+In[18]:=",ExpressionUUID->"e18f6ca0-845f-4f25-951a-11ed9cfe4596"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.774292797449703*^9, 3.774292797457148*^9}, {
+   3.77429300603465*^9, 3.7742930236877117`*^9}, 
+   3.7742931547610683`*^9},ExpressionUUID->"ef173e7f-3e3b-4bac-a981-\
+1b6ee8fe2139"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "DiscretePlot3D","argr",
+   "\"\\!\\(\\*RowBox[{\\\"DiscretePlot3D\\\"}]\\) called with 1 argument; \
+\\!\\(\\*RowBox[{\\\"3\\\"}]\\) arguments are expected.\"",2,14,5,
+   23496292308649121327,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.774293020040134*^9, 3.774293025156948*^9}},
+ CellLabel->
+  "During evaluation of \
+In[14]:=",ExpressionUUID->"326a4c0a-ac70-4238-9579-7d7b70bcebd3"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{3.774293031609823*^9, 
+  3.7742931529757547`*^9},ExpressionUUID->"6a9c4a47-922a-40e3-b14d-\
+a2809decc290"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "DiscretePlot3D","argr",
+   "\"\\!\\(\\*RowBox[{\\\"DiscretePlot3D\\\"}]\\) called with 1 argument; \
+\\!\\(\\*RowBox[{\\\"3\\\"}]\\) arguments are expected.\"",2,15,6,
+   23496292308649121327,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.7742930316602*^9},
+ CellLabel->
+  "During evaluation of \
+In[15]:=",ExpressionUUID->"f6fb2eab-c374-460d-935a-ba0379620553"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7742931513407907`*^9, 
+  3.774293151343183*^9}},ExpressionUUID->"2eed3d6b-bb13-42c0-833d-\
+f4e0ce964e4b"],
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"f", "[", 
+      RowBox[{"\[ScriptCapitalD]", ",", "x"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"-", "4"}], ",", "4"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "\[Rule]", "f"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"f", ",", 
+     RowBox[{"{", 
+      RowBox[{"PDF", ",", "CDF"}], "}"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.774293396306656*^9, 
+  3.7742933963129463`*^9}},ExpressionUUID->"917c2b3e-d9a3-44c4-90a8-\
+b60e59806a16"]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{222, Automatic}, {29, Automatic}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 618, 14, 52, "Input",ExpressionUUID->"fe085eac-10de-4c1c-8fcd-3da78e406a9d"],
+Cell[CellGroupData[{
+Cell[1201, 38, 302, 7, 30, InheritFromParent,ExpressionUUID->"a410f4d4-4b64-4484-acc9-acd6185e3856"],
+Cell[1506, 47, 872, 15, 24, "Message",ExpressionUUID->"e18f6ca0-845f-4f25-951a-11ed9cfe4596"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2415, 67, 228, 4, 30, "Input",ExpressionUUID->"ef173e7f-3e3b-4bac-a981-1b6ee8fe2139"],
+Cell[2646, 73, 445, 10, 24, "Message",ExpressionUUID->"326a4c0a-ac70-4238-9579-7d7b70bcebd3"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3128, 88, 152, 3, 30, InheritFromParent,ExpressionUUID->"6a9c4a47-922a-40e3-b14d-a2809decc290"],
+Cell[3283, 93, 419, 10, 24, "Message",ExpressionUUID->"f6fb2eab-c374-460d-935a-ba0379620553"]
+}, Open  ]],
+Cell[3717, 106, 154, 3, 30, InheritFromParent,ExpressionUUID->"2eed3d6b-bb13-42c0-833d-f4e0ce964e4b"],
+Cell[3874, 111, 582, 17, 30, "Input",ExpressionUUID->"917c2b3e-d9a3-44c4-90a8-b60e59806a16"]
+}
+]
+*)
+

@@ -1,0 +1,58 @@
+#!/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7
+import numpy as np
+import sys
+
+firstarg = sys.argv[1]
+
+# sigmoid function
+def nonlin(x,deriv=False):
+    if(deriv==True):
+        return x*(1-x)
+    return 1/(1+np.exp(-x))
+    
+X = np.array([  [0,0,0,0],
+                [0,0,0,1],
+                [0,0,1,0],
+                [0,0,1,1],
+                [0,1,0,0],
+                [0,1,0,1],
+                [0,1,1,0],
+                [0,1,1,1],
+                [1,0,0,0],
+                [1,0,0,1],
+                [1,0,1,0],
+                [1,0,1,1],
+                [1,1,0,0],
+                [1,1,0,1],
+                [1,1,1,0],
+                [1,1,1,1] ])
+
+y = np.array([[0.1,0.2,0.3,0.4,5,0.6,0.7,0.8,0.9,0.10,0.11,0.12,0.13,0.14,0.15,0.16]]).T
+
+# seed random numbers to make calculation
+# deterministic (just a good practice)
+np.random.seed(int(firstarg))
+
+# initialize weights randomly with mean 0
+syn0 = 20*np.random.random((4,1)) - 10
+for iter in range(1000000):
+    # forward propagation
+    l0 = X
+    l1 = nonlin(np.dot(l0,syn0))
+
+    # how much did we miss?
+    l1_error = y - l1
+
+    # multiply how much we missed by the 
+    # slope of the sigmoid at the values in l1
+    l1_delta = l1_error * nonlin(l1,True)
+
+    # update weights
+    syn0 += np.dot(l0.T,l1_delta)
+
+print("Output After Training:")
+print(l1)
+#print(f'{l1:.20f}')
+#print(f'{l1:.2f}')
+#print('{:.20f}%'.format(l1))
+#list(map('{:.2f}%'.format,l1))

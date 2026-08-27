@@ -1,0 +1,14 @@
+# Generated point clouds -- reproduce with:
+#   python3 ANN/generate_clouds.py --samples 200000000 --range 20 --n 0.9 --seed 1 \
+#           --cap 12000 --out ANN/generated_clouds
+ANN/generated_clouds/
+
+# Enumeration output -- reproduce with:
+#   python3 python/enumerate_full.py
+TotalFirstSeven
+TotalTau
+FirstSeven
+
+__pycache__/
+*.pyc
+.DS_Store

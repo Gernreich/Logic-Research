@@ -1,0 +1,39 @@
+P and Q and Q -> P	reduces to P and Q -> P
+P and Q and P -> Q	reduces to P and Q -> Q
+P and Q and !P -> Q	becomes FALSE -> Q
+P and Q and !P -> !Q	becomes FALSE -> !Q
+P and Q and !Q -> P	becomes FALSE -> P
+P and Q and !Q -> !P	becomes FALSE -> !P
+
+P - Q and Q -> P	becomes FALSE -> P
+P - Q and Q -> !P	becomes FALSE -> !P
+P - Q and P -> !Q	asymmetrical like Modus Ponens
+P - Q and !P -> Q	becomes FALSE -> Q
+P - Q and !P -> !Q	becomes FALSE -> !Q
+P - Q and !Q -> P	asymmetrical like Modus Tollens
+
+P xor Q and Q -> !P	
+P xor Q and P -> !Q	
+P xor Q and !P -> Q	
+P xor Q and !Q -> P	
+
+P or Q and !P -> Q	
+P or Q and !Q -> P	
+
+P nor Q and Q -> P	becomes FALSE -> P
+P nor Q and Q -> !P	becomes FALSE -> !P
+P nor Q and P -> Q	becomes FALSE -> Q
+P nor Q and P -> !Q	becomes FALSE -> !Q
+P nor Q and !P -> !Q	
+P nor Q and !Q -> !P	
+
+P iff Q and Q -> P	
+P iff Q and P -> Q	
+P iff Q and !P -> !Q	
+P iff Q and !Q -> !P	
+
+P -> Q and P -> Q	Modus Ponens
+P -> Q and !Q -> !P	Modus Tollens
+
+P nand Q and Q -> !P	
+P nand Q and P -> !Q	

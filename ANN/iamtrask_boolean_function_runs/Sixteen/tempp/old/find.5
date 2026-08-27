@@ -1,0 +1,1 @@
+awk '{ printf "%s", $0; if (NR % 4 == 0) print ""; else printf " " }' l2.txt|egrep "0\.50"|wc -l
