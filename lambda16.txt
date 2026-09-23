@@ -4,6 +4,12 @@ The sixteen boolean functions of two variables as pure lambda terms
 No shortcuts: every λ takes exactly one argument, every application
 (f x) is bracketed, and nothing is abbreviated (no TRUE/FALSE/NOT names).
 
+Each gate is in η-long β-normal form: fully expanded, fully reduced, no
+abbreviations. Every gate names all four inputs (λp.λq.λa.λb.), every p and q
+is applied to two arguments, and nothing is left to reduce. P and Q have
+shorter βη-normal forms, λp.(λq.p) and λp.(λq.q), but the long form keeps all
+sixteen in the same shape so the complement rule works.
+
 Church booleans:   true = λa.(λb.a)    false = λa.(λb.b)
 Inside a body:     a = TRUE,  b = FALSE
                    ((q a) b) = q,  ((q b) a) = NOT q
