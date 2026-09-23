@@ -1,0 +1,35 @@
+The sixteen boolean functions of two variables as pure lambda terms
+====================================================================
+
+No shortcuts: every λ takes exactly one argument, every application
+(f x) is bracketed, and nothing is abbreviated (no TRUE/FALSE/NOT names).
+
+Church booleans:   true = λa.(λb.a)    false = λa.(λb.b)
+Inside a body:     a = TRUE,  b = FALSE
+                   ((q a) b) = q,  ((q b) a) = NOT q
+Every body is ((p X) Y): X is the answer when p is true, Y when p is false.
+
+idx = position in OPS (python/boolean16.py); entry i and 15 - i are complements.
+TT TF FT FF = output for (p,q) = (T,T) (T,F) (F,T) (F,F).
+
+idx  TT TF FT FF  name               lambda term
+---  -----------  -----------------  ------------------------------------------------
+  0   0  0  0  0  FALSE              λp.(λq.(λa.(λb.b)))
+  1   0  0  1  0  q AND NOT p        λp.(λq.(λa.(λb.((p b) ((q a) b)))))
+  2   1  0  0  0  AND                λp.(λq.(λa.(λb.((p ((q a) b)) b))))
+  3   1  0  1  0  Q                  λp.(λq.(λa.(λb.((q a) b))))
+  4   0  1  0  0  p AND NOT q        λp.(λq.(λa.(λb.((p ((q b) a)) b))))
+  5   0  1  1  0  XOR                λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))
+  6   1  1  0  0  P                  λp.(λq.(λa.(λb.((p a) b))))
+  7   1  1  1  0  OR                 λp.(λq.(λa.(λb.((p a) ((q a) b)))))
+  8   0  0  0  1  NOR                λp.(λq.(λa.(λb.((p b) ((q b) a)))))
+  9   0  0  1  1  NOT P              λp.(λq.(λa.(λb.((p b) a))))
+ 10   1  0  0  1  XNOR               λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))
+ 11   1  0  1  1  IMPLIES (p -> q)   λp.(λq.(λa.(λb.((p ((q a) b)) a))))
+ 12   0  1  0  1  NOT Q              λp.(λq.(λa.(λb.((q b) a))))
+ 13   0  1  1  1  NAND               λp.(λq.(λa.(λb.((p ((q b) a)) a))))
+ 14   1  1  0  1  CONVERSE (q -> p)  λp.(λq.(λa.(λb.((p a) ((q b) a)))))
+ 15   1  1  1  1  TRUE               λp.(λq.(λa.(λb.a)))
+
+Complement rule: swap every a and b in the body (after λb.) to get the
+complement, idx 15 - i. Swapping the binders too only renames and changes nothing.
