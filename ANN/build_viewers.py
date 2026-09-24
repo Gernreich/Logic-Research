@@ -51,7 +51,7 @@ including two quirks worth knowing before reading the Shells archive view:
     ``NAND/point5/NAND_point5_syn1_sorted_XYZ``. Each is its unsorted partner
     with the three coordinates of every row sorted into ascending order: of
     their 1,179 rows, 180 repeat a real point and the other 999 are permuted
-    weights no run found. The page published before 2026-09-24 included them.
+    weights no run found. Builds before commit d48ef77 included them.
 """
 
 import argparse

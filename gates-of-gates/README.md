@@ -187,7 +187,7 @@ wrap() { printf '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8
 wrap tools/gates.html > page/gates-of-gates.html        # make the two standalone pages (see below)
 wrap tools/programs506.html > page/programs-506.html
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
-cp tools/gates-data.json data/       # the data file the page uses
+cp tools/gates-data.json data/       # keep data/ in step (the page itself carries its data inline)
 python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
 ```
 

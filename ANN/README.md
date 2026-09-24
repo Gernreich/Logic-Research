@@ -69,13 +69,17 @@ Seven recorded searches. For each letter:
 - `run_X_syn1_layer1_weights.txt` — hidden→output weights
 - `run_X_l2_predictions.txt` — the four outputs
 
-The predictions say whether anything was found. Run `a` is
-`[0.4998, 0.5000, 0.5000, 0.4999]` — all ≈0.5, nothing learned. Compare
+The predictions show what the search accepted. All 31 rows across the seven
+runs have the XOR pattern (below, above, above, below 0.5), but none is more
+than 0.00035 from 0.5: the accept threshold let through outputs that barely
+lean either way, so none of these is a usable XOR solution. Run `a` is
+`[0.4998, 0.5000, 0.5000, 0.4999]`. Compare
 `training_log_2019-08-29_nand_converged.txt`:
-`[0.99998, 0.99902, 0.99902, 0.00154]`, a clean NAND.
+`[0.99998, 0.99902, 0.99902, 0.00154]`, a clean NAND from backpropagation.
 
-`train_nand_backprop.py` reproduces both outcomes: seed 1000 converges,
-seed 1001 sticks at 0.5. Both are asserted in the test suite.
+Backpropagation can also fail, and `train_nand_backprop.py` shows both
+outcomes: seed 1000 converges, and seed 1001 gets stuck with its last output
+at 0.5. Both are asserted in the test suite.
 
 ## Search presets
 
@@ -165,7 +169,8 @@ and why they looped `range(30000000000)`.
 ## Verification
 
 `test_nncore.py` reproduces the original gold sampling inline and asserts the
-refactored `sample()` yields identical weights across four seeds, and checks
-both backprop outcomes. Hit rates were compared directly against the 2019
-code over 50,000 samples: both find 0 hits with the `gold` preset, confirming
-the refactor is faithful rather than merely similar.
+refactored `sample()` yields identical weights across four seeds; that is what
+shows the refactor is faithful rather than merely similar. It also checks both
+backprop outcomes. Hit rates were compared directly against the 2019 code over
+50,000 samples, and both find 0 hits with the `gold` preset: consistent, though
+two zeros agreeing would prove little on their own.
