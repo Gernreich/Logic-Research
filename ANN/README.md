@@ -94,7 +94,8 @@ by hand. `search_weights.py` defaults to 1,000,000 samples; pass
 
 ### Subdirectory scripts (refactored 2026-08-26)
 
-The 22 scripts inside those folders collapsed into two:
+Seven of the 22 scripts inside those folders collapsed into two; the other 15
+are kept as originals and have no replacement.
 
 **`search_all_functions.py`** replaces the six `RandomWeightSearch_N.py`
 (175 lines each). They differed in exactly two things: the seed, and a letter
@@ -105,14 +106,23 @@ encodes the random seed**: `z` is seed 0 and `a` to `f` are seeds 1 to 6. The
 family from the `argv[4]` labels above, so it says nothing about which seed
 went with `run_a_*` or `relu_activation_runs/a*`.
 
-**`train_graded.py`** replaces the `four_to_sixteen_architecture/` variants.
+**`train_graded.py`** replaces `four_to_sixteen_architecture/fourthreeone.py`.
 That folder's name is literal: feed all sixteen 4-bit patterns, ask one
-output neuron for sixteen distinguishable levels (target = i/15). It works —
+output neuron for sixteen distinguishable levels (target = i/15, the values
+`fourthreeone.py` used). It works —
 120,000 iterations gives max error 0.0065 against a level spacing of 0.0667.
 
-Not covered: `TwoOne.py` (a different experiment — two inputs, one layer,
-target `[0.5, 0.51, 0.51, 0.0]`) and the `Sixteen/tempp/` variants. All
-originals remain where they were.
+Not covered, 15 scripts:
+
+- the rest of `four_to_sixteen_architecture/`: `workin.py` (sixteen one-hot
+  outputs, not one graded output), `working.py` (targets 0 to 15 unscaled;
+  it has never run), `ThreeLayerNeuralNetwork.py` (two inputs, a NAND target)
+  and `TwoOne.py` (a different experiment — two inputs, one layer, target
+  `[0.5, 0.51, 0.51, 0.0]`)
+- the eight scripts in `iamtrask_boolean_function_runs/Sixteen/tempp/`
+- the three in `identity_function_runs/`
+
+All originals remain where they were.
 
 ### Three labelling errors in the 2019 output files
 

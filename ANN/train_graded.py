@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Train a network to encode a binary input as one graded output value.
 
-Replaces the backprop variants in ``four_to_sixteen_architecture/`` (left in
-place as originals). That folder's name describes the experiment: feed all
+Replaces ``four_to_sixteen_architecture/fourthreeone.py`` (left in place as an
+original, like the rest of that folder). The folder's name describes the
+experiment: feed all
 **four**-bit input patterns and ask for **sixteen** distinguishable output
 levels from a single output neuron.
 
