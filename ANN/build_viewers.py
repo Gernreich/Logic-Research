@@ -70,6 +70,8 @@ including two quirks worth knowing before reading the Shells archive view:
     a margin of 0.4. Run ``_`` (124 XOR rows, 127 XNOR) has no saved outputs,
     and paired as saved only 11 and 7 of its rows pass the 0.1 / 0.9 test
     the tempp scripts accept on. Builds before this change included it.
+  * ``262k/R9XOR_syn1_262k`` stops partway through its last row, whose third
+    coordinate survives only as ``19.``; ``CUT_SHORT`` drops that row.
 """
 
 import argparse
@@ -124,6 +126,9 @@ ARCHIVE = {   # no AND: the 2019 runs never produced an AND cloud
 DECIDED_BY = {_T + "NAND/NAND_syn1.txt": _T + "NAND/NAND_l2.txt"}
 UNDECIDED = 0.001
 
+# Archive files cut off partway through their last row: that row is dropped.
+CUT_SHORT = {_T + "262k/R9XOR_syn1_262k"}
+
 SHOWN = {"shells": 8500, "cones": 6000}
 SEED = {"shells": 11, "cones": 21}
 
@@ -160,6 +165,18 @@ def read_decided(name):
     if len(outputs) != len(rows):
         sys.exit(f"{name}: {len(rows)} rows but {len(outputs)} saved outputs")
     return [r for r, o in zip(rows, outputs) if all(abs(v - 0.5) >= UNDECIDED for v in o)]
+
+
+def read_whole_rows(name):
+    """read_decided(name), without a last row CUT_SHORT says was cut off."""
+    rows = read_decided(name)
+    if name in CUT_SHORT:
+        with open(os.path.join(HERE, "iamtrask_boolean_function_runs", name), "rb") as f:
+            tail = f.read().rstrip(b" ")
+        if tail.endswith(b"\n") or not tail.endswith(b"."):
+            sys.exit(f"{name}: no longer ends partway through a number; review CUT_SHORT")
+        rows = rows[:-1]
+    return rows
 
 
 def read_archive_values(name, width):
@@ -204,7 +221,7 @@ def page_data(page, folders):
         if page == "shells":
             sources = [("gen", read_csv(os.path.join(folders["gen"], f"{name}_syn1.csv")), 2)]
             if name in ARCHIVE:
-                sources.append(("arc", [r for f in ARCHIVE[name] for r in read_decided(f)], 2))
+                sources.append(("arc", [r for f in ARCHIVE[name] for r in read_whole_rows(f)], 2))
             extra = ("centroid",)
         else:
             sources = [(key, read_csv(os.path.join(folders[folder], f"{name}_syn1.csv")), dec)
