@@ -157,6 +157,28 @@ def xor_table():
     im.save(os.path.join(OUT, 'xor-nested.jpg'), 'JPEG', quality=92)
 
 
+def xor_checkerboards():
+    """XOR in truth-table order, one quarter (truth-table row) at a time: four checkerboards."""
+    cell, pad, gap = 13, 30, 34
+    names = ['TT · p and q', 'TF · p only', 'FT · q only', 'FF · neither']
+    side = 16 * cell
+    W = pad * 2 + 4 * side + 3 * gap
+    lines, top = header(W, '', 'Each quarter of every cell, drawn on its own: XOR is TRUE where a TRUE stripe from X crosses a FALSE stripe from Y. In truth-table order the four quarters are checkerboards with squares 8, 4, 2 and 1 cells wide. XNOR is the same with TRUE and FALSE swapped.', pad)
+    y0 = top + 26; H = y0 + side + 30
+    im = Image.new('RGB', (W, H), PAPER); d = ImageDraw.Draw(im)
+    draw_header(d, 'XOR in truth-table order: four checkerboards', lines, pad)
+    for k in range(4):
+        x0 = pad + k * (side + gap)
+        d.text((x0, y0 - 22), names[k], font=f(14), fill=INK)
+        w = 8 >> k
+        for y in range(16):
+            for x in range(16):
+                on = G[GRID[5][TT[y]][TT[x]]]['bits'][k] == '1'
+                assert on == ((x // w + y // w) % 2 == 1)          # really a checkerboard of squares w wide
+                d.rectangle([x0 + x * cell, y0 + y * cell, x0 + x * cell + cell - 2, y0 + y * cell + cell - 2], fill=VENN[k] if on else EMPTY)
+    im.save(os.path.join(OUT, 'xor-checkerboards.jpg'), 'JPEG', quality=92)
+
+
 made = [
     sheet(COMP, 'bits', 'All 16 squares — truth-table cells, complement order',
           'Each cell is G(X, Y); its 2×2 truth table is shown filled for TRUE (TT TF / FT FF). Order: boolean16.py, gate i and 15 − i complements.', 'all16-truth-table.jpg'),
@@ -173,5 +195,5 @@ made = [
     sheet(COMP, 'bits', 'Complements: gate G and gate 15 − G',
           'AND and NAND, XOR and XNOR: every cell of one is the flipped truth table of the other. Symmetric gates mirror across the diagonal.', 'complements.jpg', cell=16, panels=[2, 13, 5, 10]),
 ]
-and_mask(); xor_table()
-print('figures:', ', '.join(made + ['and-sierpinski.jpg', 'xor-nested.jpg']))
+and_mask(); xor_table(); xor_checkerboards()
+print('figures:', ', '.join(made + ['and-sierpinski.jpg', 'xor-nested.jpg', 'xor-checkerboards.jpg']))

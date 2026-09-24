@@ -79,6 +79,31 @@ One difference: these squares are **tables**, one operation applied to every pai
 - MathWorld, Rule 90: <https://mathworld.wolfram.com/Rule90.html>
 - MathWorld, Sierpiński Sieve (Pascal's triangle mod 2, bitwise AND, rules 60, 90 and 102): <https://mathworld.wolfram.com/SierpinskiSieve.html>
 
+## Four kinds of pattern
+
+Looking across all 16 squares, every gate makes one of four kinds of pattern. Which one depends on how the gate uses its two inputs:
+
+| Pattern | Gates | Why |
+|---|---|---|
+| Blank or solid | FALSE, TRUE | the output ignores both inputs |
+| Stripes | P, Q, NOT P, NOT Q | the output follows one input |
+| Triangles (Sierpiński-style) | the eight gates with one or three TRUE rows: AND, OR, NAND, NOR, p∧¬q, q∧¬p, p→q, q→p | each is AND with its inputs and/or output flipped, so each square is AND's triangle reflected or inverted |
+| **Checkerboards** | **XOR, XNOR** | the output compares the two inputs: same or different |
+
+### Checkerboards: XOR and XNOR
+
+XOR's square is the hardest to read, because its pattern is spread across the four quarters of the cells. Take one quarter (one truth-table row) at a time. X's values run in stripes down the columns and Y's values in stripes across the rows, and XOR is TRUE where a TRUE stripe crosses a FALSE one. Crossing stripes that way makes a **checkerboard**. In truth-table order the four quarters are checkerboards of four sizes, with squares 8, 4, 2 and 1 cells wide. The whole square is those four laid on top of each other. XNOR is the same with TRUE and FALSE swapped.
+
+![XOR's four quarters in truth-table order: checkerboards with squares 8, 4, 2 and 1 cells wide](images/xor-checkerboards.jpg)
+
+In the default complement order the rows and columns are shuffled, so the same crossing makes an irregular plaid instead of a clean checkerboard. That is why it's hard to see there.
+
+Two more properties set XOR and XNOR apart:
+- **Latin squares:** every row and every column contains all 16 gates exactly once, like a row of a Sudoku. No other square does this. XOR's square is the addition table of 4-bit numbers where 1 + 1 = 0.
+- **A constant diagonal:** anything XOR itself is FALSE, so XOR's diagonal is all FALSE and XNOR's all TRUE.
+
+All of these (the Latin squares, the diagonals, the four checkerboards, and the triangle family being exactly those eight gates) are checked by `tools/gates.js` on every build. The triangle-family check also confirms that the other eight gates fail the same test.
+
 ## The 506 programs
 
 Each cell is itself a lambda term. Reducing all 4,096 cell terms gives **506 different normal forms**, and each one behaves exactly like one of the 16 gates:

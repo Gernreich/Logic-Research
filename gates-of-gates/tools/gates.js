@@ -73,6 +73,22 @@ const claims = {
   'AND diagonal is X':     all(2, (v, x, y) => x !== y || v === x),
   'XOR diagonal is FALSE': all(5, (v, x, y) => x !== y || v === 0),
   'complement squares':    grid.every((sq, g) => all(15 - g, (v, x, y) => v === 15 - sq[y][x])),
+  // XOR and XNOR: Latin squares (every row and column holds all 16 gates once), with a constant diagonal
+  'XOR, XNOR Latin squares': [5, 10].every(g => grid[g].every(r => new Set(r).size === 16) && [...Array(16).keys()].every(x => new Set(grid[g].map(r => r[x])).size === 16)),
+  'XOR diagonal FALSE, XNOR diagonal TRUE': all(5, (v, x, y) => x !== y || v === 0) && all(10, (v, x, y) => x !== y || v === 15),
+  // in truth-table order, quarter k of XOR is a checkerboard of squares 2^(3-k) wide
+  'XOR quarters are checkerboards': (() => { const tt = []; rows.forEach(r => { tt[parseInt(r.bits, 2)] = r.idx; });
+    return [0, 1, 2, 3].every(k => { const w = 8 >> k; for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++)
+      if ((rows[grid[5][tt[y]][tt[x]]].bits[k] === '1') !== ((Math.floor(x / w) + Math.floor(y / w)) % 2 === 1)) return false; return true; }); })(),
+  // the eight gates with one or three TRUE rows are AND with its inputs and/or output flipped: the triangle family
+  'triangle family is AND reflected or inverted': (() => {
+    // g is in the family if, for some flips a, b, c: g(p, q) = c XOR ((p XOR a) AND (q XOR b)) on all four rows
+    const isAndLike = g => [0, 1].some(a => [0, 1].some(b => [0, 1].some(c =>
+      [[1, 1], [1, 0], [0, 1], [0, 0]].every(([p, q], k) => (rows[g].bits[k] === '1') === (((c ^ ((p ^ a) & (q ^ b))) & 1) === 1)))));
+    const family = [1, 2, 4, 7, 8, 11, 13, 14];
+    // control: every other gate must fail the test, so the test is not vacuous
+    return family.every(isAndLike) && [0, 3, 5, 6, 9, 10, 12, 15].every(g => !isAndLike(g));
+  })(),
 };
 for (const [k, ok] of Object.entries(claims)) if (!ok) throw 'claim failed: ' + k;
 console.log('all', Object.keys(claims).length, 'pattern claims hold');

@@ -31,8 +31,8 @@ def embed_img(m):
     data = base64.b64encode(path.read_bytes()).decode()
     return f'src="data:image/jpeg;base64,{data}"'
 doc, n_img = re.subn(r'src="(images/[^"]+\.jpg)"', embed_img, doc)
-if n_img != 12:
-    sys.exit(f'expected 12 images, embedded {n_img}')
+if n_img == 0 or 'src="images/' in doc:
+    sys.exit('an image was not embedded')
 
 # ---- links to separate files become links inside this document ----
 LINKS = {
