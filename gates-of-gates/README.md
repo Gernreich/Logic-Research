@@ -183,7 +183,7 @@ To regenerate, from this folder:
 node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
 node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
-python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt to ../docs/ (md2html.py is in the lasermade-tools repository)
+python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
 ```
 

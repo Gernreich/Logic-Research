@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build docs/gates-of-gates-document.html: one self-contained document with everything in gates-of-gates/.
 It is written straight into docs/, the folder GitHub Pages serves; there is no other copy.
-lambda16.txt is also copied into docs/ so the public site can serve it.
+lambda16.txt and the 1995 poster photo are also copied into docs/ so the public site can serve them.
 
 The README is converted with md2html.py (from the lasermade-tools repository), then:
   * every image is embedded as a data: URI,
@@ -13,7 +13,7 @@ Nothing is loaded from the network: Google Fonts links are removed and the pages
 
 usage: python3 tools/build_document.py PATH/TO/md2html.py      (run from the gates-of-gates folder)
 """
-import base64, html, pathlib, re, subprocess, sys, tempfile
+import base64, html, pathlib, re, shutil, subprocess, sys, tempfile
 
 if len(sys.argv) < 2:
     sys.exit(__doc__)
@@ -129,4 +129,5 @@ if fetches or 'fonts.googleapis' in doc:
 
 OUT.write_text(doc)
 (REPO / 'docs' / 'lambda16.txt').write_text(lambda16)
-print(f'wrote {OUT.name}: {len(doc) / 1e6:.1f} MB, {n_img} images, 2 interactive pages, lambda16.txt, 2 CSV files; copied lambda16.txt to docs/')
+shutil.copyfile(ROOT / 'images' / 'poster-1995.jpg', REPO / 'docs' / 'poster-1995.jpg')
+print(f'wrote {OUT.name}: {len(doc) / 1e6:.1f} MB, {n_img} images, 2 interactive pages, lambda16.txt, 2 CSV files; copied lambda16.txt and poster-1995.jpg to docs/')
