@@ -17,6 +17,10 @@ Collect enough and each function has a visible solution region.
   — all sixteen functions as rotatable clouds, generated vs. the 2019 archive
 - **[Sixteen Cones](https://gernreich.github.io/Logic-Research/cones.html)**
   — the same regions from a cube, a ball, and as pure directions
+- **[Gates of Gates](https://gernreich.github.io/Logic-Research/gates-of-gates.html)**
+  — every function applied to every pair of functions, 4,096 cells
+- **[The 506 Programs](https://gernreich.github.io/Logic-Research/programs-506.html)**
+  — the distinct lambda terms behind those cells, in eight notations
 
 ## The sixteen functions in lambda calculus
 
