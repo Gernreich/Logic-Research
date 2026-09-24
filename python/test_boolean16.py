@@ -72,7 +72,7 @@ def test_narrowed_matches_2019_archive():
     values = enumerate_narrowed.enumerate_narrowed()
     check("narrowed count", len(values), enumerate_narrowed.EXPECTED_TOTAL)
     try:
-        archived = [int(line) for line in open(enumerate_narrowed.ARCHIVE)]
+        archived = [int(line) for line in open(enumerate_narrowed.ARCHIVE_PATH)]
     except OSError as exc:
         check(f"read {enumerate_narrowed.ARCHIVE}", str(exc), "readable")
         return

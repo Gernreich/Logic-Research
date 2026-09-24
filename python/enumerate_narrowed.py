@@ -49,6 +49,8 @@ SEEDS = (2, 4, 5, 7, 8, 10, 11, 13)
 Q_VALUES = (3, 6, 9, 12)
 EXPECTED_TOTAL = 8_192
 ARCHIVE = "narrowed_enumeration_8192_values.txt"
+# beside this script, so --verify and the tests work from any directory
+ARCHIVE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), ARCHIVE)
 
 
 def enumerate_narrowed() -> list:
@@ -75,10 +77,10 @@ def main() -> int:
         return 1
 
     if args.verify:
-        if not os.path.exists(ARCHIVE):
+        if not os.path.exists(ARCHIVE_PATH):
             print(f"{ARCHIVE} not found", file=sys.stderr)
             return 1
-        archived = [int(line) for line in open(ARCHIVE)]
+        archived = [int(line) for line in open(ARCHIVE_PATH)]
         same = archived == values
         print(f"  archived : {len(archived):,} values")
         print(f"  generated: {len(values):,} values")
