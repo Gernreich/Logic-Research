@@ -22,7 +22,7 @@ Collect enough and each function has a visible solution region.
 - **[The 506 Programs](https://gernreich.github.io/Logic-Research/programs-506.html)**
   — the distinct lambda terms behind those cells, in eight notations
 - **[Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html)**
-  — all of it in one self-contained file (10.5 MB)
+  — all of it in one self-contained file (13 MB)
 - **[The 1995 poster](https://gernreich.github.io/Logic-Research/poster-1995.jpg)**
   — the hand-made gates-of-gates poster that started it
 
