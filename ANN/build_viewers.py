@@ -57,6 +57,12 @@ including two quirks worth knowing before reading the Shells archive view:
     partners gives NOR on every row, matching the saved outputs. Those are the
     NOR solutions the README's label table describes; builds before this
     change drew them as NAND.
+  * NAND drops the undecided rows of ``NAND/NAND_syn1.txt``: its saved
+    outputs (``NAND/NAND_l2.txt``) put 181 of its 1,000 rows at 0.5000 to
+    four decimals in the last output, 179 just above 0.5 and 2 just below,
+    where the other 819 are under 0.02. ``DECIDED_BY`` does this. The
+    ``point5`` ``notsorted_XYZ`` file is those same 179 rows, so it is left
+    out too.
 """
 
 import argparse
@@ -64,6 +70,7 @@ import json
 import math
 import os
 import random
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -99,10 +106,14 @@ ARCHIVE = {   # no AND: the 2019 runs never produced an AND cloud
     "NOT_P": _LETTERS("R9NOTP__syn1"),
     "IMPLICATION": ["revimplication_syn1"],
     "NAND": [_T + "262k/R9NAND__syn1_262k", _T + "NAND/NAND_syn1.txt",
-             _T + "NAND/point5/NAND_point5_syn1_notsorted_XYZ",
              _T + "R9FullPoints/R9NAND__syn1_combined_oneline"],
     "TRUE": [_S + "true_syn1"],
 }
+
+# Archive files whose rows are filtered by their saved outputs: a row is
+# dropped when any of its four outputs is within UNDECIDED of 0.5.
+DECIDED_BY = {_T + "NAND/NAND_syn1.txt": _T + "NAND/NAND_l2.txt"}
+UNDECIDED = 0.001
 
 SHOWN = {"shells": 8500, "cones": 6000}
 SEED = {"shells": 11, "cones": 21}
@@ -129,6 +140,26 @@ def read_archive(name):
             if len(values) == 3:
                 rows.append(values)
     return rows
+
+
+def read_decided(name):
+    """read_archive(name), without the rows DECIDED_BY says are undecided."""
+    rows = read_archive(name)
+    if name not in DECIDED_BY:
+        return rows
+    outputs = read_archive_values(DECIDED_BY[name], 4)
+    if len(outputs) != len(rows):
+        sys.exit(f"{name}: {len(rows)} rows but {len(outputs)} saved outputs")
+    return [r for r, o in zip(rows, outputs) if all(abs(v - 0.5) >= UNDECIDED for v in o)]
+
+
+def read_archive_values(name, width):
+    """Every number in a 2019 file, in rows of ``width``."""
+    with open(os.path.join(HERE, "iamtrask_boolean_function_runs", name)) as f:
+        values = [float(v) for v in re.findall(r"-?\d+\.?\d*(?:e[-+]?\d+)?", f.read())]
+    if len(values) % width:
+        sys.exit(f"{name}: {len(values)} numbers is not a whole number of rows of {width}")
+    return [values[i:i + width] for i in range(0, len(values), width)]
 
 
 def coverage(points):
@@ -164,7 +195,7 @@ def page_data(page, folders):
         if page == "shells":
             sources = [("gen", read_csv(os.path.join(folders["gen"], f"{name}_syn1.csv")), 2)]
             if name in ARCHIVE:
-                sources.append(("arc", [r for f in ARCHIVE[name] for r in read_archive(f)], 2))
+                sources.append(("arc", [r for f in ARCHIVE[name] for r in read_decided(f)], 2))
             extra = ("centroid",)
         else:
             sources = [(key, read_csv(os.path.join(folders[folder], f"{name}_syn1.csv")), dec)
