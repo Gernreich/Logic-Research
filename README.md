@@ -35,6 +35,8 @@ reduce to 506 distinct programs, each behaving like one of the sixteen.
   — all of it in one self-contained file (13 MB)
 - **[The 1995 poster](https://gernreich.github.io/Logic-Research/poster-1995.jpg)**
   — the hand-made gates-of-gates poster that started it
+- **[Sum and carry](https://gernreich.github.io/Logic-Research/sum-carry.png)**
+  — a full adder's two outputs as Venn diagrams, three ways
 
 ## The sixteen functions in lambda calculus
 
@@ -135,7 +137,8 @@ hand drawings: the square Venn now faces the same way as the poster ("A and B"
 top-left, "neither" bottom-right; the drawing had it mirrored), and the sine
 curves are shaped so that each of the eight combinations of inputs is exactly
 one region. `sum-carry/draw_sum_carry.py` makes the image and stops with an error
-if any region is shaded wrongly.
+if any region is shaded wrongly. The public site serves a copy; after redrawing,
+`cp sum-carry/sum-carry.png docs/`.
 
 <img src="sum-carry/sum-carry.png" width="720" alt="Sum and carry of a full adder as circles, square Venn diagrams and sine-curve Venn diagrams, with regions shaded where the output is TRUE, beside a truth table">
 
@@ -173,13 +176,14 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 
 `docs/` holds eight self-contained pages — an explanation at `index.html`, the
 Shells and Cones viewers, the Gates of Gates and 506 Programs pages, the
-Gates of Gates document, and the two modus ponens pages — plus `lambda16.txt`
-and the poster photo. All data is
+Gates of Gates document, and the two modus ponens pages — plus `lambda16.txt`,
+the poster photo and the sum and carry image. All data is
 inlined, with no external requests beyond Google Fonts. Pages serves from
 **main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
 photo are put there by the recipe in
 [`gates-of-gates/README.md`](gates-of-gates/README.md); the modus ponens pages
-are copies of the ones in `python/`.
+are copies of the ones in `python/`, and `sum-carry.png` of the one in
+`sum-carry/`.
 
 ## Licence
 
