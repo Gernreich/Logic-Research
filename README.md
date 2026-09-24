@@ -145,8 +145,8 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 ## Publishing the viewer
 
 `docs/` holds six self-contained pages — an explanation at `index.html`, the
-Shells and Cones viewers, the Gates of gates and 506 programs pages, and the
-Gates of gates document — plus `lambda16.txt` and the poster photo. All data is
+Shells and Cones viewers, the Gates of Gates and 506 Programs pages, and the
+Gates of Gates document — plus `lambda16.txt` and the poster photo. All data is
 inlined, with no external requests beyond Google Fonts. Pages serves from
 **main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
 photo are put there by the recipe in

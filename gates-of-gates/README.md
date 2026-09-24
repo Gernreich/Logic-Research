@@ -1,4 +1,4 @@
-# Gates of gates: 16 × 16 × 16
+# Gates of Gates: 16 × 16 × 16
 
 Every one of the 16 two-input logic gates, applied to every pair of gates.
 
@@ -28,7 +28,7 @@ The poster took some liberties and probably contains mistakes, so treat it with 
 
 Every cell was computed by **lambda reduction** (16,384 reductions: 4,096 cells × 4 inputs), using the gate terms read from `lambda16.txt`, and each result was **cross-checked against plain bitwise arithmetic** on the truth tables. All 4,096 agree. Each gate's own truth table was also re-derived by reduction and matched the file.
 
-**Interactive version:** [Gates of gates](https://gernreich.github.io/Logic-Research/gates-of-gates.html) on the public site. Its file is `page/gates-of-gates.html`. It has six cell views (truth table, Venn colours, square Venn, gate number, same term, one quarter), two axis orders, hover details, and a full table for any square.
+**Interactive version:** [Gates of Gates](https://gernreich.github.io/Logic-Research/gates-of-gates.html) on the public site. Its file is `page/gates-of-gates.html`. It has six cell views (truth table, Venn colours, square Venn, gate number, same term, one quarter), two axis orders, hover details, and a full table for any square.
 
 ### Square Venn view, 1995 style
 
@@ -156,7 +156,7 @@ For each gate, exactly one program is its term in `lambda16.txt`. **2,064 cells*
 | 14 CONVERSE (q -> p) | 1101 | 32 | 216 | `λpqab.p a (q b a)` |
 | 15 TRUE | 1111 | 63 | 680 | `λpqab.a` |
 
-Every one of the 506 programs is drawn as a Tromp diagram, written in eight notations (lambda short and long form, de Bruijn, Tromp binary, Polish, reverse Polish, SKI combinators and JavaScript) and mapped back to the cells it comes from (all 16 squares, coloured by a chosen quarter) in [The 506 programs](https://gernreich.github.io/Logic-Research/programs-506.html) on the public site. Its file is `page/programs-506.html`. Each notation was checked: the text forms read back to the same term, and the lambda, SKI and JavaScript versions all reproduce the truth table.
+Every one of the 506 programs is drawn as a Tromp diagram, written in eight notations (lambda short and long form, de Bruijn, Tromp binary, Polish, reverse Polish, SKI combinators and JavaScript) and mapped back to the cells it comes from (all 16 squares, coloured by a chosen quarter) in [The 506 Programs](https://gernreich.github.io/Logic-Research/programs-506.html) on the public site. Its file is `page/programs-506.html`. Each notation was checked: the text forms read back to the same term, and the lambda, SKI and JavaScript versions all reproduce the truth table.
 
 ![Same term? Filled cells reduce to the lambda16.txt term](images/all16-same-term.jpg)
 

@@ -5,7 +5,7 @@ lambda16.txt and the 1995 poster photo are also copied into docs/ so the public 
 
 The README is converted with md2html.py (from the lasermade-tools repository), then:
   * every image is embedded as a data: URI,
-  * the interactive Gates of gates page and the 506-programs page are embedded, each in its own
+  * the interactive Gates of Gates page and The 506 Programs page are embedded, each in its own
     frame (their styles would clash if merged), stored in the file and loaded without any network,
   * lambda16.txt and the two CSV files are added as appendices,
   * links to the separate files are pointed at sections of this document.
@@ -74,13 +74,13 @@ def download(name, mime):
     return f'<a download="{name}" href="data:{mime};base64,{data}">{name}</a>'
 
 extra = f"""
-<h2 id="interactive-grid">Interactive: gates of gates</h2>
+<h2 id="interactive-grid">Interactive: Gates of Gates</h2>
 <p>The full interactive page: six cell views, two axis orders, hover details and a table for any square. It runs inside this document.</p>
-<iframe class="embed" id="frame-grid" title="Gates of gates, interactive" loading="eager"></iframe>
+<iframe class="embed" id="frame-grid" title="Gates of Gates, interactive" loading="eager"></iframe>
 
 <h2 id="all-506-programs">All 506 programs</h2>
 <p>Every distinct normal form behind the 4,096 cells, as a Tromp diagram, in eight notations, and mapped back to the cells it comes from. The list scrolls inside its frame; use the controls at its top to pick a gate or hide notations.</p>
-<iframe class="embed tall" id="frame-progs" title="The 506 programs" loading="eager"></iframe>
+<iframe class="embed tall" id="frame-progs" title="The 506 Programs" loading="eager"></iframe>
 
 <h2 id="appendix-lambda16">Appendix: lambda16.txt</h2>
 <p>The sixteen functions as lambda terms, with every β-reduction, exactly as in the repository.</p>
@@ -117,7 +117,7 @@ doc = doc.replace('</main>', extra + '\n</main>', 1)
 
 # ---- contents list: add the new sections ----
 nav_add = ''.join(f'<a class="l2" href="#{i}">{t}</a>' for i, t in [
-    ('interactive-grid', 'Interactive: gates of gates'), ('all-506-programs', 'All 506 programs'),
+    ('interactive-grid', 'Interactive: Gates of Gates'), ('all-506-programs', 'All 506 programs'),
     ('appendix-lambda16', 'Appendix: lambda16.txt'), ('appendix-data', 'Appendix: data')])
 doc, n_nav = re.subn(r'(<nav>.*?)(</nav>)', lambda m: m.group(1) + nav_add + m.group(2), doc, count=1, flags=re.S)
 if n_nav != 1:
