@@ -1,0 +1,365 @@
+<title>Gates of Gates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #f6f7f9; --surface: #fcfcfb; --ink: #0b0b0b; --muted: #52514e; --line: #dde1e8; --soft: #eceef2;
+  --fill: #2a78d6; --empty: #e3e6eb; --focus: #eb6834;
+  --v0: #d0408a; --v1: #1a9fc2; --v2: #3d9a2a; --v3: #9a2f1f;
+  --paper: #fbfaf6; --gridline: #c3c7cf; --hdr: #555d6b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+    --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926;
+    --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+    --paper: #20201e; --gridline: #3d3d3a; --hdr: #a3abb8;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+  --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926;
+  --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+  --paper: #20201e; --gridline: #3d3d3a; --hdr: #a3abb8;
+}
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; display: grid; gap: 28px; }
+header, section { display: grid; gap: 12px; }
+h1 { font-size: 30px; line-height: 1.2; margin: 0; text-wrap: balance; }
+h2 { font-size: 19px; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 70ch; }
+.muted { color: var(--muted); }
+code, .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.93em; }
+
+.explain { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 24px; background: var(--soft); border-radius: 8px; padding: 14px 16px; font-size: 14px; }
+.key { display: flex; gap: 12px; align-items: center; }
+.key .cellkey { display: grid; grid-template-columns: repeat(2, 22px); gap: 2px; flex: none; }
+.key .cellkey span { height: 22px; border-radius: 2px; font: 600 9px "IBM Plex Mono", monospace; display: grid; place-items: center; color: var(--ink); background: var(--empty); }
+.key .cellkey span.on { background: var(--fill); color: #fff; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: 14px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13.5px; padding: 6px 12px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button + button { border-left: 1px solid var(--line); }
+button:focus-visible, .panel:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+select { font: inherit; font-size: 14px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+.panels { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 14px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 10px 12px; display: grid; gap: 6px; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.panel[aria-pressed="true"] { border-color: var(--fill); box-shadow: 0 0 0 1px var(--fill); }
+.panel .ptitle { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 13.5px; }
+.panel .ptitle b { font-weight: 600; }
+.panel .ptitle span { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); }
+.panel canvas { display: block; width: 100%; height: auto; }
+
+.detail { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; }
+.detail .dhead { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; }
+.detail .dhead h2 { font-size: 20px; }
+.tablewrap { overflow-x: auto; max-width: 100%; }
+table.big { border-collapse: separate; border-spacing: 2px; font-size: 11px; }
+table.big th { font: 600 10.5px "IBM Plex Mono", monospace; color: var(--muted); padding: 2px 3px; white-space: nowrap; }
+table.big thead th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 52px; vertical-align: bottom; }
+table.big tbody th { text-align: right; }
+table.big th.corner { writing-mode: horizontal-tb; transform: none; color: var(--ink); font-size: 12px; text-align: left; vertical-align: bottom; }
+table.big td { padding: 0; }
+.bits { display: grid; grid-template-columns: repeat(2, 13px); gap: 1px; position: relative; }
+.bits i { height: 13px; background: var(--empty); border-radius: 1px; }
+.bits i.on { background: var(--fill); }
+.bits b { position: absolute; inset: 0; display: grid; place-items: center; font: 600 10px "IBM Plex Mono", monospace; color: var(--ink); }
+.numbers .bits i { background: transparent; }
+.numbers .bits i.on { background: transparent; }
+.numbers .bits { background: var(--soft); border-radius: 2px; }
+.bits b { display: none; }
+.numbers .bits b { display: grid; }
+
+.tip .prog { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); display: grid; gap: 3px; }
+.tip .prog span { color: var(--muted); font-size: 12px; }
+.tip .prog code { font-size: 12px; overflow-wrap: anywhere; }
+.tip { position: fixed; pointer-events: none; z-index: 10; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); max-width: 340px; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row span:first-child { color: var(--muted); }
+.tip .res { font-weight: 600; margin-top: 4px; }
+.vsq { display: grid; grid-template-columns: repeat(2, 58px); gap: 2px; flex: none; }
+.vsq span { height: 30px; border-radius: 3px; display: grid; place-items: center; font: 600 10px "IBM Plex Sans", sans-serif; color: #fff; text-align: center; line-height: 1.1; }
+.vsq .k0 { background: var(--v0); } .vsq .k1 { background: var(--v1); } .vsq .k2 { background: var(--v2); } .vsq .k3 { background: var(--v3); }
+.venn .bits i.on.v0 { background: var(--v0); } .venn .bits i.on.v1 { background: var(--v1); } .venn .bits i.on.v2 { background: var(--v2); } .venn .bits i.on.v3 { background: var(--v3); }
+.square .bits { gap: 1px; background: var(--gridline); padding: 1px; border-radius: 0; }
+.square .bits i { background: var(--paper); border-radius: 0; }
+table.big:has(.hv) { border-spacing: 0; }
+.square table.big td { padding: 0; }
+.bits.hv { display: inline-grid; grid-template-columns: repeat(2, 7px); gap: 1px; background: var(--gridline); padding: 1px; vertical-align: middle; }
+.bits.hv i { height: 7px; background: var(--paper); border-radius: 0; }
+.bits.hv i.on { background: var(--hdr); }
+table.big thead th.sqh { writing-mode: horizontal-tb; transform: none; height: auto; text-align: center; vertical-align: bottom; }
+table.big thead th.sqh span { display: block; margin-top: 2px; }
+.hwrap { display: inline-flex; gap: 5px; align-items: center; }
+table.big th.corner .hv { margin-right: 6px; }
+.cellkey.sk { grid-template-columns: repeat(2, 22px); }
+.cellkey.sk span { background: var(--fill); }
+.cellkey.sk span.hol { background: transparent; box-shadow: inset 0 0 0 1.5px var(--fill); }
+.samec { width: 27px; height: 27px; border-radius: 2px; box-shadow: inset 0 0 0 1.5px var(--fill); }
+.samec.on { background: var(--fill); box-shadow: none; }
+.levels { display: flex; flex-wrap: wrap; gap: 10px; }
+.levels div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 16px; display: grid; min-width: 150px; }
+.levels b { font-size: 24px; font-variant-numeric: tabular-nums; }
+.levels span { font-size: 13px; color: var(--muted); }
+.proglist { display: grid; gap: 8px; }
+.proglist details { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+.proglist summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.proglist summary b { font-weight: 600; }
+.proglist summary span { color: var(--muted); font-size: 13.5px; }
+.proglist ol { margin: 10px 0 0; padding-left: 0; list-style: none; display: grid; gap: 4px; }
+.proglist li { display: grid; grid-template-columns: 4.5em minmax(0, 1fr) auto; gap: 10px; align-items: baseline; font-size: 13px; padding: 3px 0; border-top: 1px solid var(--line); }
+.proglist li code { overflow-wrap: anywhere; font-size: 12.5px; }
+.proglist li .n { color: var(--muted); font-variant-numeric: tabular-nums; }
+.proglist li .c { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.proglist li.exact code { font-weight: 600; }
+.badge { display: inline-block; font-size: 11px; font-weight: 600; color: var(--fill); border: 1px solid var(--fill); border-radius: 4px; padding: 0 5px; margin-left: 6px; }
+.onote { font-size: 13px; flex-basis: 100%; }
+.notes { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 72ch; }
+</style>
+<main class="wrap">
+<header>
+  <h1>Gates of gates</h1>
+  <p class="muted">Each square belongs to one gate, <b>G</b>, sitting at its origin in the top-left corner. Along the <b>x axis</b> (left to right) are the 16 gates as the first input, X. Down the <b>y axis</b> are the 16 gates as the second input, Y. Each cell is <b>G(X, Y)</b>: the gate you get by feeding X and Y into G, row by row of their truth tables. In lambda terms that is <code>λp.λq. G (X p q) (Y p q)</code>. The result is always one of the same 16 gates.</p>
+  <div class="explain">
+    <div class="key">
+      <div class="cellkey" aria-hidden="true"><span class="on">TT</span><span>TF</span><span class="on">FT</span><span>FF</span></div>
+      <div>Each cell shows its result's <b>truth table</b> as four squares: top row p = TRUE, bottom row p = FALSE; left column q = TRUE, right q = FALSE. <b>Filled means TRUE.</b> The example is Q, 1010.</div>
+    </div>
+    <div class="key vennkey" id="vennKey" hidden>
+      <div class="vsq" aria-hidden="true"><span class="k0">p and q</span><span class="k1">p only</span><span class="k2">q only</span><span class="k3">neither</span></div>
+      <div>In <b>Venn colours</b>, each quarter of a cell has the colour of its region in the square Venn diagram: <b>p and q</b>, <b>p only</b>, <b>q only</b> and <b>neither</b>. A coloured quarter means the result is TRUE in that region.</div>
+    </div>
+    <div class="key" id="sameKey" hidden>
+      <div class="cellkey sk" aria-hidden="true"><span class="on"></span><span class="hol"></span></div>
+      <div>In <b>Same term?</b>, a <b>filled</b> cell reduces to exactly the term for its gate in <code>lambda16.txt</code>. A <b>hollow</b> cell behaves the same way but reduces to a different program. See “The 506 programs” below.</div>
+    </div>
+    <div>Gates are numbered 0 to 15 in the same order as <code>lambda16.txt</code> and <code>boolean16.py</code>, so gate i and gate 15 − i are complements. Hover or tap a cell for the full result.</div>
+  </div>
+  <div class="controls">
+    <span>Axis order</span>
+    <div class="seg" role="group" aria-label="Axis order"><button type="button" id="oComp" aria-pressed="true">Complement pairs</button><button type="button" id="oTT" aria-pressed="false">Truth-table value</button></div>
+    <span class="muted onote" id="orderNote">Complement pairs: gates in the boolean16.py order, where gate i and gate 15 − i are complements. Axis numbers are the gate numbers.</span>
+  </div>
+  <div class="controls">
+    <span>Cells show</span>
+    <div class="seg" role="group" aria-label="Cells show"><button type="button" id="mBits" aria-pressed="true">Truth table</button><button type="button" id="mVenn" aria-pressed="false">Venn colours</button><button type="button" id="mSq" aria-pressed="false">Square Venn</button><button type="button" id="mNums" aria-pressed="false">Gate number</button><button type="button" id="mSame" aria-pressed="false">Same term?</button></div>
+  </div>
+</header>
+
+<section class="detail" id="detail" aria-live="polite"></section>
+
+<section>
+  <h2>All 16 squares</h2>
+  <p class="muted">Click a square to open it above as a full table with gate names on both axes.</p>
+  <div class="panels" id="panels"></div>
+</section>
+
+<section id="programs">
+  <h2>The 506 programs</h2>
+  <p>Every cell is itself a lambda term: <code>λp.λq.λa.λb. G (X p q) (Y p q) a b</code>, with the three gates' terms plugged in. Reducing all 4,096 of these terms gives <b>506 different normal forms</b>. Each one behaves exactly like one of the 16 gates, so there are only 16 different <i>behaviours</i>, but 506 different <i>programs</i> that produce them.</p>
+  <div class="levels" aria-label="Three levels">
+    <div><b>4,096</b><span>cell terms as written</span></div>
+    <div><b>506</b><span>normal forms (different programs)</span></div>
+    <div><b>16</b><span>behaviours (the gates)</span></div>
+  </div>
+  <p class="muted">For each gate, one program is exactly its term in <code>lambda16.txt</code>, marked below. 2,064 cells reduce to one of those; the other 2,032 reduce to a longer program with the same truth table. Programs are shown in short form, with the four inputs named p, q, a and b as in the file. Hover a cell above to see its program.</p>
+  <div id="progList" class="proglist"></div>
+</section>
+
+<section>
+  <h2>Patterns to look for</h2>
+  <ul class="notes">
+    <li><b>FALSE and TRUE</b> ignore their inputs: every cell is FALSE, or every cell is TRUE.</li>
+    <li><b>P copies X</b>: every column is a single gate, the one at the top of it. <b>Q copies Y</b>: every row is the gate at its left.</li>
+    <li><b>NOT P gives 15 − X</b> and <b>NOT Q gives 15 − Y</b>: the complement of the input.</li>
+    <li><b>AND, OR, XOR, XNOR, NAND and NOR are symmetric</b>: G(X, Y) = G(Y, X), so their squares mirror across the diagonal.</li>
+    <li>On the diagonal, where X = Y, <b>AND gives back X</b> and <b>XOR gives FALSE</b>.</li>
+    <li><b>Switch the axis order to “Truth-table value”</b> and nested, self-similar patterns appear, like those in Wolfram's <i>A New Kind of Science</i>. The AND square's empty cells form a Sierpinski-style triangle, and the XOR square is built from copies of itself at half size. In that order, each square is simply G applied bit by bit to two 4-bit numbers.</li>
+    <li><b>Gate 15 − G is the complement of gate G</b>, cell for cell: the square for NAND is the square for AND with every truth table flipped.</li>
+  </ul>
+  <p class="muted">Every cell was computed by lambda reduction, 16,384 reductions in all, and each one agrees with plain bitwise arithmetic on the truth tables. The patterns listed here were each checked across all cells before the page was built.</p>
+</section>
+</main>
+<div class="tip" id="tip" hidden></div>
+<script>
+/*DATA*/
+(() => {
+  const G = DATA.gates, grid = DATA.grid;
+  const $ = id => document.getElementById(id);
+  let mode = 'bits', sel = 2;
+  const label = i => `${i} ${G[i].short}`;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  // ---- axis order: ord[position] = the gate shown at that position, on both axes and for the squares ----
+  const ORDERS = {
+    comp: [...Array(16).keys()],                                                        // boolean16.py: i and 15 - i are complements
+    tt: (() => { const a = []; G.forEach(g => { a[parseInt(g.bits, 2)] = g.idx; }); return a; })(),   // truth table read as binary
+  };
+  let order = 'comp', ord = ORDERS.comp;
+
+  // ---- overview panels on canvas ----
+  const CELL = 13, LAB = 18, SIZE = LAB + 16 * CELL + 2, SQOFF = CELL + 4;
+  const off = () => mode === 'square' ? SQOFF : LAB;
+  const canvasOf = {};
+  function buildPanels() {
+    $('panels').innerHTML = ord.map(gi => G[gi]).map(g => `<button type="button" class="panel" data-g="${g.idx}" aria-pressed="false"
+      aria-label="Square for gate ${g.idx}, ${g.name}. Open as a table.">
+      <div class="ptitle"><b>G = ${g.idx} ${g.short}</b><span>${g.bits}</span></div>
+      <canvas width="${SIZE}" height="${SIZE}" role="img" aria-label="16 by 16 grid of ${g.name} applied to every pair of gates"></canvas></button>`).join('');
+    document.querySelectorAll('.panel').forEach(p => { canvasOf[+p.dataset.g] = p.querySelector('canvas'); });
+  }
+  buildPanels();
+  function drawPanel(gi) {
+    const c = canvasOf[gi], dpr = window.devicePixelRatio || 1;
+    c.width = SIZE * dpr; c.height = SIZE * dpr; const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const vc = ['--v0', '--v1', '--v2', '--v3'].map(css);
+    const fill = css('--fill'), empty = css('--empty'), ink = css('--ink'), muted = css('--muted'), soft = css('--soft');
+    x.clearRect(0, 0, SIZE, SIZE);
+    if (mode === 'square') { drawSquare(x, gi, vc); return; }
+    x.font = '600 8px "IBM Plex Mono", monospace'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = muted;
+    for (let i = 0; i < 16; i++) {
+      if (i % 5 === 0 || i === 15) { x.fillText(String(i), LAB + i * CELL + CELL / 2, LAB / 2); x.fillText(String(i), LAB / 2, LAB + i * CELL + CELL / 2); }
+    }
+    x.fillStyle = ink; x.font = '600 9px "IBM Plex Sans", sans-serif'; x.fillText('G', LAB / 2, LAB / 2);
+    for (let py = 0; py < 16; py++) for (let px = 0; px < 16; px++) {
+      const xx = ord[px], yy = ord[py];
+      const r = grid[gi][yy][xx], bx = LAB + px * CELL, by = LAB + py * CELL;
+      if (mode === 'bits' || mode === 'venn') {
+        const h = (CELL - 3) / 2;
+        for (let k = 0; k < 4; k++) {
+          x.fillStyle = G[r].bits[k] === '1' ? (mode === 'venn' ? vc[k] : fill) : empty;
+          x.fillRect(bx + (k % 2) * (h + 1), by + Math.floor(k / 2) * (h + 1), h, h);
+        }
+      } else if (mode === 'same') {
+        const exact = DATA.nfs[DATA.nfGrid[gi][yy][xx]].exact;
+        if (exact) { x.fillStyle = fill; x.fillRect(bx, by, CELL - 1, CELL - 1); }
+        else { x.strokeStyle = fill; x.lineWidth = 1; x.strokeRect(bx + 0.5, by + 0.5, CELL - 2, CELL - 2); }
+      } else {
+        x.fillStyle = soft; x.fillRect(bx, by, CELL - 1, CELL - 1);
+        x.fillStyle = ink; x.font = '600 7px "IBM Plex Mono", monospace'; x.fillText(String(r), bx + (CELL - 1) / 2, by + (CELL - 1) / 2 + 0.5);
+      }
+    }
+  }
+  // 1995 style: graph paper, every gate drawn as a 2x2 square Venn, inputs along the top and left edges
+  function venn(x, bx, by, bits, on) {
+    const paper = css('--paper'), gl = css('--gridline');
+    x.fillStyle = gl; x.fillRect(bx, by, CELL, CELL);
+    for (let k = 0; k < 4; k++) {
+      x.fillStyle = bits[k] === '1' ? on(k) : paper;
+      x.fillRect(bx + 1 + (k % 2) * 6, by + 1 + Math.floor(k / 2) * 6, 5, 5);
+    }
+  }
+  function drawSquare(x, gi, vc) {
+    const hdr = css('--hdr');
+    venn(x, 1, 1, G[gi].bits, () => hdr);                                           // the origin: G itself
+    for (let i = 0; i < 16; i++) {
+      venn(x, SQOFF + i * CELL, 1, G[ord[i]].bits, () => hdr);                      // X along the top
+      venn(x, 1, SQOFF + i * CELL, G[ord[i]].bits, () => hdr);                      // Y down the left
+    }
+    for (let py = 0; py < 16; py++) for (let px = 0; px < 16; px++)
+      venn(x, SQOFF + px * CELL, SQOFF + py * CELL, G[grid[gi][ord[py]][ord[px]]].bits, k => vc[k]);
+  }
+  const drawAll = () => { for (let i = 0; i < 16; i++) drawPanel(i); };
+
+  // ---- detail table ----
+  function sameCell(gi, xx, yy) { return `<div class="samec ${DATA.nfs[DATA.nfGrid[gi][yy][xx]].exact ? 'on' : ''}"></div>`; }
+  function bitsCell(r) {
+    return `<div class="bits">${[0, 1, 2, 3].map(k => `<i class="${G[r].bits[k] === '1' ? 'on v' + k : ''}"></i>`).join('')}<b>${r}</b></div>`;
+  }
+  const hdrVenn = i => `<div class="bits hv" aria-hidden="true">${[0, 1, 2, 3].map(k => `<i class="${G[i].bits[k] === '1' ? 'on' : ''}"></i>`).join('')}</div>`;
+  const hLabel = i => mode === 'square' ? `<span class="hwrap">${hdrVenn(i)}<span>${label(i)}</span></span>` : label(i);
+  function drawDetail() {
+    const g = G[sel];
+    $('detail').innerHTML = `<div class="dhead"><h2>G = ${g.idx} ${g.name}</h2><span class="mono muted">${g.bits}</span>
+        <label for="pick">Open square <select id="pick">${G.map(h => `<option value="${h.idx}" ${h.idx === sel ? 'selected' : ''}>${h.idx} ${h.name}</option>`).join('')}</select></label></div>
+      <p class="muted">Columns are X, left to right. Rows are Y, top to bottom. Each cell is ${g.name}(X, Y).</p>
+      <div class="tablewrap ${mode === 'nums' ? 'numbers' : mode === 'venn' ? 'venn' : mode === 'square' ? 'venn square' : ''}"><table class="big">
+        <thead><tr><th class="corner" scope="col">${mode === 'square' ? hdrVenn(sel) : ''}Y ↓ &nbsp; X →</th>${ord.map(i => G[i]).map(h => mode === 'square' ? `<th scope="col" class="sqh" title="${label(h.idx)}">${hdrVenn(h.idx)}<span>${h.idx}</span></th>` : `<th scope="col">${label(h.idx)}</th>`).join('')}</tr></thead>
+        <tbody>${ord.map(i => G[i]).map(hy => `<tr><th scope="row">${hLabel(hy.idx)}</th>${ord.map(i => G[i]).map(hx => {
+          const y = hy.idx, xx = hx.idx, r = grid[sel][y][xx];
+          return `<td data-x="${xx}" data-y="${y}" aria-label="${g.short} of X ${hx.short} and Y ${hy.short} is ${G[r].name}">${mode === 'same' ? sameCell(sel, xx, y) : bitsCell(r)}</td>`;
+        }).join('')}</tr>`).join('')}</tbody></table></div>`;
+    $('pick').addEventListener('change', e => select(+e.target.value));
+  }
+  function select(gi) {
+    sel = gi;
+    document.querySelectorAll('.panel').forEach(p => p.setAttribute('aria-pressed', String(+p.dataset.g === sel)));
+    drawDetail();
+  }
+
+  // ---- tooltip ----
+  const tip = $('tip');
+  function showTip(gi, xx, yy, ev) {
+    const r = grid[gi][yy][xx];
+    tip.innerHTML = `<div class="row"><span>G</span><span>${label(gi)}</span></div>
+      <div class="row"><span>X</span><span>${label(xx)} · ${G[xx].bits}</span></div>
+      <div class="row"><span>Y</span><span>${label(yy)} · ${G[yy].bits}</span></div>
+      <div class="res">= ${r} ${G[r].name} · ${G[r].bits}</div>
+      <div class="prog"><span>Program #${DATA.nfGrid[gi][yy][xx] + 1} of 506${DATA.nfs[DATA.nfGrid[gi][yy][xx]].exact ? ', the lambda16.txt term' : ''}</span><code>${DATA.nfs[DATA.nfGrid[gi][yy][xx]].short}</code></div>`;
+    tip.hidden = false;
+    const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+    let left = ev.clientX + pad, top = ev.clientY + pad;
+    if (left + w > innerWidth - 8) left = ev.clientX - w - pad;
+    if (top + h > innerHeight - 8) top = ev.clientY - h - pad;
+    tip.style.left = Math.max(8, left) + 'px'; tip.style.top = Math.max(8, top) + 'px';
+  }
+  const hideTip = () => { tip.hidden = true; };
+  $('panels').addEventListener('pointermove', ev => {
+    const c = ev.target.closest('canvas'); if (!c) return hideTip();
+    const gi = +c.closest('.panel').dataset.g, rect = c.getBoundingClientRect(), s = SIZE / rect.width;
+    const o = off(), px = Math.floor(((ev.clientX - rect.left) * s - o) / CELL), py = Math.floor(((ev.clientY - rect.top) * s - o) / CELL);
+    if (px < 0 || py < 0 || px > 15 || py > 15) return hideTip();
+    showTip(gi, ord[px], ord[py], ev);
+  });
+  $('panels').addEventListener('pointerleave', hideTip);
+  $('panels').addEventListener('click', ev => { const p = ev.target.closest('.panel'); if (p) { select(+p.dataset.g); $('detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); } });
+  $('detail').addEventListener('pointermove', ev => { const td = ev.target.closest('td[data-x]'); if (!td) return hideTip(); showTip(sel, +td.dataset.x, +td.dataset.y, ev); });
+  $('detail').addEventListener('pointerleave', hideTip);
+  addEventListener('scroll', hideTip, { passive: true });
+
+  // ---- mode and theme ----
+  function setMode(m) {
+    mode = m; for (const [id, v] of [['mBits', 'bits'], ['mVenn', 'venn'], ['mSq', 'square'], ['mNums', 'nums'], ['mSame', 'same']]) $(id).setAttribute('aria-pressed', String(m === v));
+    $('vennKey').hidden = m !== 'venn' && m !== 'square';
+    $('sameKey').hidden = m !== 'same';
+    drawAll(); drawDetail();
+  }
+  $('mBits').addEventListener('click', () => setMode('bits'));
+  $('mNums').addEventListener('click', () => setMode('nums'));
+  $('mVenn').addEventListener('click', () => setMode('venn'));
+  $('mSq').addEventListener('click', () => setMode('square'));
+  $('mSame').addEventListener('click', () => setMode('same'));
+  function setOrder(o) {
+    order = o; ord = ORDERS[o];
+    $('oComp').setAttribute('aria-pressed', String(o === 'comp')); $('oTT').setAttribute('aria-pressed', String(o === 'tt'));
+    $('orderNote').textContent = o === 'comp'
+      ? 'Complement pairs: gates in the boolean16.py order, where gate i and gate 15 − i are complements. Axis numbers are the gate numbers.'
+      : 'Truth-table value: gates sorted by their truth table read as a binary number, 0000 to 1111. Axis position n is the gate whose truth table is n in binary. The squares are sorted the same way.';
+    buildPanels(); drawAll(); select(sel);
+  }
+  $('oComp').addEventListener('click', () => setOrder('comp'));
+  $('oTT').addEventListener('click', () => setOrder('tt'));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
+  new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawAll);
+
+  // ---- the 506 programs, grouped by the gate they behave like ----
+  const byGate = G.map(() => []);
+  DATA.nfs.forEach((f, k) => byGate[f.gate].push({ ...f, k }));
+  $('progList').innerHTML = byGate.map((list, gi) => {
+    list.sort((a, b) => (b.exact - a.exact) || (b.count - a.count) || (a.short.length - b.short.length));
+    const cells = list.reduce((t, f) => t + f.count, 0);
+    return `<details><summary><b>${gi} ${G[gi].name}</b><span>${list.length} program${list.length === 1 ? '' : 's'} · ${cells} cells · ${G[gi].bits}</span></summary><ol>` +
+      list.map(f => { const [g, x, y] = f.first;
+        return `<li class="${f.exact ? 'exact' : ''}"><span class="n">#${f.k + 1}</span><code>${f.short}</code><span class="c">${f.count} cell${f.count === 1 ? '' : 's'}${f.exact ? '<span class="badge">lambda16.txt</span>' : ` · e.g. ${G[g].short}(${G[x].short}, ${G[y].short})`}</span></li>`; }).join('') + `</ol></details>`;
+  }).join('');
+
+  drawAll(); select(sel);
+})();
+</script>

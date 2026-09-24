@@ -1,0 +1,507 @@
+program,gate,gate_name,gate_bits,cells,is_lambda16_term,short_form,example_G,example_X,example_Y
+1,0,FALSE,'0000,396,yes,λpqab.b,FALSE,FALSE,FALSE
+2,0,FALSE,'0000,16,no,λpqab.p b (q b b),q AND NOT p,q AND NOT p,FALSE
+3,0,FALSE,'0000,16,no,λpqab.p (q b b) b,q AND NOT p,AND,FALSE
+4,0,FALSE,'0000,8,no,λpqab.q b b,q AND NOT p,Q,FALSE
+5,0,FALSE,'0000,8,no,λpqab.p (q b b) (q b b),q AND NOT p,XOR,FALSE
+6,0,FALSE,'0000,8,no,λpqab.p b b,q AND NOT p,P,FALSE
+7,1,q AND NOT p,'0010,92,yes,λpqab.p b (q a b),q AND NOT p,FALSE,q AND NOT p
+8,0,FALSE,'0000,4,no,λpqab.p (p b (q a b)) (q b (p b (q a b))),q AND NOT p,q AND NOT p,q AND NOT p
+9,1,q AND NOT p,'0010,4,no,λpqab.p (q b (p b (q a b))) (p b (q a b)),q AND NOT p,AND,q AND NOT p
+10,0,FALSE,'0000,4,no,λpqab.q b (p b (q a b)),q AND NOT p,Q,q AND NOT p
+11,1,q AND NOT p,'0010,4,no,λpqab.p (q (p b (q a b)) b) (p b (q a b)),q AND NOT p,p AND NOT q,q AND NOT p
+12,0,FALSE,'0000,4,no,λpqab.p (q (p b (q a b)) b) (q b (p b (q a b))),q AND NOT p,XOR,q AND NOT p
+13,1,q AND NOT p,'0010,4,no,λpqab.p b (p b (q a b)),q AND NOT p,P,q AND NOT p
+14,0,FALSE,'0000,4,no,λpqab.p b (q b (p b (q a b))),q AND NOT p,OR,q AND NOT p
+15,1,q AND NOT p,'0010,4,no,λpqab.p (p b (q a b)) (q (p b (q a b)) b),q AND NOT p,NOR,q AND NOT p
+16,0,FALSE,'0000,4,no,λpqab.p (p b (q a b)) b,q AND NOT p,NOT P,q AND NOT p
+17,1,q AND NOT p,'0010,4,no,λpqab.p (q b (p b (q a b))) (q (p b (q a b)) b),q AND NOT p,XNOR,q AND NOT p
+18,0,FALSE,'0000,4,no,λpqab.p (q b (p b (q a b))) b,q AND NOT p,IMPLIES (p -> q),q AND NOT p
+19,1,q AND NOT p,'0010,4,no,λpqab.q (p b (q a b)) b,q AND NOT p,NOT Q,q AND NOT p
+20,0,FALSE,'0000,4,no,λpqab.p (q (p b (q a b)) b) b,q AND NOT p,NAND,q AND NOT p
+21,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p b (q a b)) b),q AND NOT p,CONVERSE (q -> p),q AND NOT p
+22,2,AND,'1000,92,yes,λpqab.p (q a b) b,q AND NOT p,FALSE,AND
+23,2,AND,'1000,4,no,λpqab.p (p (q a b) b) (q b (p (q a b) b)),q AND NOT p,q AND NOT p,AND
+24,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) b)) (p (q a b) b),q AND NOT p,AND,AND
+25,0,FALSE,'0000,4,no,λpqab.q b (p (q a b) b),q AND NOT p,Q,AND
+26,2,AND,'1000,4,no,λpqab.p (q (p (q a b) b) b) (p (q a b) b),q AND NOT p,p AND NOT q,AND
+27,2,AND,'1000,4,no,λpqab.p (q (p (q a b) b) b) (q b (p (q a b) b)),q AND NOT p,XOR,AND
+28,0,FALSE,'0000,4,no,λpqab.p b (p (q a b) b),q AND NOT p,P,AND
+29,0,FALSE,'0000,4,no,λpqab.p b (q b (p (q a b) b)),q AND NOT p,OR,AND
+30,2,AND,'1000,4,no,λpqab.p (p (q a b) b) (q (p (q a b) b) b),q AND NOT p,NOR,AND
+31,2,AND,'1000,4,no,λpqab.p (p (q a b) b) b,q AND NOT p,NOT P,AND
+32,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) b)) (q (p (q a b) b) b),q AND NOT p,XNOR,AND
+33,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) b)) b,q AND NOT p,IMPLIES (p -> q),AND
+34,2,AND,'1000,4,no,λpqab.q (p (q a b) b) b,q AND NOT p,NOT Q,AND
+35,2,AND,'1000,4,no,λpqab.p (q (p (q a b) b) b) b,q AND NOT p,NAND,AND
+36,0,FALSE,'0000,4,no,λpqab.p b (q (p (q a b) b) b),q AND NOT p,CONVERSE (q -> p),AND
+37,3,Q,'1010,88,yes,λpqab.q a b,q AND NOT p,FALSE,Q
+38,2,AND,'1000,4,no,λpqab.p (q a b) (q b (q a b)),q AND NOT p,q AND NOT p,Q
+39,1,q AND NOT p,'0010,4,no,λpqab.p (q b (q a b)) (q a b),q AND NOT p,AND,Q
+40,0,FALSE,'0000,4,no,λpqab.q b (q a b),q AND NOT p,Q,Q
+41,3,Q,'1010,4,no,λpqab.p (q (q a b) b) (q a b),q AND NOT p,p AND NOT q,Q
+42,2,AND,'1000,4,no,λpqab.p (q (q a b) b) (q b (q a b)),q AND NOT p,XOR,Q
+43,0,FALSE,'0000,4,no,λpqab.p b (q b (q a b)),q AND NOT p,OR,Q
+44,3,Q,'1010,4,no,λpqab.p (q a b) (q (q a b) b),q AND NOT p,NOR,Q
+45,1,q AND NOT p,'0010,4,no,λpqab.p (q b (q a b)) (q (q a b) b),q AND NOT p,XNOR,Q
+46,0,FALSE,'0000,4,no,λpqab.p (q b (q a b)) b,q AND NOT p,IMPLIES (p -> q),Q
+47,3,Q,'1010,4,no,λpqab.q (q a b) b,q AND NOT p,NOT Q,Q
+48,2,AND,'1000,4,no,λpqab.p (q (q a b) b) b,q AND NOT p,NAND,Q
+49,1,q AND NOT p,'0010,4,no,λpqab.p b (q (q a b) b),q AND NOT p,CONVERSE (q -> p),Q
+50,4,p AND NOT q,'0100,92,yes,λpqab.p (q b a) b,q AND NOT p,FALSE,p AND NOT q
+51,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) b) (q b (p (q b a) b)),q AND NOT p,q AND NOT p,p AND NOT q
+52,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p (q b a) b)) (p (q b a) b),q AND NOT p,AND,p AND NOT q
+53,4,p AND NOT q,'0100,4,no,λpqab.q b (p (q b a) b),q AND NOT p,Q,p AND NOT q
+54,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) b) b) (p (q b a) b),q AND NOT p,p AND NOT q,p AND NOT q
+55,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) b) b) (q b (p (q b a) b)),q AND NOT p,XOR,p AND NOT q
+56,0,FALSE,'0000,4,no,λpqab.p b (p (q b a) b),q AND NOT p,P,p AND NOT q
+57,0,FALSE,'0000,4,no,λpqab.p b (q b (p (q b a) b)),q AND NOT p,OR,p AND NOT q
+58,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) b) (q (p (q b a) b) b),q AND NOT p,NOR,p AND NOT q
+59,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) b) b,q AND NOT p,NOT P,p AND NOT q
+60,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p (q b a) b)) (q (p (q b a) b) b),q AND NOT p,XNOR,p AND NOT q
+61,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p (q b a) b)) b,q AND NOT p,IMPLIES (p -> q),p AND NOT q
+62,0,FALSE,'0000,4,no,λpqab.q (p (q b a) b) b,q AND NOT p,NOT Q,p AND NOT q
+63,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) b) b) b,q AND NOT p,NAND,p AND NOT q
+64,0,FALSE,'0000,4,no,λpqab.p b (q (p (q b a) b) b),q AND NOT p,CONVERSE (q -> p),p AND NOT q
+65,5,XOR,'0110,92,yes,λpqab.p (q b a) (q a b),q AND NOT p,FALSE,XOR
+66,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) (q a b)) (q b (p (q b a) (q a b))),q AND NOT p,q AND NOT p,XOR
+67,5,XOR,'0110,4,no,λpqab.p (q b (p (q b a) (q a b))) (p (q b a) (q a b)),q AND NOT p,AND,XOR
+68,4,p AND NOT q,'0100,4,no,λpqab.q b (p (q b a) (q a b)),q AND NOT p,Q,XOR
+69,1,q AND NOT p,'0010,4,no,λpqab.p (q (p (q b a) (q a b)) b) (p (q b a) (q a b)),q AND NOT p,p AND NOT q,XOR
+70,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) (q a b)) b) (q b (p (q b a) (q a b))),q AND NOT p,XOR,XOR
+71,1,q AND NOT p,'0010,4,no,λpqab.p b (p (q b a) (q a b)),q AND NOT p,P,XOR
+72,0,FALSE,'0000,4,no,λpqab.p b (q b (p (q b a) (q a b))),q AND NOT p,OR,XOR
+73,5,XOR,'0110,4,no,λpqab.p (p (q b a) (q a b)) (q (p (q b a) (q a b)) b),q AND NOT p,NOR,XOR
+74,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) (q a b)) b,q AND NOT p,NOT P,XOR
+75,5,XOR,'0110,4,no,λpqab.p (q b (p (q b a) (q a b))) (q (p (q b a) (q a b)) b),q AND NOT p,XNOR,XOR
+76,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p (q b a) (q a b))) b,q AND NOT p,IMPLIES (p -> q),XOR
+77,1,q AND NOT p,'0010,4,no,λpqab.q (p (q b a) (q a b)) b,q AND NOT p,NOT Q,XOR
+78,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) (q a b)) b) b,q AND NOT p,NAND,XOR
+79,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p (q b a) (q a b)) b),q AND NOT p,CONVERSE (q -> p),XOR
+80,6,P,'1100,88,yes,λpqab.p a b,q AND NOT p,FALSE,P
+81,6,P,'1100,4,no,λpqab.p (p a b) (q b (p a b)),q AND NOT p,q AND NOT p,P
+82,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a b)) (p a b),q AND NOT p,AND,P
+83,4,p AND NOT q,'0100,4,no,λpqab.q b (p a b),q AND NOT p,Q,P
+84,2,AND,'1000,4,no,λpqab.p (q (p a b) b) (p a b),q AND NOT p,p AND NOT q,P
+85,2,AND,'1000,4,no,λpqab.p (q (p a b) b) (q b (p a b)),q AND NOT p,XOR,P
+86,0,FALSE,'0000,4,no,λpqab.p b (p a b),q AND NOT p,P,P
+87,0,FALSE,'0000,4,no,λpqab.p b (q b (p a b)),q AND NOT p,OR,P
+88,6,P,'1100,4,no,λpqab.p (p a b) (q (p a b) b),q AND NOT p,NOR,P
+89,6,P,'1100,4,no,λpqab.p (p a b) b,q AND NOT p,NOT P,P
+90,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a b)) (q (p a b) b),q AND NOT p,XNOR,P
+91,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a b)) b,q AND NOT p,IMPLIES (p -> q),P
+92,2,AND,'1000,4,no,λpqab.q (p a b) b,q AND NOT p,NOT Q,P
+93,2,AND,'1000,4,no,λpqab.p (q (p a b) b) b,q AND NOT p,NAND,P
+94,0,FALSE,'0000,4,no,λpqab.p b (q (p a b) b),q AND NOT p,CONVERSE (q -> p),P
+95,7,OR,'1110,92,yes,λpqab.p a (q a b),q AND NOT p,FALSE,OR
+96,6,P,'1100,4,no,λpqab.p (p a (q a b)) (q b (p a (q a b))),q AND NOT p,q AND NOT p,OR
+97,5,XOR,'0110,4,no,λpqab.p (q b (p a (q a b))) (p a (q a b)),q AND NOT p,AND,OR
+98,4,p AND NOT q,'0100,4,no,λpqab.q b (p a (q a b)),q AND NOT p,Q,OR
+99,3,Q,'1010,4,no,λpqab.p (q (p a (q a b)) b) (p a (q a b)),q AND NOT p,p AND NOT q,OR
+100,2,AND,'1000,4,no,λpqab.p (q (p a (q a b)) b) (q b (p a (q a b))),q AND NOT p,XOR,OR
+101,1,q AND NOT p,'0010,4,no,λpqab.p b (p a (q a b)),q AND NOT p,P,OR
+102,0,FALSE,'0000,4,no,λpqab.p b (q b (p a (q a b))),q AND NOT p,OR,OR
+103,7,OR,'1110,4,no,λpqab.p (p a (q a b)) (q (p a (q a b)) b),q AND NOT p,NOR,OR
+104,6,P,'1100,4,no,λpqab.p (p a (q a b)) b,q AND NOT p,NOT P,OR
+105,5,XOR,'0110,4,no,λpqab.p (q b (p a (q a b))) (q (p a (q a b)) b),q AND NOT p,XNOR,OR
+106,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a (q a b))) b,q AND NOT p,IMPLIES (p -> q),OR
+107,3,Q,'1010,4,no,λpqab.q (p a (q a b)) b,q AND NOT p,NOT Q,OR
+108,2,AND,'1000,4,no,λpqab.p (q (p a (q a b)) b) b,q AND NOT p,NAND,OR
+109,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p a (q a b)) b),q AND NOT p,CONVERSE (q -> p),OR
+110,8,NOR,'0001,92,yes,λpqab.p b (q b a),q AND NOT p,FALSE,NOR
+111,8,NOR,'0001,4,no,λpqab.p (p b (q b a)) (q b (p b (q b a))),q AND NOT p,q AND NOT p,NOR
+112,8,NOR,'0001,4,no,λpqab.p (q b (p b (q b a))) (p b (q b a)),q AND NOT p,AND,NOR
+113,8,NOR,'0001,4,no,λpqab.q b (p b (q b a)),q AND NOT p,Q,NOR
+114,8,NOR,'0001,4,no,λpqab.p (q (p b (q b a)) b) (p b (q b a)),q AND NOT p,p AND NOT q,NOR
+115,8,NOR,'0001,4,no,λpqab.p (q (p b (q b a)) b) (q b (p b (q b a))),q AND NOT p,XOR,NOR
+116,8,NOR,'0001,4,no,λpqab.p b (p b (q b a)),q AND NOT p,P,NOR
+117,8,NOR,'0001,4,no,λpqab.p b (q b (p b (q b a))),q AND NOT p,OR,NOR
+118,0,FALSE,'0000,4,no,λpqab.p (p b (q b a)) (q (p b (q b a)) b),q AND NOT p,NOR,NOR
+119,0,FALSE,'0000,4,no,λpqab.p (p b (q b a)) b,q AND NOT p,NOT P,NOR
+120,0,FALSE,'0000,4,no,λpqab.p (q b (p b (q b a))) (q (p b (q b a)) b),q AND NOT p,XNOR,NOR
+121,0,FALSE,'0000,4,no,λpqab.p (q b (p b (q b a))) b,q AND NOT p,IMPLIES (p -> q),NOR
+122,0,FALSE,'0000,4,no,λpqab.q (p b (q b a)) b,q AND NOT p,NOT Q,NOR
+123,0,FALSE,'0000,4,no,λpqab.p (q (p b (q b a)) b) b,q AND NOT p,NAND,NOR
+124,0,FALSE,'0000,4,no,λpqab.p b (q (p b (q b a)) b),q AND NOT p,CONVERSE (q -> p),NOR
+125,9,NOT P,'0011,88,yes,λpqab.p b a,q AND NOT p,FALSE,NOT P
+126,8,NOR,'0001,4,no,λpqab.p (p b a) (q b (p b a)),q AND NOT p,q AND NOT p,NOT P
+127,9,NOT P,'0011,4,no,λpqab.p (q b (p b a)) (p b a),q AND NOT p,AND,NOT P
+128,8,NOR,'0001,4,no,λpqab.q b (p b a),q AND NOT p,Q,NOT P
+129,9,NOT P,'0011,4,no,λpqab.p (q (p b a) b) (p b a),q AND NOT p,p AND NOT q,NOT P
+130,8,NOR,'0001,4,no,λpqab.p (q (p b a) b) (q b (p b a)),q AND NOT p,XOR,NOT P
+131,9,NOT P,'0011,4,no,λpqab.p b (p b a),q AND NOT p,P,NOT P
+132,8,NOR,'0001,4,no,λpqab.p b (q b (p b a)),q AND NOT p,OR,NOT P
+133,1,q AND NOT p,'0010,4,no,λpqab.p (p b a) (q (p b a) b),q AND NOT p,NOR,NOT P
+134,0,FALSE,'0000,4,no,λpqab.p (p b a) b,q AND NOT p,NOT P,NOT P
+135,1,q AND NOT p,'0010,4,no,λpqab.p (q b (p b a)) (q (p b a) b),q AND NOT p,XNOR,NOT P
+136,0,FALSE,'0000,4,no,λpqab.p (q b (p b a)) b,q AND NOT p,IMPLIES (p -> q),NOT P
+137,1,q AND NOT p,'0010,4,no,λpqab.q (p b a) b,q AND NOT p,NOT Q,NOT P
+138,0,FALSE,'0000,4,no,λpqab.p (q (p b a) b) b,q AND NOT p,NAND,NOT P
+139,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p b a) b),q AND NOT p,CONVERSE (q -> p),NOT P
+140,10,XNOR,'1001,92,yes,λpqab.p (q a b) (q b a),q AND NOT p,FALSE,XNOR
+141,10,XNOR,'1001,4,no,λpqab.p (p (q a b) (q b a)) (q b (p (q a b) (q b a))),q AND NOT p,q AND NOT p,XNOR
+142,8,NOR,'0001,4,no,λpqab.p (q b (p (q a b) (q b a))) (p (q a b) (q b a)),q AND NOT p,AND,XNOR
+143,8,NOR,'0001,4,no,λpqab.q b (p (q a b) (q b a)),q AND NOT p,Q,XNOR
+144,10,XNOR,'1001,4,no,λpqab.p (q (p (q a b) (q b a)) b) (p (q a b) (q b a)),q AND NOT p,p AND NOT q,XNOR
+145,10,XNOR,'1001,4,no,λpqab.p (q (p (q a b) (q b a)) b) (q b (p (q a b) (q b a))),q AND NOT p,XOR,XNOR
+146,8,NOR,'0001,4,no,λpqab.p b (p (q a b) (q b a)),q AND NOT p,P,XNOR
+147,8,NOR,'0001,4,no,λpqab.p b (q b (p (q a b) (q b a))),q AND NOT p,OR,XNOR
+148,2,AND,'1000,4,no,λpqab.p (p (q a b) (q b a)) (q (p (q a b) (q b a)) b),q AND NOT p,NOR,XNOR
+149,2,AND,'1000,4,no,λpqab.p (p (q a b) (q b a)) b,q AND NOT p,NOT P,XNOR
+150,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) (q b a))) (q (p (q a b) (q b a)) b),q AND NOT p,XNOR,XNOR
+151,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) (q b a))) b,q AND NOT p,IMPLIES (p -> q),XNOR
+152,2,AND,'1000,4,no,λpqab.q (p (q a b) (q b a)) b,q AND NOT p,NOT Q,XNOR
+153,2,AND,'1000,4,no,λpqab.p (q (p (q a b) (q b a)) b) b,q AND NOT p,NAND,XNOR
+154,0,FALSE,'0000,4,no,λpqab.p b (q (p (q a b) (q b a)) b),q AND NOT p,CONVERSE (q -> p),XNOR
+155,11,IMPLIES (p -> q),'1011,92,yes,λpqab.p (q a b) a,q AND NOT p,FALSE,IMPLIES (p -> q)
+156,10,XNOR,'1001,4,no,λpqab.p (p (q a b) a) (q b (p (q a b) a)),q AND NOT p,q AND NOT p,IMPLIES (p -> q)
+157,9,NOT P,'0011,4,no,λpqab.p (q b (p (q a b) a)) (p (q a b) a),q AND NOT p,AND,IMPLIES (p -> q)
+158,8,NOR,'0001,4,no,λpqab.q b (p (q a b) a),q AND NOT p,Q,IMPLIES (p -> q)
+159,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q (p (q a b) a) b) (p (q a b) a),q AND NOT p,p AND NOT q,IMPLIES (p -> q)
+160,10,XNOR,'1001,4,no,λpqab.p (q (p (q a b) a) b) (q b (p (q a b) a)),q AND NOT p,XOR,IMPLIES (p -> q)
+161,9,NOT P,'0011,4,no,λpqab.p b (p (q a b) a),q AND NOT p,P,IMPLIES (p -> q)
+162,8,NOR,'0001,4,no,λpqab.p b (q b (p (q a b) a)),q AND NOT p,OR,IMPLIES (p -> q)
+163,3,Q,'1010,4,no,λpqab.p (p (q a b) a) (q (p (q a b) a) b),q AND NOT p,NOR,IMPLIES (p -> q)
+164,2,AND,'1000,4,no,λpqab.p (p (q a b) a) b,q AND NOT p,NOT P,IMPLIES (p -> q)
+165,1,q AND NOT p,'0010,4,no,λpqab.p (q b (p (q a b) a)) (q (p (q a b) a) b),q AND NOT p,XNOR,IMPLIES (p -> q)
+166,0,FALSE,'0000,4,no,λpqab.p (q b (p (q a b) a)) b,q AND NOT p,IMPLIES (p -> q),IMPLIES (p -> q)
+167,3,Q,'1010,4,no,λpqab.q (p (q a b) a) b,q AND NOT p,NOT Q,IMPLIES (p -> q)
+168,2,AND,'1000,4,no,λpqab.p (q (p (q a b) a) b) b,q AND NOT p,NAND,IMPLIES (p -> q)
+169,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p (q a b) a) b),q AND NOT p,CONVERSE (q -> p),IMPLIES (p -> q)
+170,12,NOT Q,'0101,88,yes,λpqab.q b a,q AND NOT p,FALSE,NOT Q
+171,12,NOT Q,'0101,4,no,λpqab.p (q b a) (q b (q b a)),q AND NOT p,q AND NOT p,NOT Q
+172,12,NOT Q,'0101,4,no,λpqab.p (q b (q b a)) (q b a),q AND NOT p,AND,NOT Q
+173,12,NOT Q,'0101,4,no,λpqab.q b (q b a),q AND NOT p,Q,NOT Q
+174,8,NOR,'0001,4,no,λpqab.p (q (q b a) b) (q b a),q AND NOT p,p AND NOT q,NOT Q
+175,8,NOR,'0001,4,no,λpqab.p (q (q b a) b) (q b (q b a)),q AND NOT p,XOR,NOT Q
+176,8,NOR,'0001,4,no,λpqab.p b (q b (q b a)),q AND NOT p,OR,NOT Q
+177,4,p AND NOT q,'0100,4,no,λpqab.p (q b a) (q (q b a) b),q AND NOT p,NOR,NOT Q
+178,4,p AND NOT q,'0100,4,no,λpqab.p (q b (q b a)) (q (q b a) b),q AND NOT p,XNOR,NOT Q
+179,4,p AND NOT q,'0100,4,no,λpqab.p (q b (q b a)) b,q AND NOT p,IMPLIES (p -> q),NOT Q
+180,0,FALSE,'0000,4,no,λpqab.q (q b a) b,q AND NOT p,NOT Q,NOT Q
+181,0,FALSE,'0000,4,no,λpqab.p (q (q b a) b) b,q AND NOT p,NAND,NOT Q
+182,0,FALSE,'0000,4,no,λpqab.p b (q (q b a) b),q AND NOT p,CONVERSE (q -> p),NOT Q
+183,13,NAND,'0111,92,yes,λpqab.p (q b a) a,q AND NOT p,FALSE,NAND
+184,12,NOT Q,'0101,4,no,λpqab.p (p (q b a) a) (q b (p (q b a) a)),q AND NOT p,q AND NOT p,NAND
+185,13,NAND,'0111,4,no,λpqab.p (q b (p (q b a) a)) (p (q b a) a),q AND NOT p,AND,NAND
+186,12,NOT Q,'0101,4,no,λpqab.q b (p (q b a) a),q AND NOT p,Q,NAND
+187,9,NOT P,'0011,4,no,λpqab.p (q (p (q b a) a) b) (p (q b a) a),q AND NOT p,p AND NOT q,NAND
+188,8,NOR,'0001,4,no,λpqab.p (q (p (q b a) a) b) (q b (p (q b a) a)),q AND NOT p,XOR,NAND
+189,9,NOT P,'0011,4,no,λpqab.p b (p (q b a) a),q AND NOT p,P,NAND
+190,8,NOR,'0001,4,no,λpqab.p b (q b (p (q b a) a)),q AND NOT p,OR,NAND
+191,5,XOR,'0110,4,no,λpqab.p (p (q b a) a) (q (p (q b a) a) b),q AND NOT p,NOR,NAND
+192,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) a) b,q AND NOT p,NOT P,NAND
+193,5,XOR,'0110,4,no,λpqab.p (q b (p (q b a) a)) (q (p (q b a) a) b),q AND NOT p,XNOR,NAND
+194,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p (q b a) a)) b,q AND NOT p,IMPLIES (p -> q),NAND
+195,1,q AND NOT p,'0010,4,no,λpqab.q (p (q b a) a) b,q AND NOT p,NOT Q,NAND
+196,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) a) b) b,q AND NOT p,NAND,NAND
+197,1,q AND NOT p,'0010,4,no,λpqab.p b (q (p (q b a) a) b),q AND NOT p,CONVERSE (q -> p),NAND
+198,14,CONVERSE (q -> p),'1101,92,yes,λpqab.p a (q b a),q AND NOT p,FALSE,CONVERSE (q -> p)
+199,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (p a (q b a)) (q b (p a (q b a))),q AND NOT p,q AND NOT p,CONVERSE (q -> p)
+200,12,NOT Q,'0101,4,no,λpqab.p (q b (p a (q b a))) (p a (q b a)),q AND NOT p,AND,CONVERSE (q -> p)
+201,12,NOT Q,'0101,4,no,λpqab.q b (p a (q b a)),q AND NOT p,Q,CONVERSE (q -> p)
+202,10,XNOR,'1001,4,no,λpqab.p (q (p a (q b a)) b) (p a (q b a)),q AND NOT p,p AND NOT q,CONVERSE (q -> p)
+203,10,XNOR,'1001,4,no,λpqab.p (q (p a (q b a)) b) (q b (p a (q b a))),q AND NOT p,XOR,CONVERSE (q -> p)
+204,8,NOR,'0001,4,no,λpqab.p b (p a (q b a)),q AND NOT p,P,CONVERSE (q -> p)
+205,8,NOR,'0001,4,no,λpqab.p b (q b (p a (q b a))),q AND NOT p,OR,CONVERSE (q -> p)
+206,6,P,'1100,4,no,λpqab.p (p a (q b a)) (q (p a (q b a)) b),q AND NOT p,NOR,CONVERSE (q -> p)
+207,6,P,'1100,4,no,λpqab.p (p a (q b a)) b,q AND NOT p,NOT P,CONVERSE (q -> p)
+208,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a (q b a))) (q (p a (q b a)) b),q AND NOT p,XNOR,CONVERSE (q -> p)
+209,4,p AND NOT q,'0100,4,no,λpqab.p (q b (p a (q b a))) b,q AND NOT p,IMPLIES (p -> q),CONVERSE (q -> p)
+210,2,AND,'1000,4,no,λpqab.q (p a (q b a)) b,q AND NOT p,NOT Q,CONVERSE (q -> p)
+211,2,AND,'1000,4,no,λpqab.p (q (p a (q b a)) b) b,q AND NOT p,NAND,CONVERSE (q -> p)
+212,0,FALSE,'0000,4,no,λpqab.p b (q (p a (q b a)) b),q AND NOT p,CONVERSE (q -> p),CONVERSE (q -> p)
+213,15,TRUE,'1111,396,yes,λpqab.a,q AND NOT p,FALSE,TRUE
+214,0,FALSE,'0000,4,no,λpqab.p (p b (q a b)) (q (p a (q b a)) (p b (q a b))),XOR,q AND NOT p,q AND NOT p
+215,3,Q,'1010,4,no,λpqab.p (q (p a (q b a)) (p b (q a b))) (p b (q a b)),XOR,AND,q AND NOT p
+216,2,AND,'1000,4,no,λpqab.q (p a (q b a)) (p b (q a b)),XOR,Q,q AND NOT p
+217,5,XOR,'0110,4,no,λpqab.p (q (p b (q a b)) (p a (q b a))) (p b (q a b)),XOR,p AND NOT q,q AND NOT p
+218,4,p AND NOT q,'0100,4,no,λpqab.p (q (p b (q a b)) (p a (q b a))) (q (p a (q b a)) (p b (q a b))),XOR,XOR,q AND NOT p
+219,7,OR,'1110,4,no,λpqab.p (p a (q b a)) (p b (q a b)),XOR,P,q AND NOT p
+220,6,P,'1100,4,no,λpqab.p (p a (q b a)) (q (p a (q b a)) (p b (q a b))),XOR,OR,q AND NOT p
+221,9,NOT P,'0011,4,no,λpqab.p (p b (q a b)) (q (p b (q a b)) (p a (q b a))),XOR,NOR,q AND NOT p
+222,8,NOR,'0001,4,no,λpqab.p (p b (q a b)) (p a (q b a)),XOR,NOT P,q AND NOT p
+223,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q (p a (q b a)) (p b (q a b))) (q (p b (q a b)) (p a (q b a))),XOR,XNOR,q AND NOT p
+224,10,XNOR,'1001,4,no,λpqab.p (q (p a (q b a)) (p b (q a b))) (p a (q b a)),XOR,IMPLIES (p -> q),q AND NOT p
+225,13,NAND,'0111,4,no,λpqab.q (p b (q a b)) (p a (q b a)),XOR,NOT Q,q AND NOT p
+226,12,NOT Q,'0101,4,no,λpqab.p (q (p b (q a b)) (p a (q b a))) (p a (q b a)),XOR,NAND,q AND NOT p
+227,15,TRUE,'1111,4,no,λpqab.p (p a (q b a)) (q (p b (q a b)) (p a (q b a))),XOR,CONVERSE (q -> p),q AND NOT p
+228,3,Q,'1010,4,no,λpqab.p (p (q a b) b) (q (p (q b a) a) (p (q a b) b)),XOR,q AND NOT p,AND
+229,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) a) (p (q a b) b)) (p (q a b) b),XOR,AND,AND
+230,1,q AND NOT p,'0010,4,no,λpqab.q (p (q b a) a) (p (q a b) b),XOR,Q,AND
+231,6,P,'1100,4,no,λpqab.p (q (p (q a b) b) (p (q b a) a)) (p (q a b) b),XOR,p AND NOT q,AND
+232,7,OR,'1110,4,no,λpqab.p (q (p (q a b) b) (p (q b a) a)) (q (p (q b a) a) (p (q a b) b)),XOR,XOR,AND
+233,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) a) (p (q a b) b),XOR,P,AND
+234,5,XOR,'0110,4,no,λpqab.p (p (q b a) a) (q (p (q b a) a) (p (q a b) b)),XOR,OR,AND
+235,10,XNOR,'1001,4,no,λpqab.p (p (q a b) b) (q (p (q a b) b) (p (q b a) a)),XOR,NOR,AND
+236,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) b) (p (q b a) a),XOR,NOT P,AND
+237,8,NOR,'0001,4,no,λpqab.p (q (p (q b a) a) (p (q a b) b)) (q (p (q a b) b) (p (q b a) a)),XOR,XNOR,AND
+238,9,NOT P,'0011,4,no,λpqab.p (q (p (q b a) a) (p (q a b) b)) (p (q b a) a),XOR,IMPLIES (p -> q),AND
+239,14,CONVERSE (q -> p),'1101,4,no,λpqab.q (p (q a b) b) (p (q b a) a),XOR,NOT Q,AND
+240,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) b) (p (q b a) a)) (p (q b a) a),XOR,NAND,AND
+241,12,NOT Q,'0101,4,no,λpqab.p (p (q b a) a) (q (p (q a b) b) (p (q b a) a)),XOR,CONVERSE (q -> p),AND
+242,2,AND,'1000,4,no,λpqab.p (q a b) (q (q b a) (q a b)),XOR,q AND NOT p,Q
+243,1,q AND NOT p,'0010,4,no,λpqab.p (q (q b a) (q a b)) (q a b),XOR,AND,Q
+244,0,FALSE,'0000,4,no,λpqab.q (q b a) (q a b),XOR,Q,Q
+245,7,OR,'1110,4,no,λpqab.p (q (q a b) (q b a)) (q a b),XOR,p AND NOT q,Q
+246,6,P,'1100,4,no,λpqab.p (q (q a b) (q b a)) (q (q b a) (q a b)),XOR,XOR,Q
+247,4,p AND NOT q,'0100,4,no,λpqab.p (q b a) (q (q b a) (q a b)),XOR,OR,Q
+248,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a b) (q (q a b) (q b a)),XOR,NOR,Q
+249,9,NOT P,'0011,4,no,λpqab.p (q (q b a) (q a b)) (q (q a b) (q b a)),XOR,XNOR,Q
+250,8,NOR,'0001,4,no,λpqab.p (q (q b a) (q a b)) (q b a),XOR,IMPLIES (p -> q),Q
+251,15,TRUE,'1111,4,no,λpqab.q (q a b) (q b a),XOR,NOT Q,Q
+252,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q (q a b) (q b a)) (q b a),XOR,NAND,Q
+253,13,NAND,'0111,4,no,λpqab.p (q b a) (q (q a b) (q b a)),XOR,CONVERSE (q -> p),Q
+254,5,XOR,'0110,4,no,λpqab.p (p (q b a) b) (q (p (q a b) a) (p (q b a) b)),XOR,q AND NOT p,p AND NOT q
+255,6,P,'1100,4,no,λpqab.p (q (p (q a b) a) (p (q b a) b)) (p (q b a) b),XOR,AND,p AND NOT q
+256,7,OR,'1110,4,no,λpqab.q (p (q a b) a) (p (q b a) b),XOR,Q,p AND NOT q
+257,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) b) (p (q a b) a)) (p (q b a) b),XOR,p AND NOT q,p AND NOT q
+258,1,q AND NOT p,'0010,4,no,λpqab.p (q (p (q b a) b) (p (q a b) a)) (q (p (q a b) a) (p (q b a) b)),XOR,XOR,p AND NOT q
+259,2,AND,'1000,4,no,λpqab.p (p (q a b) a) (p (q b a) b),XOR,P,p AND NOT q
+260,3,Q,'1010,4,no,λpqab.p (p (q a b) a) (q (p (q a b) a) (p (q b a) b)),XOR,OR,p AND NOT q
+261,12,NOT Q,'0101,4,no,λpqab.p (p (q b a) b) (q (p (q b a) b) (p (q a b) a)),XOR,NOR,p AND NOT q
+262,13,NAND,'0111,4,no,λpqab.p (p (q b a) b) (p (q a b) a),XOR,NOT P,p AND NOT q
+263,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q (p (q a b) a) (p (q b a) b)) (q (p (q b a) b) (p (q a b) a)),XOR,XNOR,p AND NOT q
+264,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) a) (p (q b a) b)) (p (q a b) a),XOR,IMPLIES (p -> q),p AND NOT q
+265,8,NOR,'0001,4,no,λpqab.q (p (q b a) b) (p (q a b) a),XOR,NOT Q,p AND NOT q
+266,9,NOT P,'0011,4,no,λpqab.p (q (p (q b a) b) (p (q a b) a)) (p (q a b) a),XOR,NAND,p AND NOT q
+267,10,XNOR,'1001,4,no,λpqab.p (p (q a b) a) (q (p (q b a) b) (p (q a b) a)),XOR,CONVERSE (q -> p),p AND NOT q
+268,4,p AND NOT q,'0100,4,no,λpqab.p (p (q b a) (q a b)) (q (p (q a b) (q b a)) (p (q b a) (q a b))),XOR,q AND NOT p,XOR
+269,7,OR,'1110,4,no,λpqab.p (q (p (q a b) (q b a)) (p (q b a) (q a b))) (p (q b a) (q a b)),XOR,AND,XOR
+270,6,P,'1100,4,no,λpqab.q (p (q a b) (q b a)) (p (q b a) (q a b)),XOR,Q,XOR
+271,1,q AND NOT p,'0010,4,no,λpqab.p (q (p (q b a) (q a b)) (p (q a b) (q b a))) (p (q b a) (q a b)),XOR,p AND NOT q,XOR
+272,0,FALSE,'0000,4,no,λpqab.p (q (p (q b a) (q a b)) (p (q a b) (q b a))) (q (p (q a b) (q b a)) (p (q b a) (q a b))),XOR,XOR,XOR
+273,3,Q,'1010,4,no,λpqab.p (p (q a b) (q b a)) (p (q b a) (q a b)),XOR,P,XOR
+274,2,AND,'1000,4,no,λpqab.p (p (q a b) (q b a)) (q (p (q a b) (q b a)) (p (q b a) (q a b))),XOR,OR,XOR
+275,13,NAND,'0111,4,no,λpqab.p (p (q b a) (q a b)) (q (p (q b a) (q a b)) (p (q a b) (q b a))),XOR,NOR,XOR
+276,12,NOT Q,'0101,4,no,λpqab.p (p (q b a) (q a b)) (p (q a b) (q b a)),XOR,NOT P,XOR
+277,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) (q b a)) (p (q b a) (q a b))) (q (p (q b a) (q a b)) (p (q a b) (q b a))),XOR,XNOR,XOR
+278,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q (p (q a b) (q b a)) (p (q b a) (q a b))) (p (q a b) (q b a)),XOR,IMPLIES (p -> q),XOR
+279,9,NOT P,'0011,4,no,λpqab.q (p (q b a) (q a b)) (p (q a b) (q b a)),XOR,NOT Q,XOR
+280,8,NOR,'0001,4,no,λpqab.p (q (p (q b a) (q a b)) (p (q a b) (q b a))) (p (q a b) (q b a)),XOR,NAND,XOR
+281,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) (q b a)) (q (p (q b a) (q a b)) (p (q a b) (q b a))),XOR,CONVERSE (q -> p),XOR
+282,7,OR,'1110,4,no,λpqab.p (p a b) (q (p b a) (p a b)),XOR,q AND NOT p,P
+283,4,p AND NOT q,'0100,4,no,λpqab.p (q (p b a) (p a b)) (p a b),XOR,AND,P
+284,5,XOR,'0110,4,no,λpqab.q (p b a) (p a b),XOR,Q,P
+285,2,AND,'1000,4,no,λpqab.p (q (p a b) (p b a)) (p a b),XOR,p AND NOT q,P
+286,3,Q,'1010,4,no,λpqab.p (q (p a b) (p b a)) (q (p b a) (p a b)),XOR,XOR,P
+287,0,FALSE,'0000,4,no,λpqab.p (p b a) (p a b),XOR,P,P
+288,1,q AND NOT p,'0010,4,no,λpqab.p (p b a) (q (p b a) (p a b)),XOR,OR,P
+289,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (p a b) (q (p a b) (p b a)),XOR,NOR,P
+290,15,TRUE,'1111,4,no,λpqab.p (p a b) (p b a),XOR,NOT P,P
+291,12,NOT Q,'0101,4,no,λpqab.p (q (p b a) (p a b)) (q (p a b) (p b a)),XOR,XNOR,P
+292,13,NAND,'0111,4,no,λpqab.p (q (p b a) (p a b)) (p b a),XOR,IMPLIES (p -> q),P
+293,10,XNOR,'1001,4,no,λpqab.q (p a b) (p b a),XOR,NOT Q,P
+294,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q (p a b) (p b a)) (p b a),XOR,NAND,P
+295,8,NOR,'0001,4,no,λpqab.p (p b a) (q (p a b) (p b a)),XOR,CONVERSE (q -> p),P
+296,6,P,'1100,4,no,λpqab.p (p a (q a b)) (q (p b (q b a)) (p a (q a b))),XOR,q AND NOT p,OR
+297,5,XOR,'0110,4,no,λpqab.p (q (p b (q b a)) (p a (q a b))) (p a (q a b)),XOR,AND,OR
+298,4,p AND NOT q,'0100,4,no,λpqab.q (p b (q b a)) (p a (q a b)),XOR,Q,OR
+299,3,Q,'1010,4,no,λpqab.p (q (p a (q a b)) (p b (q b a))) (p a (q a b)),XOR,p AND NOT q,OR
+300,2,AND,'1000,4,no,λpqab.p (q (p a (q a b)) (p b (q b a))) (q (p b (q b a)) (p a (q a b))),XOR,XOR,OR
+301,1,q AND NOT p,'0010,4,no,λpqab.p (p b (q b a)) (p a (q a b)),XOR,P,OR
+302,0,FALSE,'0000,4,no,λpqab.p (p b (q b a)) (q (p b (q b a)) (p a (q a b))),XOR,OR,OR
+303,15,TRUE,'1111,4,no,λpqab.p (p a (q a b)) (q (p a (q a b)) (p b (q b a))),XOR,NOR,OR
+304,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (p a (q a b)) (p b (q b a)),XOR,NOT P,OR
+305,13,NAND,'0111,4,no,λpqab.p (q (p b (q b a)) (p a (q a b))) (q (p a (q a b)) (p b (q b a))),XOR,XNOR,OR
+306,12,NOT Q,'0101,4,no,λpqab.p (q (p b (q b a)) (p a (q a b))) (p b (q b a)),XOR,IMPLIES (p -> q),OR
+307,11,IMPLIES (p -> q),'1011,4,no,λpqab.q (p a (q a b)) (p b (q b a)),XOR,NOT Q,OR
+308,10,XNOR,'1001,4,no,λpqab.p (q (p a (q a b)) (p b (q b a))) (p b (q b a)),XOR,NAND,OR
+309,9,NOT P,'0011,4,no,λpqab.p (p b (q b a)) (q (p a (q a b)) (p b (q b a))),XOR,CONVERSE (q -> p),OR
+310,1,q AND NOT p,'0010,4,no,λpqab.p (p b (q a b)) (q a (p b (q a b))),OR,q AND NOT p,q AND NOT p
+311,3,Q,'1010,4,no,λpqab.p (q a (p b (q a b))) (p b (q a b)),OR,AND,q AND NOT p
+312,3,Q,'1010,4,no,λpqab.q a (p b (q a b)),OR,Q,q AND NOT p
+313,5,XOR,'0110,4,no,λpqab.p (q (p b (q a b)) a) (p b (q a b)),OR,p AND NOT q,q AND NOT p
+314,5,XOR,'0110,4,no,λpqab.p (q (p b (q a b)) a) (q a (p b (q a b))),OR,XOR,q AND NOT p
+315,7,OR,'1110,4,no,λpqab.p a (p b (q a b)),OR,P,q AND NOT p
+316,7,OR,'1110,4,no,λpqab.p a (q a (p b (q a b))),OR,OR,q AND NOT p
+317,9,NOT P,'0011,4,no,λpqab.p (p b (q a b)) (q (p b (q a b)) a),OR,NOR,q AND NOT p
+318,9,NOT P,'0011,4,no,λpqab.p (p b (q a b)) a,OR,NOT P,q AND NOT p
+319,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b (q a b))) (q (p b (q a b)) a),OR,XNOR,q AND NOT p
+320,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b (q a b))) a,OR,IMPLIES (p -> q),q AND NOT p
+321,13,NAND,'0111,4,no,λpqab.q (p b (q a b)) a,OR,NOT Q,q AND NOT p
+322,13,NAND,'0111,4,no,λpqab.p (q (p b (q a b)) a) a,OR,NAND,q AND NOT p
+323,15,TRUE,'1111,4,no,λpqab.p a (q (p b (q a b)) a),OR,CONVERSE (q -> p),q AND NOT p
+324,3,Q,'1010,4,no,λpqab.p (p (q a b) b) (q a (p (q a b) b)),OR,q AND NOT p,AND
+325,2,AND,'1000,4,no,λpqab.p (q a (p (q a b) b)) (p (q a b) b),OR,AND,AND
+326,3,Q,'1010,4,no,λpqab.q a (p (q a b) b),OR,Q,AND
+327,6,P,'1100,4,no,λpqab.p (q (p (q a b) b) a) (p (q a b) b),OR,p AND NOT q,AND
+328,7,OR,'1110,4,no,λpqab.p (q (p (q a b) b) a) (q a (p (q a b) b)),OR,XOR,AND
+329,6,P,'1100,4,no,λpqab.p a (p (q a b) b),OR,P,AND
+330,7,OR,'1110,4,no,λpqab.p a (q a (p (q a b) b)),OR,OR,AND
+331,10,XNOR,'1001,4,no,λpqab.p (p (q a b) b) (q (p (q a b) b) a),OR,NOR,AND
+332,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) b) a,OR,NOT P,AND
+333,10,XNOR,'1001,4,no,λpqab.p (q a (p (q a b) b)) (q (p (q a b) b) a),OR,XNOR,AND
+334,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p (q a b) b)) a,OR,IMPLIES (p -> q),AND
+335,14,CONVERSE (q -> p),'1101,4,no,λpqab.q (p (q a b) b) a,OR,NOT Q,AND
+336,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) b) a) a,OR,NAND,AND
+337,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p (q a b) b) a),OR,CONVERSE (q -> p),AND
+338,3,Q,'1010,4,no,λpqab.p (q a b) (q a (q a b)),OR,q AND NOT p,Q
+339,3,Q,'1010,4,no,λpqab.p (q a (q a b)) (q a b),OR,AND,Q
+340,3,Q,'1010,4,no,λpqab.q a (q a b),OR,Q,Q
+341,7,OR,'1110,4,no,λpqab.p (q (q a b) a) (q a b),OR,p AND NOT q,Q
+342,7,OR,'1110,4,no,λpqab.p (q (q a b) a) (q a (q a b)),OR,XOR,Q
+343,7,OR,'1110,4,no,λpqab.p a (q a (q a b)),OR,OR,Q
+344,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a b) (q (q a b) a),OR,NOR,Q
+345,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (q a b)) (q (q a b) a),OR,XNOR,Q
+346,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (q a b)) a,OR,IMPLIES (p -> q),Q
+347,15,TRUE,'1111,4,no,λpqab.q (q a b) a,OR,NOT Q,Q
+348,15,TRUE,'1111,4,no,λpqab.p (q (q a b) a) a,OR,NAND,Q
+349,15,TRUE,'1111,4,no,λpqab.p a (q (q a b) a),OR,CONVERSE (q -> p),Q
+350,5,XOR,'0110,4,no,λpqab.p (p (q b a) b) (q a (p (q b a) b)),OR,q AND NOT p,p AND NOT q
+351,6,P,'1100,4,no,λpqab.p (q a (p (q b a) b)) (p (q b a) b),OR,AND,p AND NOT q
+352,7,OR,'1110,4,no,λpqab.q a (p (q b a) b),OR,Q,p AND NOT q
+353,4,p AND NOT q,'0100,4,no,λpqab.p (q (p (q b a) b) a) (p (q b a) b),OR,p AND NOT q,p AND NOT q
+354,5,XOR,'0110,4,no,λpqab.p (q (p (q b a) b) a) (q a (p (q b a) b)),OR,XOR,p AND NOT q
+355,6,P,'1100,4,no,λpqab.p a (p (q b a) b),OR,P,p AND NOT q
+356,7,OR,'1110,4,no,λpqab.p a (q a (p (q b a) b)),OR,OR,p AND NOT q
+357,12,NOT Q,'0101,4,no,λpqab.p (p (q b a) b) (q (p (q b a) b) a),OR,NOR,p AND NOT q
+358,13,NAND,'0111,4,no,λpqab.p (p (q b a) b) a,OR,NOT P,p AND NOT q
+359,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (p (q b a) b)) (q (p (q b a) b) a),OR,XNOR,p AND NOT q
+360,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) b)) a,OR,IMPLIES (p -> q),p AND NOT q
+361,12,NOT Q,'0101,4,no,λpqab.q (p (q b a) b) a,OR,NOT Q,p AND NOT q
+362,13,NAND,'0111,4,no,λpqab.p (q (p (q b a) b) a) a,OR,NAND,p AND NOT q
+363,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p (q b a) b) a),OR,CONVERSE (q -> p),p AND NOT q
+364,5,XOR,'0110,4,no,λpqab.p (p (q b a) (q a b)) (q a (p (q b a) (q a b))),OR,q AND NOT p,XOR
+365,7,OR,'1110,4,no,λpqab.p (q a (p (q b a) (q a b))) (p (q b a) (q a b)),OR,AND,XOR
+366,7,OR,'1110,4,no,λpqab.q a (p (q b a) (q a b)),OR,Q,XOR
+367,5,XOR,'0110,4,no,λpqab.p (q (p (q b a) (q a b)) a) (p (q b a) (q a b)),OR,p AND NOT q,XOR
+368,5,XOR,'0110,4,no,λpqab.p (q (p (q b a) (q a b)) a) (q a (p (q b a) (q a b))),OR,XOR,XOR
+369,7,OR,'1110,4,no,λpqab.p a (p (q b a) (q a b)),OR,P,XOR
+370,7,OR,'1110,4,no,λpqab.p a (q a (p (q b a) (q a b))),OR,OR,XOR
+371,13,NAND,'0111,4,no,λpqab.p (p (q b a) (q a b)) (q (p (q b a) (q a b)) a),OR,NOR,XOR
+372,13,NAND,'0111,4,no,λpqab.p (p (q b a) (q a b)) a,OR,NOT P,XOR
+373,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) (q a b))) (q (p (q b a) (q a b)) a),OR,XNOR,XOR
+374,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) (q a b))) a,OR,IMPLIES (p -> q),XOR
+375,13,NAND,'0111,4,no,λpqab.q (p (q b a) (q a b)) a,OR,NOT Q,XOR
+376,13,NAND,'0111,4,no,λpqab.p (q (p (q b a) (q a b)) a) a,OR,NAND,XOR
+377,15,TRUE,'1111,4,no,λpqab.p a (q (p (q b a) (q a b)) a),OR,CONVERSE (q -> p),XOR
+378,7,OR,'1110,4,no,λpqab.p (p a b) (q a (p a b)),OR,q AND NOT p,P
+379,6,P,'1100,4,no,λpqab.p (q a (p a b)) (p a b),OR,AND,P
+380,7,OR,'1110,4,no,λpqab.q a (p a b),OR,Q,P
+381,6,P,'1100,4,no,λpqab.p (q (p a b) a) (p a b),OR,p AND NOT q,P
+382,7,OR,'1110,4,no,λpqab.p (q (p a b) a) (q a (p a b)),OR,XOR,P
+383,6,P,'1100,4,no,λpqab.p a (p a b),OR,P,P
+384,7,OR,'1110,4,no,λpqab.p a (q a (p a b)),OR,OR,P
+385,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (p a b) (q (p a b) a),OR,NOR,P
+386,15,TRUE,'1111,4,no,λpqab.p (p a b) a,OR,NOT P,P
+387,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (p a b)) (q (p a b) a),OR,XNOR,P
+388,15,TRUE,'1111,4,no,λpqab.p (q a (p a b)) a,OR,IMPLIES (p -> q),P
+389,14,CONVERSE (q -> p),'1101,4,no,λpqab.q (p a b) a,OR,NOT Q,P
+390,15,TRUE,'1111,4,no,λpqab.p (q (p a b) a) a,OR,NAND,P
+391,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p a b) a),OR,CONVERSE (q -> p),P
+392,7,OR,'1110,4,no,λpqab.p (p a (q a b)) (q a (p a (q a b))),OR,q AND NOT p,OR
+393,7,OR,'1110,4,no,λpqab.p (q a (p a (q a b))) (p a (q a b)),OR,AND,OR
+394,7,OR,'1110,4,no,λpqab.q a (p a (q a b)),OR,Q,OR
+395,7,OR,'1110,4,no,λpqab.p (q (p a (q a b)) a) (p a (q a b)),OR,p AND NOT q,OR
+396,7,OR,'1110,4,no,λpqab.p (q (p a (q a b)) a) (q a (p a (q a b))),OR,XOR,OR
+397,7,OR,'1110,4,no,λpqab.p a (p a (q a b)),OR,P,OR
+398,7,OR,'1110,4,no,λpqab.p a (q a (p a (q a b))),OR,OR,OR
+399,15,TRUE,'1111,4,no,λpqab.p (p a (q a b)) (q (p a (q a b)) a),OR,NOR,OR
+400,15,TRUE,'1111,4,no,λpqab.p (p a (q a b)) a,OR,NOT P,OR
+401,15,TRUE,'1111,4,no,λpqab.p (q a (p a (q a b))) (q (p a (q a b)) a),OR,XNOR,OR
+402,15,TRUE,'1111,4,no,λpqab.p (q a (p a (q a b))) a,OR,IMPLIES (p -> q),OR
+403,15,TRUE,'1111,4,no,λpqab.q (p a (q a b)) a,OR,NOT Q,OR
+404,15,TRUE,'1111,4,no,λpqab.p (q (p a (q a b)) a) a,OR,NAND,OR
+405,15,TRUE,'1111,4,no,λpqab.p a (q (p a (q a b)) a),OR,CONVERSE (q -> p),OR
+406,9,NOT P,'0011,4,no,λpqab.p (p b (q b a)) (q a (p b (q b a))),OR,q AND NOT p,NOR
+407,10,XNOR,'1001,4,no,λpqab.p (q a (p b (q b a))) (p b (q b a)),OR,AND,NOR
+408,11,IMPLIES (p -> q),'1011,4,no,λpqab.q a (p b (q b a)),OR,Q,NOR
+409,12,NOT Q,'0101,4,no,λpqab.p (q (p b (q b a)) a) (p b (q b a)),OR,p AND NOT q,NOR
+410,13,NAND,'0111,4,no,λpqab.p (q (p b (q b a)) a) (q a (p b (q b a))),OR,XOR,NOR
+411,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (p b (q b a)),OR,P,NOR
+412,15,TRUE,'1111,4,no,λpqab.p a (q a (p b (q b a))),OR,OR,NOR
+413,8,NOR,'0001,4,no,λpqab.p (p b (q b a)) (q (p b (q b a)) a),OR,NOR,NOR
+414,9,NOT P,'0011,4,no,λpqab.p (p b (q b a)) a,OR,NOT P,NOR
+415,10,XNOR,'1001,4,no,λpqab.p (q a (p b (q b a))) (q (p b (q b a)) a),OR,XNOR,NOR
+416,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b (q b a))) a,OR,IMPLIES (p -> q),NOR
+417,12,NOT Q,'0101,4,no,λpqab.q (p b (q b a)) a,OR,NOT Q,NOR
+418,13,NAND,'0111,4,no,λpqab.p (q (p b (q b a)) a) a,OR,NAND,NOR
+419,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p b (q b a)) a),OR,CONVERSE (q -> p),NOR
+420,9,NOT P,'0011,4,no,λpqab.p (p b a) (q a (p b a)),OR,q AND NOT p,NOT P
+421,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b a)) (p b a),OR,AND,NOT P
+422,11,IMPLIES (p -> q),'1011,4,no,λpqab.q a (p b a),OR,Q,NOT P
+423,13,NAND,'0111,4,no,λpqab.p (q (p b a) a) (p b a),OR,p AND NOT q,NOT P
+424,13,NAND,'0111,4,no,λpqab.p (q (p b a) a) (q a (p b a)),OR,XOR,NOT P
+425,15,TRUE,'1111,4,no,λpqab.p a (p b a),OR,P,NOT P
+426,15,TRUE,'1111,4,no,λpqab.p a (q a (p b a)),OR,OR,NOT P
+427,9,NOT P,'0011,4,no,λpqab.p (p b a) (q (p b a) a),OR,NOR,NOT P
+428,9,NOT P,'0011,4,no,λpqab.p (p b a) a,OR,NOT P,NOT P
+429,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b a)) (q (p b a) a),OR,XNOR,NOT P
+430,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p b a)) a,OR,IMPLIES (p -> q),NOT P
+431,13,NAND,'0111,4,no,λpqab.q (p b a) a,OR,NOT Q,NOT P
+432,13,NAND,'0111,4,no,λpqab.p (q (p b a) a) a,OR,NAND,NOT P
+433,15,TRUE,'1111,4,no,λpqab.p a (q (p b a) a),OR,CONVERSE (q -> p),NOT P
+434,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) (q b a)) (q a (p (q a b) (q b a))),OR,q AND NOT p,XNOR
+435,10,XNOR,'1001,4,no,λpqab.p (q a (p (q a b) (q b a))) (p (q a b) (q b a)),OR,AND,XNOR
+436,11,IMPLIES (p -> q),'1011,4,no,λpqab.q a (p (q a b) (q b a)),OR,Q,XNOR
+437,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q (p (q a b) (q b a)) a) (p (q a b) (q b a)),OR,p AND NOT q,XNOR
+438,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) (q b a)) a) (q a (p (q a b) (q b a))),OR,XOR,XNOR
+439,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (p (q a b) (q b a)),OR,P,XNOR
+440,15,TRUE,'1111,4,no,λpqab.p a (q a (p (q a b) (q b a))),OR,OR,XNOR
+441,10,XNOR,'1001,4,no,λpqab.p (p (q a b) (q b a)) (q (p (q a b) (q b a)) a),OR,NOR,XNOR
+442,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) (q b a)) a,OR,NOT P,XNOR
+443,10,XNOR,'1001,4,no,λpqab.p (q a (p (q a b) (q b a))) (q (p (q a b) (q b a)) a),OR,XNOR,XNOR
+444,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p (q a b) (q b a))) a,OR,IMPLIES (p -> q),XNOR
+445,14,CONVERSE (q -> p),'1101,4,no,λpqab.q (p (q a b) (q b a)) a,OR,NOT Q,XNOR
+446,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) (q b a)) a) a,OR,NAND,XNOR
+447,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p (q a b) (q b a)) a),OR,CONVERSE (q -> p),XNOR
+448,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) a) (q a (p (q a b) a)),OR,q AND NOT p,IMPLIES (p -> q)
+449,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p (q a b) a)) (p (q a b) a),OR,AND,IMPLIES (p -> q)
+450,11,IMPLIES (p -> q),'1011,4,no,λpqab.q a (p (q a b) a),OR,Q,IMPLIES (p -> q)
+451,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) a) a) (p (q a b) a),OR,p AND NOT q,IMPLIES (p -> q)
+452,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) a) a) (q a (p (q a b) a)),OR,XOR,IMPLIES (p -> q)
+453,15,TRUE,'1111,4,no,λpqab.p a (p (q a b) a),OR,P,IMPLIES (p -> q)
+454,15,TRUE,'1111,4,no,λpqab.p a (q a (p (q a b) a)),OR,OR,IMPLIES (p -> q)
+455,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) a) (q (p (q a b) a) a),OR,NOR,IMPLIES (p -> q)
+456,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (p (q a b) a) a,OR,NOT P,IMPLIES (p -> q)
+457,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p (q a b) a)) (q (p (q a b) a) a),OR,XNOR,IMPLIES (p -> q)
+458,11,IMPLIES (p -> q),'1011,4,no,λpqab.p (q a (p (q a b) a)) a,OR,IMPLIES (p -> q),IMPLIES (p -> q)
+459,15,TRUE,'1111,4,no,λpqab.q (p (q a b) a) a,OR,NOT Q,IMPLIES (p -> q)
+460,15,TRUE,'1111,4,no,λpqab.p (q (p (q a b) a) a) a,OR,NAND,IMPLIES (p -> q)
+461,15,TRUE,'1111,4,no,λpqab.p a (q (p (q a b) a) a),OR,CONVERSE (q -> p),IMPLIES (p -> q)
+462,13,NAND,'0111,4,no,λpqab.p (q b a) (q a (q b a)),OR,q AND NOT p,NOT Q
+463,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (q b a)) (q b a),OR,AND,NOT Q
+464,15,TRUE,'1111,4,no,λpqab.q a (q b a),OR,Q,NOT Q
+465,12,NOT Q,'0101,4,no,λpqab.p (q (q b a) a) (q b a),OR,p AND NOT q,NOT Q
+466,13,NAND,'0111,4,no,λpqab.p (q (q b a) a) (q a (q b a)),OR,XOR,NOT Q
+467,15,TRUE,'1111,4,no,λpqab.p a (q a (q b a)),OR,OR,NOT Q
+468,12,NOT Q,'0101,4,no,λpqab.p (q b a) (q (q b a) a),OR,NOR,NOT Q
+469,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (q b a)) (q (q b a) a),OR,XNOR,NOT Q
+470,15,TRUE,'1111,4,no,λpqab.p (q a (q b a)) a,OR,IMPLIES (p -> q),NOT Q
+471,12,NOT Q,'0101,4,no,λpqab.q (q b a) a,OR,NOT Q,NOT Q
+472,13,NAND,'0111,4,no,λpqab.p (q (q b a) a) a,OR,NAND,NOT Q
+473,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (q b a) a),OR,CONVERSE (q -> p),NOT Q
+474,13,NAND,'0111,4,no,λpqab.p (p (q b a) a) (q a (p (q b a) a)),OR,q AND NOT p,NAND
+475,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) a)) (p (q b a) a),OR,AND,NAND
+476,15,TRUE,'1111,4,no,λpqab.q a (p (q b a) a),OR,Q,NAND
+477,13,NAND,'0111,4,no,λpqab.p (q (p (q b a) a) a) (p (q b a) a),OR,p AND NOT q,NAND
+478,13,NAND,'0111,4,no,λpqab.p (q (p (q b a) a) a) (q a (p (q b a) a)),OR,XOR,NAND
+479,15,TRUE,'1111,4,no,λpqab.p a (p (q b a) a),OR,P,NAND
+480,15,TRUE,'1111,4,no,λpqab.p a (q a (p (q b a) a)),OR,OR,NAND
+481,13,NAND,'0111,4,no,λpqab.p (p (q b a) a) (q (p (q b a) a) a),OR,NOR,NAND
+482,13,NAND,'0111,4,no,λpqab.p (p (q b a) a) a,OR,NOT P,NAND
+483,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) a)) (q (p (q b a) a) a),OR,XNOR,NAND
+484,15,TRUE,'1111,4,no,λpqab.p (q a (p (q b a) a)) a,OR,IMPLIES (p -> q),NAND
+485,13,NAND,'0111,4,no,λpqab.q (p (q b a) a) a,OR,NOT Q,NAND
+486,13,NAND,'0111,4,no,λpqab.p (q (p (q b a) a) a) a,OR,NAND,NAND
+487,15,TRUE,'1111,4,no,λpqab.p a (q (p (q b a) a) a),OR,CONVERSE (q -> p),NAND
+488,15,TRUE,'1111,4,no,λpqab.p (p a (q b a)) (q a (p a (q b a))),OR,q AND NOT p,CONVERSE (q -> p)
+489,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (p a (q b a))) (p a (q b a)),OR,AND,CONVERSE (q -> p)
+490,15,TRUE,'1111,4,no,λpqab.q a (p a (q b a)),OR,Q,CONVERSE (q -> p)
+491,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q (p a (q b a)) a) (p a (q b a)),OR,p AND NOT q,CONVERSE (q -> p)
+492,15,TRUE,'1111,4,no,λpqab.p (q (p a (q b a)) a) (q a (p a (q b a))),OR,XOR,CONVERSE (q -> p)
+493,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (p a (q b a)),OR,P,CONVERSE (q -> p)
+494,15,TRUE,'1111,4,no,λpqab.p a (q a (p a (q b a))),OR,OR,CONVERSE (q -> p)
+495,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (p a (q b a)) (q (p a (q b a)) a),OR,NOR,CONVERSE (q -> p)
+496,15,TRUE,'1111,4,no,λpqab.p (p a (q b a)) a,OR,NOT P,CONVERSE (q -> p)
+497,14,CONVERSE (q -> p),'1101,4,no,λpqab.p (q a (p a (q b a))) (q (p a (q b a)) a),OR,XNOR,CONVERSE (q -> p)
+498,15,TRUE,'1111,4,no,λpqab.p (q a (p a (q b a))) a,OR,IMPLIES (p -> q),CONVERSE (q -> p)
+499,14,CONVERSE (q -> p),'1101,4,no,λpqab.q (p a (q b a)) a,OR,NOT Q,CONVERSE (q -> p)
+500,15,TRUE,'1111,4,no,λpqab.p (q (p a (q b a)) a) a,OR,NAND,CONVERSE (q -> p)
+501,14,CONVERSE (q -> p),'1101,4,no,λpqab.p a (q (p a (q b a)) a),OR,CONVERSE (q -> p),CONVERSE (q -> p)
+502,15,TRUE,'1111,16,no,λpqab.p a (q a a),OR,q AND NOT p,TRUE
+503,15,TRUE,'1111,16,no,λpqab.p (q a a) a,OR,AND,TRUE
+504,15,TRUE,'1111,8,no,λpqab.q a a,OR,Q,TRUE
+505,15,TRUE,'1111,8,no,λpqab.p (q a a) (q a a),OR,XOR,TRUE
+506,15,TRUE,'1111,8,no,λpqab.p a a,OR,P,TRUE
