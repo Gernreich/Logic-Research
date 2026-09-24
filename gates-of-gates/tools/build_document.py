@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build gates-of-gates.html: one self-contained document with everything in gates-of-gates/.
+"""Build docs/gates-of-gates-document.html: one self-contained document with everything in gates-of-gates/.
+It is written straight into docs/, the folder GitHub Pages serves; there is no other copy.
 
 The README is converted with md2html.py (from the lasermade-tools repository), then:
   * every image is embedded as a data: URI,
@@ -18,7 +19,7 @@ if len(sys.argv) < 2:
 MD2HTML = pathlib.Path(sys.argv[1])
 ROOT = pathlib.Path(__file__).resolve().parent.parent            # gates-of-gates/
 REPO = ROOT.parent                                                # Logic Research/
-OUT = ROOT / 'gates-of-gates.html'
+OUT = REPO / 'docs' / 'gates-of-gates-document.html'
 
 with tempfile.TemporaryDirectory() as tmp:
     conv = pathlib.Path(tmp) / 'readme.html'
@@ -39,7 +40,7 @@ LINKS = {
     'page/gates-of-gates.html': '#interactive-grid',
     'page/programs-506.html': '#all-506-programs',
     '../lambda16.txt': '#appendix-lambda16',
-    'gates-of-gates.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
+    '../docs/gates-of-gates-document.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
     '../python/boolean16.py': 'https://github.com/Gernreich/Logic-Research/blob/main/python/boolean16.py',
 }
 for old, new in LINKS.items():
