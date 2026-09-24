@@ -21,6 +21,8 @@ Collect enough and each function has a visible solution region.
   — every function applied to every pair of functions, 4,096 cells
 - **[The 506 Programs](https://gernreich.github.io/Logic-Research/programs-506.html)**
   — the distinct lambda terms behind those cells, in eight notations
+- **[Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html)**
+  — all of it in one self-contained file (10.5 MB)
 
 ## The sixteen functions in lambda calculus
 
