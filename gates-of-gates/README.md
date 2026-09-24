@@ -10,6 +10,8 @@ For each gate **G** there is a 16 × 16 square. G sits at the origin in the top-
 
 with the three gates' terms from [`lambda16.txt`](../lambda16.txt) plugged in. That makes 16 × 16 × 16 = **4,096 cells**.
 
+Everything here is also in one self-contained file, [`gates-of-gates.html`](gates-of-gates.html): this write-up with its images, both interactive pages, `lambda16.txt` and the data, with nothing loaded from the internet.
+
 Gates are numbered 0–15 in the [`boolean16.py`](../python/boolean16.py) order, where gate i and gate 15 − i are complements. Truth tables are written TT TF FT FF, for (p, q) = (T,T), (T,F), (F,T), (F,F).
 
 ## The 1995 poster
@@ -118,6 +120,7 @@ Every one of the 506 programs is drawn as a Tromp diagram and written in eight n
 
 | Path | What it is |
 |---|---|
+| `gates-of-gates.html` | everything below in one self-contained document (open it in any browser, works offline) |
 | `images/` | the poster photo, the figures above, and two screenshots of the page |
 | `data/cells.csv` | all 4,096 cells: G, X, Y, the result, and which of the 506 programs it reduces to |
 | `data/programs.csv` | the 506 programs: behaviour, number of cells, whether it is the lambda16.txt term, short form, an example cell |
@@ -134,6 +137,7 @@ To regenerate, from this folder:
 node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
 node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
+python3 tools/build_document.py PATH/TO/md2html.py   # rebuild gates-of-gates.html (md2html.py is in the lasermade-tools repository)
 ```
 
 `gates.js` stops with an error if any cell, pattern or program count fails its check, and `programs506.js` stops if any notation fails its check.
