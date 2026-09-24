@@ -11,11 +11,11 @@ ones, rendered as English.
 so every set of weights that computes a given function is a *point in 3D*.
 Collect enough and each function has a visible solution region.
 
-**[Read it and explore →](https://gernreich.github.io/weight-space-shells/)**
+**[Read it and explore →](https://gernreich.github.io/Logic-Research/)**
 
-- **[Weight Space Shells](https://gernreich.github.io/weight-space-shells/shells.html)**
+- **[Weight Space Shells](https://gernreich.github.io/Logic-Research/shells.html)**
   — all sixteen functions as rotatable clouds, generated vs. the 2019 archive
-- **[Sixteen Cones](https://gernreich.github.io/weight-space-shells/cones.html)**
+- **[Sixteen Cones](https://gernreich.github.io/Logic-Research/cones.html)**
   — the same regions from a cube, a ball, and as pure directions
 
 ## The sixteen functions in lambda calculus

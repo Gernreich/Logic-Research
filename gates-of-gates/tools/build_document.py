@@ -40,7 +40,7 @@ LINKS = {
     'page/programs-506.html': '#all-506-programs',
     '../lambda16.txt': '#appendix-lambda16',
     'gates-of-gates.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
-    '../python/boolean16.py': 'https://github.com/Gernreich/weight-space-shells/blob/main/python/boolean16.py',
+    '../python/boolean16.py': 'https://github.com/Gernreich/Logic-Research/blob/main/python/boolean16.py',
 }
 for old, new in LINKS.items():
     if f'href="{old}"' not in doc:
