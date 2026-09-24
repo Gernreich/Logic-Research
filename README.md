@@ -151,3 +151,11 @@ inlined, with no external requests beyond Google Fonts. Pages serves from
 **main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
 photo are put there by the recipe in
 [`gates-of-gates/README.md`](gates-of-gates/README.md).
+
+## Licence
+
+Released under [CC0 1.0](LICENSE). **The 2019 networks start from Andrew
+Trask's [A Neural Network in 11 lines of
+Python](https://iamtrask.github.io/2015/07/12/basic-python-network/)** —
+`ANN/iamtrask_boolean_function_runs/Sixteen/tempp/elevenlines.py` is his code as
+published, and CC0 covers only what is original here.
