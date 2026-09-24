@@ -50,7 +50,7 @@ is on the public site.
     ANN/             weight-space search and the point clouds
     docs/            the viewer (GitHub Pages serves from here)
     gates-of-gates/  all 16 gates applied to every pair of gates (the 1995 poster, recomputed)
-    sum-carry/       hand drawings of a full adder's sum and carry as Venn diagrams
+    sum-carry/       a full adder's sum and carry as Venn diagrams: hand drawings and a checked redraw
     lambda16.txt     the sixteen functions as lambda terms, with every β-reduction
 
 `python/`, `ANN/` and `gates-of-gates/` each have their own README with
@@ -128,6 +128,18 @@ Hand drawings of a full adder's two outputs, each a function of three inputs:
 at least two are. Each is drawn as a three-set Venn diagram in three styles:
 round circles, a square Venn (the same encoding as the 1995 poster in
 [`gates-of-gates/`](gates-of-gates/)), and curves built from sine waves.
+
+The drawings' logic is right. `sum-carry/sum-carry.png` redraws all three with
+every region computed and checked, plus a truth table. Two things differ from the
+hand drawings: the square Venn now faces the same way as the poster ("A and B"
+top-left, "neither" bottom-right; the drawing had it mirrored), and the sine
+curves are shaped so that each of the eight combinations of inputs is exactly
+one region. `sum-carry/draw_sum_carry.py` makes the image and stops with an error
+if any region is shaded wrongly.
+
+<img src="sum-carry/sum-carry.png" width="720" alt="Sum and carry of a full adder as circles, square Venn diagrams and sine-curve Venn diagrams, with regions shaded where the output is TRUE, beside a truth table">
+
+The original hand drawings:
 
 | Circles and square Venns | Adding the sine-wave Venns | Sine Venn, three sets |
 |---|---|---|
