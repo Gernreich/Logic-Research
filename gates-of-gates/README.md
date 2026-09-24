@@ -8,7 +8,7 @@ For each gate **G** there is a 16 × 16 square. G sits at the origin in the top-
 λp.λq.λa.λb. G (X p q) (Y p q) a b
 ```
 
-with the three gates' terms from [`lambda16.txt`](../lambda16.txt) plugged in. That makes 16 × 16 × 16 = **4,096 cells**.
+with the three gates' terms from [`lambda16.txt`](https://gernreich.github.io/Logic-Research/lambda16.txt) plugged in. That makes 16 × 16 × 16 = **4,096 cells**.
 
 Everything here is also in one self-contained document, [Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html): this write-up with its images, both interactive pages, `lambda16.txt` and the data, with nothing loaded from the internet. Its file is `docs/gates-of-gates-document.html` at the top of the repository; saved to disk, it works offline.
 
@@ -183,7 +183,7 @@ To regenerate, from this folder:
 node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
 node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
-python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html (md2html.py is in the lasermade-tools repository)
+python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt to ../docs/ (md2html.py is in the lasermade-tools repository)
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
 ```
 

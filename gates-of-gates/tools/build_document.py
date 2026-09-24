@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build docs/gates-of-gates-document.html: one self-contained document with everything in gates-of-gates/.
 It is written straight into docs/, the folder GitHub Pages serves; there is no other copy.
+lambda16.txt is also copied into docs/ so the public site can serve it.
 
 The README is converted with md2html.py (from the lasermade-tools repository), then:
   * every image is embedded as a data: URI,
@@ -39,7 +40,7 @@ if n_img == 0 or 'src="images/' in doc:
 LINKS = {
     'https://gernreich.github.io/Logic-Research/gates-of-gates.html': '#interactive-grid',
     'https://gernreich.github.io/Logic-Research/programs-506.html': '#all-506-programs',
-    '../lambda16.txt': '#appendix-lambda16',
+    'https://gernreich.github.io/Logic-Research/lambda16.txt': '#appendix-lambda16',
     'https://gernreich.github.io/Logic-Research/gates-of-gates-document.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
     '../python/boolean16.py': 'https://github.com/Gernreich/Logic-Research/blob/main/python/boolean16.py',
 }
@@ -127,4 +128,5 @@ if fetches or 'fonts.googleapis' in doc:
     sys.exit('the document still loads something from the network')
 
 OUT.write_text(doc)
-print(f'wrote {OUT.name}: {len(doc) / 1e6:.1f} MB, {n_img} images, 2 interactive pages, lambda16.txt, 2 CSV files')
+(REPO / 'docs' / 'lambda16.txt').write_text(lambda16)
+print(f'wrote {OUT.name}: {len(doc) / 1e6:.1f} MB, {n_img} images, 2 interactive pages, lambda16.txt, 2 CSV files; copied lambda16.txt to docs/')

@@ -26,7 +26,7 @@ Collect enough and each function has a visible solution region.
 
 ## The sixteen functions in lambda calculus
 
-[`lambda16.txt`](lambda16.txt) writes all sixteen functions as lambda terms and
+[`lambda16.txt`](https://gernreich.github.io/Logic-Research/lambda16.txt) writes all sixteen functions as lambda terms and
 reduces each one on all four inputs. [`gates-of-gates/`](gates-of-gates/)
 applies every function to every pair of functions, 4,096 cells, computed from
 those terms; its [interactive version](https://gernreich.github.io/Logic-Research/gates-of-gates.html)

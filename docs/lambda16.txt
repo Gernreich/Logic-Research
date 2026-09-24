@@ -1,0 +1,867 @@
+The sixteen boolean functions of two variables as pure lambda terms
+====================================================================
+
+No shortcuts: every λ takes exactly one argument, every application
+(f x) is bracketed, and nothing is abbreviated (no TRUE/FALSE/NOT names).
+
+Each gate is in η-long β-normal form: fully expanded, fully reduced, no
+abbreviations. Every gate names all four inputs (λp.λq.λa.λb.), every p and q
+is applied to two arguments, and nothing is left to reduce. P and Q have
+shorter βη-normal forms, λp.(λq.p) and λp.(λq.q), but the long form keeps all
+sixteen in the same shape so the complement rule works.
+
+Church booleans:   true = λa.(λb.a)    false = λa.(λb.b)
+Inside a body:     a = TRUE,  b = FALSE
+                   ((q a) b) = q,  ((q b) a) = NOT q
+Every body is ((p X) Y): X is the answer when p is true, Y when p is false.
+
+idx = position in OPS (python/boolean16.py); entry i and 15 - i are complements.
+TT TF FT FF = output for (p,q) = (T,T) (T,F) (F,T) (F,F).
+
+idx  TT TF FT FF  name               lambda term
+---  -----------  -----------------  ------------------------------------------------
+  0   0  0  0  0  FALSE              λp.(λq.(λa.(λb.b)))
+  1   0  0  1  0  q AND NOT p        λp.(λq.(λa.(λb.((p b) ((q a) b)))))
+  2   1  0  0  0  AND                λp.(λq.(λa.(λb.((p ((q a) b)) b))))
+  3   1  0  1  0  Q                  λp.(λq.(λa.(λb.((q a) b))))
+  4   0  1  0  0  p AND NOT q        λp.(λq.(λa.(λb.((p ((q b) a)) b))))
+  5   0  1  1  0  XOR                λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))
+  6   1  1  0  0  P                  λp.(λq.(λa.(λb.((p a) b))))
+  7   1  1  1  0  OR                 λp.(λq.(λa.(λb.((p a) ((q a) b)))))
+  8   0  0  0  1  NOR                λp.(λq.(λa.(λb.((p b) ((q b) a)))))
+  9   0  0  1  1  NOT P              λp.(λq.(λa.(λb.((p b) a))))
+ 10   1  0  0  1  XNOR               λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))
+ 11   1  0  1  1  IMPLIES (p -> q)   λp.(λq.(λa.(λb.((p ((q a) b)) a))))
+ 12   0  1  0  1  NOT Q              λp.(λq.(λa.(λb.((q b) a))))
+ 13   0  1  1  1  NAND               λp.(λq.(λa.(λb.((p ((q b) a)) a))))
+ 14   1  1  0  1  CONVERSE (q -> p)  λp.(λq.(λa.(λb.((p a) ((q b) a)))))
+ 15   1  1  1  1  TRUE               λp.(λq.(λa.(λb.a)))
+
+Complement rule: swap every a and b in the body (after λb.) to get the
+complement, idx 15 - i. Swapping the binders too only renames and changes nothing.
+
+
+Beta reduction of all sixteen, on all four inputs
+==================================================
+
+TRUE = λx.(λy.x) and FALSE = λx.(λy.y) use x and y so they cannot clash with a and b.
+Normal order: the leftmost, outermost redex is reduced first.
+Each step says which variable was replaced and by what. "(thrown away)" means
+the bound variable did not appear in the body, so the argument vanishes unreduced.
+Every reduction ends at λa.(λb.a) = TRUE or λa.(λb.b) = FALSE.
+
+
+--- 0  FALSE   λp.(λq.(λa.(λb.b)))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.b)))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.b))) (λx.(λy.x)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.b)
+        q := TRUE   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.b)))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.b))) (λx.(λy.y)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.b)
+        q := FALSE   (thrown away)
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.b)))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.b))) (λx.(λy.x)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.b)
+        q := TRUE   (thrown away)
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.b)))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.b))) (λx.(λy.y)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.b)
+        q := FALSE   (thrown away)
+
+
+--- 1  q AND NOT p   λp.(λq.(λa.(λb.((p b) ((q a) b)))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) ((q a) b))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.b) (((λx.(λy.x)) a) b)))
+        x := b
+   4  λa.(λb.b)
+        y := (((λx.(λy.x)) a) b)   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) ((q a) b))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.b) (((λx.(λy.y)) a) b)))
+        x := b
+   4  λa.(λb.b)
+        y := (((λx.(λy.y)) a) b)   (thrown away)
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) ((q a) b))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) a) b)))
+        x := b   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := (((λx.(λy.x)) a) b)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) ((q a) b))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) a) b)))
+        x := b   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := (((λx.(λy.y)) a) b)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+
+--- 2  AND   λp.(λq.(λa.(λb.((p ((q a) b)) b))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) b))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) b)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) a) b)) b))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) a) b)) b))
+        x := (((λx.(λy.x)) a) b)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := b   (thrown away)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) b))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) b)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) a) b)) b))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) a) b)) b))
+        x := (((λx.(λy.y)) a) b)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := b   (thrown away)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) b))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) b)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) a) b)) b))
+        q := TRUE
+   3  λa.(λb.((λy.y) b))
+        x := (((λx.(λy.x)) a) b)   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) b))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) b)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) a) b)) b))
+        q := FALSE
+   3  λa.(λb.((λy.y) b))
+        x := (((λx.(λy.y)) a) b)   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+
+--- 3  Q   λp.(λq.(λa.(λb.((q a) b))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((q a) b))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.((q a) b)))) (λx.(λy.x)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.(((λx.(λy.x)) a) b))
+        q := TRUE
+   3  λa.(λb.((λy.a) b))
+        x := a
+   4  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((q a) b))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.((q a) b)))) (λx.(λy.y)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.(((λx.(λy.y)) a) b))
+        q := FALSE
+   3  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((q a) b))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.((q a) b)))) (λx.(λy.x)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.(((λx.(λy.x)) a) b))
+        q := TRUE
+   3  λa.(λb.((λy.a) b))
+        x := a
+   4  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((q a) b))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.((q a) b)))) (λx.(λy.y)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.(((λx.(λy.y)) a) b))
+        q := FALSE
+   3  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+
+--- 4  p AND NOT q   λp.(λq.(λa.(λb.((p ((q b) a)) b))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) b))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) b)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) b) a)) b))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) b) a)) b))
+        x := (((λx.(λy.x)) b) a)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := b   (thrown away)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) b))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) b)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) b) a)) b))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) b) a)) b))
+        x := (((λx.(λy.y)) b) a)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := b   (thrown away)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) b))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) b)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) b) a)) b))
+        q := TRUE
+   3  λa.(λb.((λy.y) b))
+        x := (((λx.(λy.x)) b) a)   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) b))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) b)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) b) a)) b))
+        q := FALSE
+   3  λa.(λb.((λy.y) b))
+        x := (((λx.(λy.y)) b) a)   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+
+--- 5  XOR   λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) ((q a) b))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) b) a)) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) b) a)) (((λx.(λy.x)) a) b)))
+        x := (((λx.(λy.x)) b) a)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := (((λx.(λy.x)) a) b)   (thrown away)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) ((q a) b))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) b) a)) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) b) a)) (((λx.(λy.y)) a) b)))
+        x := (((λx.(λy.y)) b) a)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := (((λx.(λy.y)) a) b)   (thrown away)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) ((q a) b))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) b) a)) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) a) b)))
+        x := (((λx.(λy.x)) b) a)   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := (((λx.(λy.x)) a) b)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) ((q a) b))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) b) a)) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) a) b)))
+        x := (((λx.(λy.y)) b) a)   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := (((λx.(λy.y)) a) b)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+
+--- 6  P   λp.(λq.(λa.(λb.((p a) b))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) b))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) b)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) b))
+        q := TRUE   (thrown away)
+   3  λa.(λb.((λy.a) b))
+        x := a
+   4  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) b))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) b)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) b))
+        q := FALSE   (thrown away)
+   3  λa.(λb.((λy.a) b))
+        x := a
+   4  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p a) b))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) b)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) b))
+        q := TRUE   (thrown away)
+   3  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p a) b))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) b)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) b))
+        q := FALSE   (thrown away)
+   3  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   4  λa.(λb.b)
+        y := b
+
+
+--- 7  OR   λp.(λq.(λa.(λb.((p a) ((q a) b)))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) ((q a) b))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.a) (((λx.(λy.x)) a) b)))
+        x := a
+   4  λa.(λb.a)
+        y := (((λx.(λy.x)) a) b)   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q a) b)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) ((q a) b))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.a) (((λx.(λy.y)) a) b)))
+        x := a
+   4  λa.(λb.a)
+        y := (((λx.(λy.y)) a) b)   (thrown away)
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) ((q a) b))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) (((λx.(λy.x)) a) b)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) a) b)))
+        x := a   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := (((λx.(λy.x)) a) b)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = FALSE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q a) b)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) ((q a) b))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) (((λx.(λy.y)) a) b)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) a) b)))
+        x := a   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := (((λx.(λy.y)) a) b)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+
+--- 8  NOR   λp.(λq.(λa.(λb.((p b) ((q b) a)))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) ((q b) a))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.b) (((λx.(λy.x)) b) a)))
+        x := b
+   4  λa.(λb.b)
+        y := (((λx.(λy.x)) b) a)   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) ((q b) a))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.b) (((λx.(λy.y)) b) a)))
+        x := b
+   4  λa.(λb.b)
+        y := (((λx.(λy.y)) b) a)   (thrown away)
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) ((q b) a))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) b) a)))
+        x := b   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := (((λx.(λy.x)) b) a)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p b) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) ((q b) a))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) b) a)))
+        x := b   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := (((λx.(λy.y)) b) a)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+
+--- 9  NOT P   λp.(λq.(λa.(λb.((p b) a))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) a))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) a)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) a))
+        q := TRUE   (thrown away)
+   3  λa.(λb.((λy.b) a))
+        x := b
+   4  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p b) a))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) b) a)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) b) a))
+        q := FALSE   (thrown away)
+   3  λa.(λb.((λy.b) a))
+        x := b
+   4  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p b) a))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) a)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) a))
+        q := TRUE   (thrown away)
+   3  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p b) a))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) b) a)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) b) a))
+        q := FALSE   (thrown away)
+   3  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+
+--- 10  XNOR   λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) ((q b) a))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) a) b)) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) a) b)) (((λx.(λy.x)) b) a)))
+        x := (((λx.(λy.x)) a) b)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := (((λx.(λy.x)) b) a)   (thrown away)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) ((q b) a))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) a) b)) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) a) b)) (((λx.(λy.y)) b) a)))
+        x := (((λx.(λy.y)) a) b)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := (((λx.(λy.y)) b) a)   (thrown away)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) ((q b) a))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) a) b)) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) b) a)))
+        x := (((λx.(λy.x)) a) b)   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := (((λx.(λy.x)) b) a)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) ((q b) a))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) a) b)) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) b) a)))
+        x := (((λx.(λy.y)) a) b)   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := (((λx.(λy.y)) b) a)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+
+--- 11  IMPLIES (p -> q)   λp.(λq.(λa.(λb.((p ((q a) b)) a))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) a))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) a)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) a) b)) a))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) a) b)) a))
+        x := (((λx.(λy.x)) a) b)
+   4  λa.(λb.(((λx.(λy.x)) a) b))
+        y := a   (thrown away)
+   5  λa.(λb.((λy.a) b))
+        x := a
+   6  λa.(λb.a)
+        y := b   (thrown away)
+
+  p = TRUE, q = FALSE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) a))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q a) b)) a)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) a) b)) a))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) a) b)) a))
+        x := (((λx.(λy.y)) a) b)
+   4  λa.(λb.(((λx.(λy.y)) a) b))
+        y := a   (thrown away)
+   5  λa.(λb.((λy.y) b))
+        x := a   (thrown away)
+   6  λa.(λb.b)
+        y := b
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) a))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) a)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) a) b)) a))
+        q := TRUE
+   3  λa.(λb.((λy.y) a))
+        x := (((λx.(λy.x)) a) b)   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q a) b)) a))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q a) b)) a)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) a) b)) a))
+        q := FALSE
+   3  λa.(λb.((λy.y) a))
+        x := (((λx.(λy.y)) a) b)   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+
+--- 12  NOT Q   λp.(λq.(λa.(λb.((q b) a))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((q b) a))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.((q b) a)))) (λx.(λy.x)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.(((λx.(λy.x)) b) a))
+        q := TRUE
+   3  λa.(λb.((λy.b) a))
+        x := b
+   4  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((q b) a))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.((q b) a)))) (λx.(λy.y)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.(((λx.(λy.y)) b) a))
+        q := FALSE
+   3  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((q b) a))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.((q b) a)))) (λx.(λy.x)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.(((λx.(λy.x)) b) a))
+        q := TRUE
+   3  λa.(λb.((λy.b) a))
+        x := b
+   4  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((q b) a))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.((q b) a)))) (λx.(λy.y)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.(((λx.(λy.y)) b) a))
+        q := FALSE
+   3  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+
+--- 13  NAND   λp.(λq.(λa.(λb.((p ((q b) a)) a))))
+
+  p = TRUE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) a))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) a)))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.x)) b) a)) a))
+        q := TRUE
+   3  λa.(λb.((λy.(((λx.(λy.x)) b) a)) a))
+        x := (((λx.(λy.x)) b) a)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := a   (thrown away)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) a))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) ((q b) a)) a)))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) (((λx.(λy.y)) b) a)) a))
+        q := FALSE
+   3  λa.(λb.((λy.(((λx.(λy.y)) b) a)) a))
+        x := (((λx.(λy.y)) b) a)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := a   (thrown away)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) a))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) a)))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.x)) b) a)) a))
+        q := TRUE
+   3  λa.(λb.((λy.y) a))
+        x := (((λx.(λy.x)) b) a)   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p ((q b) a)) a))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) ((q b) a)) a)))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) (((λx.(λy.y)) b) a)) a))
+        q := FALSE
+   3  λa.(λb.((λy.y) a))
+        x := (((λx.(λy.y)) b) a)   (thrown away)
+   4  λa.(λb.a)
+        y := a
+
+
+--- 14  CONVERSE (q -> p)   λp.(λq.(λa.(λb.((p a) ((q b) a)))))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) ((q b) a))))) (λx.(λy.x)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.a) (((λx.(λy.x)) b) a)))
+        x := a
+   4  λa.(λb.a)
+        y := (((λx.(λy.x)) b) a)   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q b) a)))))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.x)) a) ((q b) a))))) (λx.(λy.y)))
+        p := TRUE
+   2  λa.(λb.(((λx.(λy.x)) a) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.a) (((λx.(λy.y)) b) a)))
+        x := a
+   4  λa.(λb.a)
+        y := (((λx.(λy.y)) b) a)   (thrown away)
+
+  p = FALSE, q = TRUE  →  FALSE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) ((q b) a))))) (λx.(λy.x)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) (((λx.(λy.x)) b) a)))
+        q := TRUE
+   3  λa.(λb.((λy.y) (((λx.(λy.x)) b) a)))
+        x := a   (thrown away)
+   4  λa.(λb.(((λx.(λy.x)) b) a))
+        y := (((λx.(λy.x)) b) a)
+   5  λa.(λb.((λy.b) a))
+        x := b
+   6  λa.(λb.b)
+        y := a   (thrown away)
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.((p a) ((q b) a)))))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.(((λx.(λy.y)) a) ((q b) a))))) (λx.(λy.y)))
+        p := FALSE
+   2  λa.(λb.(((λx.(λy.y)) a) (((λx.(λy.y)) b) a)))
+        q := FALSE
+   3  λa.(λb.((λy.y) (((λx.(λy.y)) b) a)))
+        x := a   (thrown away)
+   4  λa.(λb.(((λx.(λy.y)) b) a))
+        y := (((λx.(λy.y)) b) a)
+   5  λa.(λb.((λy.y) a))
+        x := b   (thrown away)
+   6  λa.(λb.a)
+        y := a
+
+
+--- 15  TRUE   λp.(λq.(λa.(λb.a)))
+
+  p = TRUE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.a)))) (λx.(λy.x))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.a))) (λx.(λy.x)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.a)
+        q := TRUE   (thrown away)
+
+  p = TRUE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.a)))) (λx.(λy.x))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.a))) (λx.(λy.y)))
+        p := TRUE   (thrown away)
+   2  λa.(λb.a)
+        q := FALSE   (thrown away)
+
+  p = FALSE, q = TRUE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.a)))) (λx.(λy.y))) (λx.(λy.x)))
+   1  ((λq.(λa.(λb.a))) (λx.(λy.x)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.a)
+        q := TRUE   (thrown away)
+
+  p = FALSE, q = FALSE  →  TRUE
+   0  (((λp.(λq.(λa.(λb.a)))) (λx.(λy.y))) (λx.(λy.y)))
+   1  ((λq.(λa.(λb.a))) (λx.(λy.y)))
+        p := FALSE   (thrown away)
+   2  λa.(λb.a)
+        q := FALSE   (thrown away)
