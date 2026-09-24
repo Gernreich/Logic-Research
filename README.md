@@ -1,6 +1,6 @@
-# Sixteen Functions, Two Ways
+# Sixteen Functions, Three Ways
 
-There are exactly sixteen boolean functions of two variables. This asks two
+There are exactly sixteen boolean functions of two variables. This asks three
 questions about them at once.
 
 **Symbolically** — compose them into deep expression trees and find which
@@ -11,6 +11,10 @@ English.
 **Geometrically** — a 2–3–1 network's hidden→output weights are three numbers,
 so every set of weights that computes a given function is a *point in 3D*.
 Collect enough and each function has a visible solution region.
+
+**By lambda reduction** — apply every function to every pair of functions,
+recomputing a hand-made 1995 poster. The 4,096 cells are lambda terms that
+reduce to 506 distinct programs, each behaving like one of the sixteen.
 
 **[Read it and explore →](https://gernreich.github.io/Logic-Research/)**
 

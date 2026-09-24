@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixteen Functions, Two Ways</title>
+<title>Sixteen Functions, Three Ways</title>
 <meta name="description" content="Exhaustive enumeration of boolean expression compositions, and the weight-space regions a small network uses to compute each of the sixteen functions of two variables.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -67,8 +67,8 @@ figure.poster figcaption{flex:1 1 220px;color:var(--dim);font-size:14px;font-fam
 <div class="page">
 <header>
  <p class="kicker">Logic Research &middot; 2019, revisited 2026</p>
- <h1>Sixteen Functions, Two Ways</h1>
- <p class="standfirst">One question asked symbolically and geometrically: what can you build from the sixteen boolean functions of two variables, and what do their solutions look like as shapes?</p>
+ <h1>Sixteen Functions, Three Ways</h1>
+ <p class="standfirst">One question asked symbolically, geometrically and by lambda reduction: what can you build from the sixteen boolean functions of two variables, what do their solutions look like as shapes, and what do they make when applied to each other?</p>
 </header>
 
 <div class="cards">
@@ -86,9 +86,9 @@ figure.poster figcaption{flex:1 1 220px;color:var(--dim);font-size:14px;font-fam
 <figcaption>The hand-made 1995 poster that Gates of Gates recomputes. Each cell is a square Venn diagram, coloured by region. <a href="poster-1995.jpg">Full size &rarr;</a></figcaption></figure>
 <p class="deck">The sixteen functions as lambda terms, with every &beta;-reduction on all four inputs: <a href="lambda16.txt"><code>lambda16.txt</code></a>.</p>
 
-<p>There are exactly sixteen boolean functions of two variables &mdash; <code>AND</code>, <code>OR</code>, <code>XOR</code>, the two constants, and eleven others. Everything here starts there and goes in two directions at once.</p>
+<p>There are exactly sixteen boolean functions of two variables &mdash; <code>AND</code>, <code>OR</code>, <code>XOR</code>, the two constants, and eleven others. Everything here starts there and goes three ways at once: symbolically and geometrically below, and by lambda reduction in Gates of Gates above.</p>
 
-<h2>The symbolic half</h2>
+<h2>Symbolically</h2>
 <p class="deck">Enumerate every composition, keep the tautologies, reduce to what is irreducible.</p>
 
 <p>Encode a two-variable truth table as the four bits of a nibble and each function becomes a bitwise expression on two 4-bit operands. Start from all sixteen values and expand: for every value so far, apply all sixteen functions against every other. Each expansion multiplies the population by 256.</p>
@@ -110,7 +110,7 @@ figure.poster figcaption{flex:1 1 220px;color:var(--dim);font-size:14px;font-fam
 <pre><code>P and Q and Q -&gt; P     reduces to  P and Q -&gt; P
 P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 
-<h2>The geometric half</h2>
+<h2>Geometrically</h2>
 <p class="deck">For each function, the set of weights that computes it &mdash; as a shape.</p>
 
 <p>Take a 2&ndash;3&ndash;1 network. The hidden&rarr;output weights are three numbers, so <strong>every working set of them is a point in 3D</strong>. Sample weights at random, run one forward pass, keep those whose output matches a truth table. Accumulate and you have that function's solution region.</p>
