@@ -133,12 +133,3 @@ python3 tools/figures.py images     # redraw the figures from tools/gates-data.j
 ```
 
 `gates.js` stops with an error if any cell, pattern or program count fails its check.
-
-## Related pages
-
-These are private claude.ai pages from the same session; share them from each page's Share menu.
-
-- [Gates of gates](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun): this data, interactive
-- [Tromp diagrams in motion](https://claude.ai/artifact/TykF7U7y4S2qATkRcVSTfL): animated β-reduction
-- [Tromp diagrams, step by step](https://claude.ai/artifact/QBamJgp2UNdF67VgMUjzDP): lessons and exercises
-- [Learn lambda calculus](https://claude.ai/artifact/BZnTt47kC1gdDDSKhiPW6k): an 11-module course

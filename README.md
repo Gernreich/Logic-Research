@@ -21,23 +21,10 @@ Collect enough and each function has a visible solution region.
 ## The sixteen functions in lambda calculus
 
 [`lambda16.txt`](lambda16.txt) writes all sixteen functions as lambda terms and
-reduces each one on all four inputs. These pages build on it. They are private
-claude.ai pages until shared from each page's Share menu.
-
-- **[Learn lambda calculus](https://claude.ai/artifact/BZnTt47kC1gdDDSKhiPW6k)**
-  — an 11-module course, from the three building blocks to logic, pairs,
-  numbers and recursion
-- **[Tromp diagrams, step by step](https://claude.ai/artifact/QBamJgp2UNdF67VgMUjzDP)**
-  — lessons with diagrams in colour and monochrome, plus exercises
-- **[Tromp diagrams in motion](https://claude.ai/artifact/TykF7U7y4S2qATkRcVSTfL)**
-  — animated β-reduction, with pause and resume
-- **[Gates of gates](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun)**
-  — all sixteen gates applied to every pair of gates, and the 506 programs
-  behind them (a local copy is in [`gates-of-gates/`](gates-of-gates/))
-- **[Tromp diagrams](https://claude.ai/artifact/AbcZbeWun1jcnWLe37Da2r)**
-  — the first diagram page: TRUE, FALSE, the P gate on all four inputs
-- **[The FALSE gate on all four inputs](https://claude.ai/artifact/FzoiyF2jNJVFbTopoWmzM6)**
-  — a colour-coded text reduction
+reduces each one on all four inputs. [`gates-of-gates/`](gates-of-gates/)
+applies every function to every pair of functions, 4,096 cells, computed from
+those terms; its [interactive version](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun)
+is a private claude.ai page until shared.
 
 ## Layout
 
