@@ -4,7 +4,11 @@ const fs = require('fs');
 const core = require('./core.js');
 const SF = require('./shortform.js');
 const D = JSON.parse(fs.readFileSync(__dirname + '/gates-data.json', 'utf8'));
-const { gates: G, nfs } = D;
+const { gates: G, nfs, nfGrid } = D;
+const where = nfs.map(() => Array(16).fill(0));
+for (let g = 0; g < 16; g++) for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) where[nfGrid[g][y][x]][g]++;
+nfs.forEach((f, k) => { if (where[k].reduce((a, b) => a + b, 0) !== f.count) throw 'cell count mismatch for program #' + (k + 1); });
+if (where.flat().reduce((a, b) => a + b, 0) !== 4096) throw 'the programs do not account for all 4096 cells';
 
 // ---------- helpers on named trees ----------
 const long = n => n.t === 'var' ? n.v : n.t === 'lam' ? 'λ' + n.v + '.' + (n.body.t === 'var' ? n.body.v : '(' + inner(n.body) + ')') : '(' + argL(n.f) + ' ' + argL(n.x) + ')';
@@ -95,7 +99,10 @@ const card = p => { const [g, x, y] = p.first;
   return `<article class="prog${p.exact ? ' exact' : ''}" id="p${p.k + 1}">
   <header><b>#${p.k + 1}</b><span>${G[p.gate].name} · ${p.bits}</span><span>${p.count} cell${p.count === 1 ? '' : 's'}</span>${p.exact ? '<span class="badge">lambda16.txt</span>' : `<span class="eg">e.g. ${esc(G[g].short)}(${esc(G[x].short)}, ${esc(G[y].short)})</span>`}</header>
   <div class="body"><div class="draw">${p.svg}</div><dl>${NOTES.map(([key, label]) =>
-    `<div class="n-${key}"><dt>${label}</dt><dd><code>${esc(key === 'blc' ? p.blc + '  (' + p.blc.length + ' bits)' : p[key])}</code></dd></div>`).join('')}</dl></div></article>`; };
+    `<div class="n-${key}"><dt>${label}</dt><dd><code>${esc(key === 'blc' ? p.blc + '  (' + p.blc.length + ' bits)' : p[key])}</code></dd></div>`).join('')}</dl>
+  <figure class="where n-where"><figcaption>Where it comes from</figcaption><canvas class="map" data-k="${p.k}" width="204" height="204" role="img"
+    aria-label="The cells, across all 16 squares, that reduce to program ${p.k + 1}"></canvas>
+    <p>${where[p.k].map((n, g) => n ? `${esc(G[g].short)} ×${n}` : '').filter(Boolean).join(' · ')}</p></figure></div></article>`; };
 const sections = byGate.map((list, gi) => `<section class="gate" id="g${gi}" data-gate="${gi}">
   <h2>${gi} ${esc(G[gi].name)} <span>${G[gi].bits} · ${list.length} program${list.length === 1 ? '' : 's'} · ${list.reduce((t, p) => t + p.count, 0)} cells</span></h2>
   ${list.map(card).join('\n')}
@@ -113,6 +120,7 @@ ${css}
 <header class="top">
   <h1>The 506 programs</h1>
   <p class="lede">Every cell of the 16 × 16 × 16 gates-of-gates grid is a lambda term, <code>λp.λq.λa.λb. G (X p q) (Y p q) a b</code>. Reducing all 4,096 of them gives <b>506 different normal forms</b>, each behaving like one of the 16 gates. Here is every one, as a Tromp diagram and in eight notations. Numbers #1–506 match the Gates of gates page.</p>
+  <p class="lede"><b>Where it comes from</b> maps, for each program, the cells that reduce to it: all 16 squares, laid out 4 × 4 as on the Gates of gates page, with each marked cell coloured for the chosen quarter (one truth-table row). Coloured means the program is TRUE on that row, grey means FALSE.</p>
   <div class="how">
     <div><b>Short form</b> drops brackets by convention. <b>Fully bracketed</b> shows every application.</div>
     <div><b>De Bruijn</b> replaces names with “how many λs up”. <b>Tromp binary</b> writes that in bits: 00 = λ, 01 = apply, n ones and a zero = variable n.</div>
@@ -122,12 +130,16 @@ ${css}
   <div class="controls">
     <label for="gsel">Show <select id="gsel"><option value="all">all 16 gates</option>${G.map(g => `<option value="${g.idx}">${g.idx} ${esc(g.name)}</option>`).join('')}</select></label>
     <label for="onlyExact"><input type="checkbox" id="onlyExact"> only the lambda16.txt programs</label>
-    <fieldset class="nots"><legend>Notations</legend>${NOTES.map(([key, label]) => `<label for="t-${key}"><input type="checkbox" id="t-${key}" data-n="${key}" checked> ${label}</label>`).join('')}</fieldset>
+    <fieldset class="nots"><legend>Show</legend>${[...NOTES, ['where', 'Where it comes from']].map(([key, label]) => `<label for="t-${key}"><input type="checkbox" id="t-${key}" data-n="${key}" checked> ${label}</label>`).join('')}</fieldset>
+    <div class="mapctl"><b>Where it comes from:</b>
+      <label for="qSel">Quarter <select id="qSel"><option value="0">TT · p and q</option><option value="1">TF · p only</option><option value="2">FT · q only</option><option value="3">FF · neither</option></select></label>
+      <label for="mOrd">Order <select id="mOrd"><option value="comp">complement pairs</option><option value="tt">truth-table value</option></select></label>
+      <span class="mapkey"><i class="mk on"></i>TRUE in this quarter <i class="mk off"></i>FALSE in this quarter</span></div>
   </div>
   <nav class="jump" aria-label="Gates">${G.map(g => `<a href="#g${g.idx}">${g.idx} ${esc(g.short)} <span>${byGate[g.idx].length}</span></a>`).join('')}</nav>
 </header>
 ${sections}
-<p class="muted foot">Built from the verified gates-of-gates data. For every program, the short form, de Bruijn form, binary, Polish and reverse Polish forms were each read back and compared with the original term, and the lambda term, its SKI translation and its JavaScript version were each run on all four inputs and gave the gate's truth table. Tromp diagrams are drawn from the same terms.</p>
+<p class="muted foot">Built from the verified gates-of-gates data. For every program, the short form, de Bruijn form, binary, Polish and reverse Polish forms were each read back and compared with the original term, and the lambda term, its SKI translation and its JavaScript version were each run on all four inputs and gave the gate's truth table. Tromp diagrams are drawn from the same terms. The maps come from the same verified grid, and every program's marked cells add up to its cell count, all 4,096 in total.</p>
 </main>
 <script>
 (() => {
@@ -138,6 +150,31 @@ ${sections}
     document.querySelectorAll('article.prog').forEach(a => { a.hidden = ex && !a.classList.contains('exact'); });
     document.querySelectorAll('.nots input').forEach(c => document.body.classList.toggle('hide-' + c.dataset.n, !c.checked));
   };
+  const NFG = ${JSON.stringify(nfGrid.flat(2))}, BITS = ${JSON.stringify(nfs.map(f => G[f.gate].bits))};
+  const ORD = { comp: [...Array(16).keys()], tt: ${JSON.stringify((() => { const a = []; G.forEach(g => { a[parseInt(g.bits, 2)] = g.idx; }); return a; })())} };
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const C = 3, SQ = 16 * C, GAP = 4, SIZE = 4 * SQ + 3 * GAP;
+  function drawMaps() {
+    const k = +$('qSel').value, ord = ORD[$('mOrd').value], dpr = window.devicePixelRatio || 1;
+    const on = css('--v' + k), off = css('--mapfalse'), bg = css('--mapbg');
+    document.querySelector('.mk.on').style.background = on;
+    document.querySelectorAll('canvas.map').forEach(c => {
+      const pk = +c.dataset.k, col = BITS[pk][k] === '1' ? on : off;
+      c.width = SIZE * dpr; c.height = SIZE * dpr; const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      x.clearRect(0, 0, SIZE, SIZE);
+      for (let s = 0; s < 16; s++) {
+        const g = ord[s], ox = (s % 4) * (SQ + GAP), oy = Math.floor(s / 4) * (SQ + GAP);
+        x.fillStyle = bg; x.fillRect(ox, oy, SQ, SQ);
+        x.fillStyle = col;
+        for (let py = 0; py < 16; py++) for (let px = 0; px < 16; px++)
+          if (NFG[g * 256 + ord[py] * 16 + ord[px]] === pk) x.fillRect(ox + px * C, oy + py * C, C, C);
+      }
+    });
+  }
+  $('qSel').addEventListener('change', drawMaps); $('mOrd').addEventListener('change', drawMaps);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawMaps);
+  new MutationObserver(drawMaps).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  drawMaps();
   $('gsel').addEventListener('change', apply); $('onlyExact').addEventListener('change', apply);
   document.querySelectorAll('.nots input').forEach(c => c.addEventListener('change', apply));
   apply();

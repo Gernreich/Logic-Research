@@ -77,7 +77,7 @@ extra = f"""
 <iframe class="embed" id="frame-grid" title="Gates of gates, interactive" loading="eager"></iframe>
 
 <h2 id="all-506-programs">All 506 programs</h2>
-<p>Every distinct normal form behind the 4,096 cells, as a Tromp diagram and in eight notations. The list scrolls inside its frame; use the controls at its top to pick a gate or hide notations.</p>
+<p>Every distinct normal form behind the 4,096 cells, as a Tromp diagram, in eight notations, and mapped back to the cells it comes from. The list scrolls inside its frame; use the controls at its top to pick a gate or hide notations.</p>
 <iframe class="embed tall" id="frame-progs" title="The 506 programs" loading="eager"></iframe>
 
 <h2 id="appendix-lambda16">Appendix: lambda16.txt</h2>
