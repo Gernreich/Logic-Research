@@ -83,6 +83,13 @@ def square(g, order, style, cell=16, headers=False):
                 v = val(r) / 15
                 c = tuple(round(a + (b - a) * v) for a, b in zip((236, 240, 247), (18, 64, 140)))
                 d.rectangle([x0, y0, x0 + cell - 2, y0 + cell - 2], fill=c)
+            elif style[0] == 'q':                                    # one quarter: truth-table row k only
+                k = int(style[1])
+                on = bits[k] == '1'
+                # quarter k of G(X, Y) is G applied to row k of X and row k of Y
+                gx, gy = G[X]['bits'][k] == '1', G[Y]['bits'][k] == '1'
+                assert on == (G[g]['bits'][(0 if gx else 2) + (0 if gy else 1)] == '1')
+                d.rectangle([x0, y0, x0 + cell - 2, y0 + cell - 2], fill=VENN[k] if on else EMPTY)
             elif style == 'same':
                 if NFS[NFG[g][Y][X]]['exact']: d.rectangle([x0, y0, x0 + cell - 2, y0 + cell - 2], fill=FILL)
                 else: d.rectangle([x0 + 1, y0 + 1, x0 + cell - 3, y0 + cell - 3], outline=FILL, width=1)
@@ -195,5 +202,12 @@ made = [
     sheet(COMP, 'bits', 'Complements: gate G and gate 15 − G',
           'AND and NAND, XOR and XNOR: every cell of one is the flipped truth table of the other. Symmetric gates mirror across the diagonal.', 'complements.jpg', cell=16, panels=[2, 13, 5, 10]),
 ]
+QNAMES = [('tt', 'TT · p and q'), ('tf', 'TF · p only'), ('ft', 'FT · q only'), ('ff', 'FF · neither')]
+for k, (slug, label) in enumerate(QNAMES):
+    made.append(sheet(TT, 'q%d' % k, f'One quarter, all 16 squares: {label}',
+        f'Only truth-table row {label.split(" ")[0]} of every cell, filled in its Venn colour when TRUE. Truth-table order: '
+        'blank for FALSE and TRUE, stripes for P, Q, NOT P, NOT Q, one block in four for AND, NOR, p∧¬q and q∧¬p, '
+        'three in four for OR, NAND, p→q and q→p, and checkerboards for XOR and XNOR.',
+        f'quarter-{slug}.jpg'))
 and_mask(); xor_table(); xor_checkerboards()
 print('figures:', ', '.join(made + ['and-sierpinski.jpg', 'xor-nested.jpg', 'xor-checkerboards.jpg']))

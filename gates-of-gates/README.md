@@ -104,6 +104,27 @@ Two more properties set XOR and XNOR apart:
 
 All of these (the Latin squares, the diagonals, the four checkerboards, and the triangle family being exactly those eight gates) are checked by `tools/gates.js` on every build. The triangle-family check also confirms that the other eight gates fail the same test.
 
+### One quarter at a time, all 16 squares
+
+The same view as the page's **One quarter** option, for every square: each figure shows a single truth-table row of every cell, in that region's Venn colour, in truth-table order. Within one quarter the four kinds of pattern are at their simplest:
+
+- **FALSE, TRUE:** blank or solid.
+- **P, Q, NOT P, NOT Q:** stripes.
+- **AND, NOR, p∧¬q, q∧¬p** (one TRUE row): one block in four is lit. **OR, NAND, p→q, q→p** (three TRUE rows): three blocks in four.
+- **XOR, XNOR:** checkerboards.
+
+The blocks are 8 cells wide in the TT quarter, then 4, 2 and 1. Stacking the four quarters, each at its own scale, is what builds the patterns in the full squares: AND's four block patterns stack into the Sierpiński-style triangle, and XOR's four checkerboards stack into its nested table.
+
+![One quarter, TT (p and q): blocks 8 cells wide](images/quarter-tt.jpg)
+
+![One quarter, TF (p only): blocks 4 cells wide](images/quarter-tf.jpg)
+
+![One quarter, FT (q only): blocks 2 cells wide](images/quarter-ft.jpg)
+
+![One quarter, FF (neither): blocks 1 cell wide](images/quarter-ff.jpg)
+
+Every cell in these figures was checked while drawing: quarter k of G(X, Y) must equal G applied to row k of X and row k of Y.
+
 ## The 506 programs
 
 Each cell is itself a lambda term. Reducing all 4,096 cell terms gives **506 different normal forms**, and each one behaves exactly like one of the 16 gates:
