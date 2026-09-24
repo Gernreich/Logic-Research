@@ -10,7 +10,7 @@ For each gate **G** there is a 16 × 16 square. G sits at the origin in the top-
 
 with the three gates' terms from [`lambda16.txt`](../lambda16.txt) plugged in. That makes 16 × 16 × 16 = **4,096 cells**.
 
-Everything here is also in one self-contained file, [`docs/gates-of-gates-document.html`](../docs/gates-of-gates-document.html) at the top of the repository: this write-up with its images, both interactive pages, `lambda16.txt` and the data, with nothing loaded from the internet. It is the same file the public site serves as [Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html).
+Everything here is also in one self-contained document, [Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html): this write-up with its images, both interactive pages, `lambda16.txt` and the data, with nothing loaded from the internet. Its file is `docs/gates-of-gates-document.html` at the top of the repository; saved to disk, it works offline.
 
 Gates are numbered 0–15 in the [`boolean16.py`](../python/boolean16.py) order, where gate i and gate 15 − i are complements. Truth tables are written TT TF FT FF, for (p, q) = (T,T), (T,F), (F,T), (F,F).
 
@@ -28,7 +28,7 @@ The poster took some liberties and probably contains mistakes, so treat it with 
 
 Every cell was computed by **lambda reduction** (16,384 reductions: 4,096 cells × 4 inputs), using the gate terms read from `lambda16.txt`, and each result was **cross-checked against plain bitwise arithmetic** on the truth tables. All 4,096 agree. Each gate's own truth table was also re-derived by reduction and matched the file.
 
-**Interactive version:** [Gates of gates](https://gernreich.github.io/Logic-Research/gates-of-gates.html) on the public site, also as a [claude.ai page](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun). A local copy is in [`page/gates-of-gates.html`](page/gates-of-gates.html). It has six cell views (truth table, Venn colours, square Venn, gate number, same term, one quarter), two axis orders, hover details, and a full table for any square.
+**Interactive version:** [Gates of gates](https://gernreich.github.io/Logic-Research/gates-of-gates.html) on the public site. Its file is `page/gates-of-gates.html`. It has six cell views (truth table, Venn colours, square Venn, gate number, same term, one quarter), two axis orders, hover details, and a full table for any square.
 
 ### Square Venn view, 1995 style
 
@@ -156,7 +156,7 @@ For each gate, exactly one program is its term in `lambda16.txt`. **2,064 cells*
 | 14 CONVERSE (q -> p) | 1101 | 32 | 216 | `λpqab.p a (q b a)` |
 | 15 TRUE | 1111 | 63 | 680 | `λpqab.a` |
 
-Every one of the 506 programs is drawn as a Tromp diagram, written in eight notations (lambda short and long form, de Bruijn, Tromp binary, Polish, reverse Polish, SKI combinators and JavaScript) and mapped back to the cells it comes from (all 16 squares, coloured by a chosen quarter) in [`page/programs-506.html`](page/programs-506.html), also online as [The 506 programs](https://gernreich.github.io/Logic-Research/programs-506.html) on the public site and as a [claude.ai page](https://claude.ai/artifact/WvgZEadpag2UVS7NeEr46d). Each notation was checked: the text forms read back to the same term, and the lambda, SKI and JavaScript versions all reproduce the truth table.
+Every one of the 506 programs is drawn as a Tromp diagram, written in eight notations (lambda short and long form, de Bruijn, Tromp binary, Polish, reverse Polish, SKI combinators and JavaScript) and mapped back to the cells it comes from (all 16 squares, coloured by a chosen quarter) in [The 506 programs](https://gernreich.github.io/Logic-Research/programs-506.html) on the public site. Its file is `page/programs-506.html`. Each notation was checked: the text forms read back to the same term, and the lambda, SKI and JavaScript versions all reproduce the truth table.
 
 ![Same term? Filled cells reduce to the lambda16.txt term](images/all16-same-term.jpg)
 

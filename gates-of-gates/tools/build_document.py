@@ -37,10 +37,10 @@ if n_img == 0 or 'src="images/' in doc:
 
 # ---- links to separate files become links inside this document ----
 LINKS = {
-    'page/gates-of-gates.html': '#interactive-grid',
-    'page/programs-506.html': '#all-506-programs',
+    'https://gernreich.github.io/Logic-Research/gates-of-gates.html': '#interactive-grid',
+    'https://gernreich.github.io/Logic-Research/programs-506.html': '#all-506-programs',
     '../lambda16.txt': '#appendix-lambda16',
-    '../docs/gates-of-gates-document.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
+    'https://gernreich.github.io/Logic-Research/gates-of-gates-document.html': '#gates-of-gates-16--16--16',       # the README's pointer to this document: its own top
     '../python/boolean16.py': 'https://github.com/Gernreich/Logic-Research/blob/main/python/boolean16.py',
 }
 for old, new in LINKS.items():

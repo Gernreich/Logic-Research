@@ -29,8 +29,8 @@ Collect enough and each function has a visible solution region.
 [`lambda16.txt`](lambda16.txt) writes all sixteen functions as lambda terms and
 reduces each one on all four inputs. [`gates-of-gates/`](gates-of-gates/)
 applies every function to every pair of functions, 4,096 cells, computed from
-those terms; its [interactive version](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun)
-is a private claude.ai page until shared.
+those terms; its [interactive version](https://gernreich.github.io/Logic-Research/gates-of-gates.html)
+is on the public site.
 
 ## Layout
 
