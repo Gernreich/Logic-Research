@@ -20,9 +20,11 @@ Collect enough and each function has a visible solution region.
 
 ## Layout
 
-    python/   enumeration and tautology filtering
-    ANN/      weight-space search and the point clouds
-    docs/     the viewer (GitHub Pages serves from here)
+    python/          enumeration and tautology filtering
+    ANN/             weight-space search and the point clouds
+    docs/            the viewer (GitHub Pages serves from here)
+    gates-of-gates/  all 16 gates applied to every pair of gates (the 1995 poster, recomputed)
+    lambda16.txt     the sixteen functions as lambda terms, with every β-reduction
 
 Both halves have their own README with file-by-file detail. Original 2019
 scripts are preserved untouched in each `original_2019/`.
@@ -84,6 +86,19 @@ intrinsic, and on the unit sphere:
 because `sigmoid(−x) = 1 − sigmoid(x)`; that is one line of algebra, not a
 discovery. That `XOR` needs a hidden layer has been known since Minsky and
 Papert (1969).
+
+## Sum and carry, drawn three ways
+
+Hand drawings of a full adder's two outputs, each a function of three inputs:
+**sum** is TRUE when an odd number of inputs are TRUE, and **carry** is TRUE when
+at least two are. Each is drawn as a three-set Venn diagram in three styles:
+round circles, a square Venn (the same encoding as the 1995 poster in
+[`gates-of-gates/`](gates-of-gates/)), and curves built from sine waves.
+
+| Circles and square Venns | Adding the sine-wave Venns | Sine Venn, three sets |
+|---|---|---|
+| <img src="sum-carry-venn.jpg" width="260" alt="Sum and carry as three-circle Venn diagrams and as square Venn diagrams"> | <img src="sum-carry-venn-sine.jpg" width="260" alt="The same page with sum and carry also drawn as sine-wave Venn diagrams"> | <img src="sum-carry-Sine.jpg" width="260" alt="A coloured three-set Venn diagram built from sine waves, labelled Sine Venn 3 set"> |
+| `sum-carry-venn.jpg` | `sum-carry-venn-sine.jpg` | `sum-carry-Sine.jpg` |
 
 ## Notes on the 2019 data
 
