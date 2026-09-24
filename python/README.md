@@ -15,12 +15,24 @@ preserved untouched in `original_2019/`.**
 | `enumerate_full.py` | all sixteen ops, three expansions → 268,435,456 values. Writes `TotalFirstSeven` + `TotalTau` |
 | `enumerate_narrowed.py` | eight ops, four q-values, **two** expansions → 8,192 values. Writes `FirstSeven` |
 | `test_boolean16.py` | self-checks, no framework needed. `python3 test_boolean16.py` |
+| `truthtables.py`, `tautology_count.py`, `rules_two_variables.py`, `rules_three_variables.py`, `rules_three_way.py` | the 2026 search for a new inference rule; see [`inference-search.md`](inference-search.md) |
+| `modus_ponens_16.py`, `modus-ponens-16.html`, `modus-ponens-or.html` | modus ponens when P and Q are sixteen-valued; see [`modus-ponens-16.md`](modus-ponens-16.md) |
 | `original_2019/` | the untouched Python 2 originals |
 
     python3 test_boolean16.py                    # verify everything still works
     python3 enumerate_narrowed.py --verify       # regenerate and diff vs 2019
     python3 enumerate_full.py --count            # sizes without writing
     python3 enumerate_full.py                    # ~1 GB of output
+
+## The search this was for: it came back empty
+
+The enumeration was built to find a rule like modus ponens or modus tollens
+that nobody had discovered. The 2026 search finished the job and found none:
+every non-trivial rule, on two or three variables and two or three premises,
+is a classical one or a short chain of them. The modus ponens shape has
+exactly 54,008,320 tautologies on two variables. Counts, lists and method:
+[`inference-search.md`](inference-search.md). What modus ponens becomes when P
+and Q are sixteen-valued is in [`modus-ponens-16.md`](modus-ponens-16.md).
 
 ## Two things that will bite you
 

@@ -6,7 +6,8 @@ questions about them at once.
 **Symbolically** — compose them into deep expression trees and find which
 compositions are tautologies. Of 2²⁸ expressions, the tautologies built from
 the eight two-input operations filter down to 32 irreducible ones, rendered as
-English.
+English. The search for a new rule like modus ponens came back empty:
+[`python/inference-search.md`](python/inference-search.md).
 
 **Geometrically** — a 2–3–1 network's hidden→output weights are three numbers,
 so every set of weights that computes a given function is a *point in 3D*.
