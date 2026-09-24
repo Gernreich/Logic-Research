@@ -22,7 +22,9 @@ lands inside a tolerance window. No gradient, no learning.
 | `train_nand_backprop.py` | the one real trainer. Sweeps seeds, reports which converge |
 | `search_weights.py` | random weight search — replaces five scripts that differed only in constants |
 | `search_all_functions.py` | searches for **all sixteen** functions in one pass — replaces the six `RandomWeightSearch_N.py` (1,050 lines) |
-| `train_graded.py` | 4-bit input → one graded output, 16 levels — replaces the `four_to_sixteen_architecture/` backprop variants |
+| `train_graded.py` | 4-bit input → one graded output, 16 levels — replaces `four_to_sixteen_architecture/fourthreeone.py` |
+| `generate_clouds.py` | vectorised weight search for all sixteen functions; writes the point clouds the viewers use |
+| `build_viewers.py` | builds `docs/shells.html` and `docs/cones.html` from those clouds and the 2019 archive, from the templates in `viewers/`; `--check` compares without writing |
 | `test_nncore.py` | self-checks. `python3 test_nncore.py` |
 | `original_2019/` | the seven untouched originals |
 

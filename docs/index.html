@@ -181,7 +181,12 @@ python3 ANN/generate_clouds.py --samples 4000000 --range 20 --rates
 python3 ANN/generate_clouds.py --samples 200000000 --range 20 --n 0.9 \
     --seed 1 --cap 12000 --out ANN/generated_clouds
 python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
-    --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir</code></pre>
+    --seed 2 --shape ball --cap 11000 --out ANN/clouds_ball
+python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
+    --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir
+
+# rebuild the two viewers from those clouds
+python3 ANN/build_viewers.py</code></pre>
 
 <p class="meta">Source: <a href="https://github.com/Gernreich/Logic-Research">github.com/Gernreich/Logic-Research</a>. Original 2019 scripts preserved untouched in each <code>original_2019/</code>. All rates measured directly; all labels verified by running the network rather than reading filenames.</p>
 </div></body></html>

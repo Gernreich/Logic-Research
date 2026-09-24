@@ -65,6 +65,9 @@ scripts are preserved untouched in each `original_2019/`.
     python3 ANN/generate_clouds.py --samples 120000000 --range 20 --n 0.9 \
         --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir
 
+    # rebuild docs/shells.html and docs/cones.html from those three folders
+    python3 ANN/build_viewers.py
+
 ## What this is and isn't
 
 The useful parts are empirical and pedagogical, not novel.
