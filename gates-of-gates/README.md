@@ -183,8 +183,13 @@ To regenerate, from this folder:
 node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
 node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
-python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
+wrap() { printf '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<style>[hidden]{display:none!important} body{margin:0}</style>\n</head>\n<body>\n'; cat "$1"; printf '\n</body>\n</html>\n'; }
+wrap tools/gates.html > page/gates-of-gates.html        # make the two standalone pages (see below)
+wrap tools/programs506.html > page/programs-506.html
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
+python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
 ```
+
+`tools/gates.html` and `tools/programs506.html` are page bodies: they were written to be published as claude.ai pages, which add the document skeleton themselves, so they have no `<!doctype>`, `<head>` or viewport tag. `wrap` adds that skeleton: the doctype, the character set, the viewport tag (without it, phones draw the page at desktop width) and the `[hidden]` rule the pages rely on. The result is `page/gates-of-gates.html` and `page/programs-506.html`, which open on their own in any browser; the copy in `docs/` is what the public site serves, and `build_document.py` embeds the `page/` files in the document. That is why `build_document.py` runs last. The two `tools/*.html` files are only intermediate output; they are not in the repository, so delete them afterwards.
 
 `gates.js` stops with an error if any cell, pattern or program count fails its check, and `programs506.js` stops if any notation fails its check.

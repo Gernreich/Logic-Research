@@ -158,8 +158,12 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <pre><code>node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
 node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
-python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
-cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)</code></pre>
+wrap() { printf '&lt;!doctype html&gt;\n&lt;html lang="en"&gt;\n&lt;head&gt;\n&lt;meta charset="utf-8"&gt;\n&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;\n&lt;style&gt;[hidden]{display:none!important} body{margin:0}&lt;/style&gt;\n&lt;/head&gt;\n&lt;body&gt;\n'; cat "$1"; printf '\n&lt;/body&gt;\n&lt;/html&gt;\n'; }
+wrap tools/gates.html &gt; page/gates-of-gates.html        # make the two standalone pages (see below)
+wrap tools/programs506.html &gt; page/programs-506.html
+cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
+python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)</code></pre>
+<p><code>tools/gates.html</code> and <code>tools/programs506.html</code> are page bodies: they were written to be published as claude.ai pages, which add the document skeleton themselves, so they have no <code>&lt;!doctype&gt;</code>, <code>&lt;head&gt;</code> or viewport tag. <code>wrap</code> adds that skeleton: the doctype, the character set, the viewport tag (without it, phones draw the page at desktop width) and the <code>[hidden]</code> rule the pages rely on. The result is <code>page/gates-of-gates.html</code> and <code>page/programs-506.html</code>, which open on their own in any browser; the copy in <code>docs/</code> is what the public site serves, and <code>build_document.py</code> embeds the <code>page/</code> files in the document. That is why <code>build_document.py</code> runs last. The two <code>tools/*.html</code> files are only intermediate output; they are not in the repository, so delete them afterwards.</p>
 <p><code>gates.js</code> stops with an error if any cell, pattern or program count fails its check, and <code>programs506.js</code> stops if any notation fails its check.</p>
 
 <h2 id="interactive-grid">Interactive: gates of gates</h2>
