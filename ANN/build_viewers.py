@@ -63,6 +63,13 @@ including two quirks worth knowing before reading the Shells archive view:
     where the other 819 are under 0.02. ``DECIDED_BY`` does this. The
     ``point5`` ``notsorted_XYZ`` file is those same 179 rows, so it is left
     out too.
+  * XOR and XNOR take ``toot/``'s runs ``d`` to ``j`` rather than its combined
+    ``xorsyn1`` and ``iffsyn1``, which are those runs plus run ``_``. Runs
+    ``d`` to ``j`` are the start of the same runs in ``toot2/``, whose saved
+    outputs a forward pass reproduces: every row computes its function with
+    a margin of 0.4. Run ``_`` (124 XOR rows, 127 XNOR) has no saved outputs,
+    and paired as saved only 11 and 7 of its rows pass the 0.1 / 0.9 test
+    the tempp scripts accept on. Builds before this change included it.
 """
 
 import argparse
@@ -94,11 +101,13 @@ ARCHIVE = {   # no AND: the 2019 runs never produced an AND cloud
     "P": _LETTERS("R9P__syn1"),
     "Q_AND_NOT_P": _LETTERS("R9QminusP__syn1"),
     "Q": ["q_syn1"],
-    "XOR": [_T + "temek/xorsyn1", _T + "toot/xorsyn1", _T + "262k/R9XOR_syn1_262k",
+    "XOR": [_T + "temek/xorsyn1"] + [_T + f"toot/R9XOR__syn1{s}" for s in "defghij"] +
+           [_T + "262k/R9XOR_syn1_262k",
             _T + "R9FullPoints/R9XOR__syn1"],
     "OR": ["or_syn1"],
     "NOR": [_T + "262k/R9NOR__syn1_262k", _T + "R9FullPoints/R9NOR__syn1"],
-    "XNOR": [_T + "temek/iffsyn1", _T + "toot/iffsyn1", _T + "262k/R9IFF__syn1_262k",
+    "XNOR": [_T + "temek/iffsyn1"] + [_T + f"toot/R9IFF__syn1{s}" for s in "defghij"] +
+            [_T + "262k/R9IFF__syn1_262k",
              _T + "R9FullPoints/R9IFF__syn1"],
     "NOT_Q": ["notq_syn1"],
     "CONVERSE_IMPL": _LETTERS("R9IMPLICATION__syn1") + [_T + "262k/R9IMPLICATION__syn1_262k",
