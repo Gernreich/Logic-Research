@@ -50,6 +50,7 @@ is on the public site.
     ANN/             weight-space search and the point clouds
     docs/            the viewer (GitHub Pages serves from here)
     gates-of-gates/  all 16 gates applied to every pair of gates (the 1995 poster, recomputed)
+    sum-carry/       hand drawings of a full adder's sum and carry as Venn diagrams
     lambda16.txt     the sixteen functions as lambda terms, with every β-reduction
 
 `python/`, `ANN/` and `gates-of-gates/` each have their own README with
@@ -130,8 +131,8 @@ round circles, a square Venn (the same encoding as the 1995 poster in
 
 | Circles and square Venns | Adding the sine-wave Venns | Sine Venn, three sets |
 |---|---|---|
-| <img src="sum-carry-venn.jpg" width="260" alt="Sum and carry as three-circle Venn diagrams and as square Venn diagrams"> | <img src="sum-carry-venn-sine.jpg" width="260" alt="The same page with sum and carry also drawn as sine-wave Venn diagrams"> | <img src="sum-carry-Sine.jpg" width="260" alt="A coloured three-set Venn diagram built from sine waves, labelled Sine Venn 3 set"> |
-| `sum-carry-venn.jpg` | `sum-carry-venn-sine.jpg` | `sum-carry-Sine.jpg` |
+| <img src="sum-carry/sum-carry-venn.jpg" width="260" alt="Sum and carry as three-circle Venn diagrams and as square Venn diagrams"> | <img src="sum-carry/sum-carry-venn-sine.jpg" width="260" alt="The same page with sum and carry also drawn as sine-wave Venn diagrams"> | <img src="sum-carry/sum-carry-Sine.jpg" width="260" alt="A coloured three-set Venn diagram built from sine waves, labelled Sine Venn 3 set"> |
+| `sum-carry/sum-carry-venn.jpg` | `sum-carry/sum-carry-venn-sine.jpg` | `sum-carry/sum-carry-Sine.jpg` |
 
 ## Notes on the 2019 data
 
