@@ -73,7 +73,7 @@ def download(name, mime):
 
 extra = f"""
 <h2 id="interactive-grid">Interactive: gates of gates</h2>
-<p>The full interactive page: five cell views, two axis orders, hover details and a table for any square. It runs inside this document.</p>
+<p>The full interactive page: six cell views, two axis orders, hover details and a table for any square. It runs inside this document.</p>
 <iframe class="embed" id="frame-grid" title="Gates of gates, interactive" loading="eager"></iframe>
 
 <h2 id="all-506-programs">All 506 programs</h2>

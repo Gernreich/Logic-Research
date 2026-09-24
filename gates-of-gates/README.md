@@ -28,7 +28,7 @@ The poster took some liberties and probably contains mistakes, so treat it with 
 
 Every cell was computed by **lambda reduction** (16,384 reductions: 4,096 cells × 4 inputs), using the gate terms read from `lambda16.txt`, and each result was **cross-checked against plain bitwise arithmetic** on the truth tables. All 4,096 agree. Each gate's own truth table was also re-derived by reduction and matched the file.
 
-**Interactive version:** [Gates of gates](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun) (a private claude.ai page; share it from its Share menu to let others open it). A local copy is in [`page/gates-of-gates.html`](page/gates-of-gates.html). It has five cell views (truth table, Venn colours, square Venn, gate number, same term), two axis orders, hover details, and a full table for any square.
+**Interactive version:** [Gates of gates](https://claude.ai/artifact/BSo6NyozfuMkctwmoWpVun) (a private claude.ai page; share it from its Share menu to let others open it). A local copy is in [`page/gates-of-gates.html`](page/gates-of-gates.html). It has six cell views (truth table, Venn colours, square Venn, gate number, same term, one quarter), two axis orders, hover details, and a full table for any square.
 
 ### Square Venn view, 1995 style
 

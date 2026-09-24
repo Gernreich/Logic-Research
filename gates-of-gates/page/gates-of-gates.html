@@ -128,6 +128,12 @@ table.big th.corner .hv { margin-right: 6px; }
 .proglist li.exact code { font-weight: 600; }
 .badge { display: inline-block; font-size: 11px; font-weight: 600; color: var(--fill); border: 1px solid var(--fill); border-radius: 4px; padding: 0 5px; margin-left: 6px; }
 .onote { font-size: 13px; flex-basis: 100%; }
+.qcell { width: 27px; height: 27px; border-radius: 2px; background: var(--empty); }
+.qcell.on.v0 { background: var(--v0); } .qcell.on.v1 { background: var(--v1); } .qcell.on.v2 { background: var(--v2); } .qcell.on.v3 { background: var(--v3); }
+#quarterKey .cellkey span.on { background: var(--v0); }
+table.kinds { border-collapse: collapse; font-size: 14px; }
+table.kinds th, table.kinds td { text-align: left; padding: 6px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.kinds th { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
 .notes { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 72ch; }
 </style>
 <main class="wrap">
@@ -143,6 +149,10 @@ table.big th.corner .hv { margin-right: 6px; }
       <div class="vsq" aria-hidden="true"><span class="k0">p and q</span><span class="k1">p only</span><span class="k2">q only</span><span class="k3">neither</span></div>
       <div>In <b>Venn colours</b>, each quarter of a cell has the colour of its region in the square Venn diagram: <b>p and q</b>, <b>p only</b>, <b>q only</b> and <b>neither</b>. A coloured quarter means the result is TRUE in that region.</div>
     </div>
+    <div class="key" id="quarterKey" hidden>
+      <div class="cellkey" aria-hidden="true"><span class="on">TT</span><span>TF</span><span>FT</span><span>FF</span></div>
+      <div>In <b>One quarter</b>, each cell shows a single quarter of its truth table, one truth-table row, filled in that region's Venn colour when TRUE. Try <b>XOR</b> in <b>Truth-table value</b> order: every quarter is a checkerboard.</div>
+    </div>
     <div class="key" id="sameKey" hidden>
       <div class="cellkey sk" aria-hidden="true"><span class="on"></span><span class="hol"></span></div>
       <div>In <b>Same term?</b>, a <b>filled</b> cell reduces to exactly the term for its gate in <code>lambda16.txt</code>. A <b>hollow</b> cell behaves the same way but reduces to a different program. See “The 506 programs” below.</div>
@@ -156,7 +166,8 @@ table.big th.corner .hv { margin-right: 6px; }
   </div>
   <div class="controls">
     <span>Cells show</span>
-    <div class="seg" role="group" aria-label="Cells show"><button type="button" id="mBits" aria-pressed="true">Truth table</button><button type="button" id="mVenn" aria-pressed="false">Venn colours</button><button type="button" id="mSq" aria-pressed="false">Square Venn</button><button type="button" id="mNums" aria-pressed="false">Gate number</button><button type="button" id="mSame" aria-pressed="false">Same term?</button></div>
+    <div class="seg" role="group" aria-label="Cells show"><button type="button" id="mBits" aria-pressed="true">Truth table</button><button type="button" id="mVenn" aria-pressed="false">Venn colours</button><button type="button" id="mSq" aria-pressed="false">Square Venn</button><button type="button" id="mNums" aria-pressed="false">Gate number</button><button type="button" id="mSame" aria-pressed="false">Same term?</button><button type="button" id="mQuarter" aria-pressed="false">One quarter</button></div>
+    <label for="qSel" id="qWrap" hidden>Quarter <select id="qSel"><option value="0">TT · p and q</option><option value="1">TF · p only</option><option value="2">FT · q only</option><option value="3">FF · neither</option></select></label>
   </div>
 </header>
 
@@ -182,6 +193,17 @@ table.big th.corner .hv { margin-right: 6px; }
 
 <section>
   <h2>Patterns to look for</h2>
+  <p>Every square makes one of four kinds of pattern, depending on how its gate uses the two inputs:</p>
+  <div class="tablewrap"><table class="kinds">
+    <thead><tr><th>Pattern</th><th>Gates</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Blank or solid</td><td>FALSE, TRUE</td><td>the output ignores both inputs</td></tr>
+      <tr><td>Stripes</td><td>P, Q, NOT P, NOT Q</td><td>the output follows one input</td></tr>
+      <tr><td>Triangles</td><td>AND, OR, NAND, NOR, p∧¬q, q∧¬p, p→q, q→p</td><td>each is AND with its inputs or output flipped, so each square is AND's triangle reflected or inverted</td></tr>
+      <tr><td><b>Checkerboards</b></td><td><b>XOR, XNOR</b></td><td>the output compares the two inputs: same or different</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Checkerboards.</b> XOR's pattern is spread across the four quarters of each cell, so look at one quarter at a time with the <b>One quarter</b> view. In one quarter, X's values run in stripes down the columns and Y's across the rows, and XOR is TRUE where a TRUE stripe crosses a FALSE one: a checkerboard. In <b>Truth-table value</b> order the four quarters are checkerboards with squares 8, 4, 2 and 1 cells wide. In complement order the rows and columns are shuffled, so the same crossing looks like plaid. XNOR is the same with TRUE and FALSE swapped. XOR and XNOR are also <b>Latin squares</b>: every row and column contains all 16 gates exactly once. XOR's diagonal is all FALSE and XNOR's all TRUE.</p>
   <ul class="notes">
     <li><b>FALSE and TRUE</b> ignore their inputs: every cell is FALSE, or every cell is TRUE.</li>
     <li><b>P copies X</b>: every column is a single gate, the one at the top of it. <b>Q copies Y</b>: every row is the gate at its left.</li>
@@ -191,7 +213,7 @@ table.big th.corner .hv { margin-right: 6px; }
     <li><b>Switch the axis order to “Truth-table value”</b> and nested, self-similar patterns appear, like those in Wolfram's <i>A New Kind of Science</i>. The AND square's empty cells form a Sierpinski-style triangle, and the XOR square is built from copies of itself at half size. In that order, each square is simply G applied bit by bit to two 4-bit numbers.</li>
     <li><b>Gate 15 − G is the complement of gate G</b>, cell for cell: the square for NAND is the square for AND with every truth table flipped.</li>
   </ul>
-  <p class="muted">Every cell was computed by lambda reduction, 16,384 reductions in all, and each one agrees with plain bitwise arithmetic on the truth tables. The patterns listed here were each checked across all cells before the page was built.</p>
+  <p class="muted">Every cell was computed by lambda reduction, 16,384 reductions in all, and each one agrees with plain bitwise arithmetic on the truth tables. The patterns described here, including the four checkerboards, the Latin squares and the triangle family, were each checked across all cells before the page was built.</p>
 </section>
 </main>
 <div class="tip" id="tip" hidden></div>
@@ -244,6 +266,9 @@ const DATA = {"gates":[{"idx":0,"bits":"0000","name":"FALSE","short":"FALSE","te
           x.fillStyle = G[r].bits[k] === '1' ? (mode === 'venn' ? vc[k] : fill) : empty;
           x.fillRect(bx + (k % 2) * (h + 1), by + Math.floor(k / 2) * (h + 1), h, h);
         }
+      } else if (mode === 'quarter') {
+        const qk = +$('qSel').value;
+        x.fillStyle = G[r].bits[qk] === '1' ? vc[qk] : empty; x.fillRect(bx, by, CELL - 1, CELL - 1);
       } else if (mode === 'same') {
         const exact = DATA.nfs[DATA.nfGrid[gi][yy][xx]].exact;
         if (exact) { x.fillStyle = fill; x.fillRect(bx, by, CELL - 1, CELL - 1); }
@@ -276,6 +301,7 @@ const DATA = {"gates":[{"idx":0,"bits":"0000","name":"FALSE","short":"FALSE","te
   const drawAll = () => { for (let i = 0; i < 16; i++) drawPanel(i); };
 
   // ---- detail table ----
+  function quarterCell(r) { const qk = +$('qSel').value; return `<div class="qcell ${G[r].bits[qk] === '1' ? 'on v' + qk : ''}"></div>`; }
   function sameCell(gi, xx, yy) { return `<div class="samec ${DATA.nfs[DATA.nfGrid[gi][yy][xx]].exact ? 'on' : ''}"></div>`; }
   function bitsCell(r) {
     return `<div class="bits">${[0, 1, 2, 3].map(k => `<i class="${G[r].bits[k] === '1' ? 'on v' + k : ''}"></i>`).join('')}<b>${r}</b></div>`;
@@ -291,7 +317,7 @@ const DATA = {"gates":[{"idx":0,"bits":"0000","name":"FALSE","short":"FALSE","te
         <thead><tr><th class="corner" scope="col">${mode === 'square' ? hdrVenn(sel) : ''}Y ↓ &nbsp; X →</th>${ord.map(i => G[i]).map(h => mode === 'square' ? `<th scope="col" class="sqh" title="${label(h.idx)}">${hdrVenn(h.idx)}<span>${h.idx}</span></th>` : `<th scope="col">${label(h.idx)}</th>`).join('')}</tr></thead>
         <tbody>${ord.map(i => G[i]).map(hy => `<tr><th scope="row">${hLabel(hy.idx)}</th>${ord.map(i => G[i]).map(hx => {
           const y = hy.idx, xx = hx.idx, r = grid[sel][y][xx];
-          return `<td data-x="${xx}" data-y="${y}" aria-label="${g.short} of X ${hx.short} and Y ${hy.short} is ${G[r].name}">${mode === 'same' ? sameCell(sel, xx, y) : bitsCell(r)}</td>`;
+          return `<td data-x="${xx}" data-y="${y}" aria-label="${g.short} of X ${hx.short} and Y ${hy.short} is ${G[r].name}">${mode === 'same' ? sameCell(sel, xx, y) : mode === 'quarter' ? quarterCell(r) : bitsCell(r)}</td>`;
         }).join('')}</tr>`).join('')}</tbody></table></div>`;
     $('pick').addEventListener('change', e => select(+e.target.value));
   }
@@ -333,9 +359,10 @@ const DATA = {"gates":[{"idx":0,"bits":"0000","name":"FALSE","short":"FALSE","te
 
   // ---- mode and theme ----
   function setMode(m) {
-    mode = m; for (const [id, v] of [['mBits', 'bits'], ['mVenn', 'venn'], ['mSq', 'square'], ['mNums', 'nums'], ['mSame', 'same']]) $(id).setAttribute('aria-pressed', String(m === v));
+    mode = m; for (const [id, v] of [['mBits', 'bits'], ['mVenn', 'venn'], ['mSq', 'square'], ['mNums', 'nums'], ['mSame', 'same'], ['mQuarter', 'quarter']]) $(id).setAttribute('aria-pressed', String(m === v));
     $('vennKey').hidden = m !== 'venn' && m !== 'square';
     $('sameKey').hidden = m !== 'same';
+    $('quarterKey').hidden = m !== 'quarter'; $('qWrap').hidden = m !== 'quarter';
     drawAll(); drawDetail();
   }
   $('mBits').addEventListener('click', () => setMode('bits'));
@@ -343,6 +370,8 @@ const DATA = {"gates":[{"idx":0,"bits":"0000","name":"FALSE","short":"FALSE","te
   $('mVenn').addEventListener('click', () => setMode('venn'));
   $('mSq').addEventListener('click', () => setMode('square'));
   $('mSame').addEventListener('click', () => setMode('same'));
+  $('mQuarter').addEventListener('click', () => setMode('quarter'));
+  $('qSel').addEventListener('change', () => { drawAll(); drawDetail(); });
   function setOrder(o) {
     order = o; ord = ORDERS[o];
     $('oComp').setAttribute('aria-pressed', String(o === 'comp')); $('oTT').setAttribute('aria-pressed', String(o === 'tt'));
