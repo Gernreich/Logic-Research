@@ -27,6 +27,10 @@ reduce to 506 distinct programs, each behaving like one of the sixteen.
   — every function applied to every pair of functions, 4,096 cells
 - **[The 506 Programs](https://gernreich.github.io/Logic-Research/programs-506.html)**
   — the distinct lambda terms behind those cells, in eight notations
+- **[Modus Ponens in Sixteen Values](https://gernreich.github.io/Logic-Research/modus-ponens-16.html)**
+  — from P and P→Q when both are sixteen-valued
+- **[Modus Ponens from P∨Q](https://gernreich.github.io/Logic-Research/modus-ponens-or.html)**
+  — the weaker premise P∨Q gives back exactly Q
 - **[Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html)**
   — all of it in one self-contained file (13 MB)
 - **[The 1995 poster](https://gernreich.github.io/Logic-Research/poster-1995.jpg)**
@@ -154,13 +158,15 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 
 ## Publishing the viewer
 
-`docs/` holds six self-contained pages — an explanation at `index.html`, the
-Shells and Cones viewers, the Gates of Gates and 506 Programs pages, and the
-Gates of Gates document — plus `lambda16.txt` and the poster photo. All data is
+`docs/` holds eight self-contained pages — an explanation at `index.html`, the
+Shells and Cones viewers, the Gates of Gates and 506 Programs pages, the
+Gates of Gates document, and the two modus ponens pages — plus `lambda16.txt`
+and the poster photo. All data is
 inlined, with no external requests beyond Google Fonts. Pages serves from
 **main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
 photo are put there by the recipe in
-[`gates-of-gates/README.md`](gates-of-gates/README.md).
+[`gates-of-gates/README.md`](gates-of-gates/README.md); the modus ponens pages
+are copies of the ones in `python/`.
 
 ## Licence
 

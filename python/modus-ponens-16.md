@@ -52,6 +52,11 @@ This is resolution, `P∨Q, ¬P∨Q ⊢ Q`, or proof by cases.
 
 Both pages compute everything in the browser and check the counts when they
 load. They are self-contained apart from Google Fonts; open them in any
-browser.
+browser. The public site serves copies from `docs/`:
+[Modus Ponens in Sixteen Values](https://gernreich.github.io/Logic-Research/modus-ponens-16.html)
+and [Modus Ponens from P∨Q](https://gernreich.github.io/Logic-Research/modus-ponens-or.html).
+The files here are the source; after changing one, copy it over:
 
-    python3 modus_ponens_16.py
+    cp modus-ponens-16.html modus-ponens-or.html ../docs/
+
+Run the checks with `python3 modus_ponens_16.py`.

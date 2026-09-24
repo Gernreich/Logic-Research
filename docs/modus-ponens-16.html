@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>[hidden]{display:none!important} body{margin:0}</style>
+</head>
+<body>
+<title>Modus Ponens in Sixteen Values</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root {
+  --bg: #f6f7f9; --surface: #fcfcfb; --ink: #0b0b0b; --muted: #52514e; --line: #dde1e8; --soft: #eceef2;
+  --fill: #2a78d6; --empty: #e3e6eb; --focus: #eb6834; --bad: #c0392b;
+  --v0: #d0408a; --v1: #1a9fc2; --v2: #3d9a2a; --v3: #9a2f1f;
+  --s1: #cfe0f6; --s2: #9cc0ec; --s3: #5f98df; --s4: #2a78d6; --s5: #164a8c;
+  --paper: #fbfaf6; --gridline: #c3c7cf; --hdr: #555d6b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+    --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926; --bad: #e0604f;
+    --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+    --s1: #1c3150; --s2: #1f4f8a; --s3: #2f72c4; --s4: #5d9bea; --s5: #a9ccf7;
+    --paper: #20201e; --gridline: #3d3d3a; --hdr: #a3abb8;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+  --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926; --bad: #e0604f;
+  --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+  --s1: #1c3150; --s2: #1f4f8a; --s3: #2f72c4; --s4: #5d9bea; --s5: #a9ccf7;
+  --paper: #20201e; --gridline: #3d3d3a; --hdr: #a3abb8;
+}
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 36px 72px; display: grid; gap: 44px; }
+.wrap > *, section > * { min-width: 0; }
+header, section { display: grid; gap: 14px; }
+h1 { font-size: 32px; line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: 21px; line-height: 1.25; margin: 0; text-wrap: balance; }
+h3 { font-size: 15px; margin: 0; }
+p { margin: 0; max-width: 66ch; }
+.lede { font-size: 17px; color: var(--muted); }
+.eyebrow { font: 600 12px "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+code, .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.92em; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 8px; }
+.rule .big { font: 600 22px/1.3 "IBM Plex Mono", monospace; }
+.rule .big b { color: var(--fill); }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+
+/* a value = 2x2 square, rows TT TF / FT FF */
+.sq { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 2px; width: var(--w, 34px); aspect-ratio: 1; flex: none; }
+.sq i { background: var(--empty); border-radius: 2px; }
+.sq i.on.k0 { background: var(--v0); } .sq i.on.k1 { background: var(--v1); }
+.sq i.on.k2 { background: var(--v2); } .sq i.on.k3 { background: var(--v3); }
+.sq i.bad { outline: 2px solid var(--bad); outline-offset: -2px; }
+.sq i.free { background: repeating-linear-gradient(135deg, var(--empty) 0 3px, var(--gridline) 3px 5px); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.vkey { display: grid; grid-template-columns: repeat(2, 92px); gap: 3px; }
+.vkey span { height: 40px; border-radius: 4px; display: grid; place-items: center; color: #fff; font: 600 12px/1.2 "IBM Plex Sans", sans-serif; text-align: center; }
+.vkey .k0 { background: var(--v0); } .vkey .k1 { background: var(--v1); } .vkey .k2 { background: var(--v2); } .vkey .k3 { background: var(--v3); }
+
+.values { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.val { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+.val .n { font: 600 11px "IBM Plex Mono", monospace; color: var(--muted); display: block; }
+
+/* the four row cases */
+.cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.case { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.case .io { font: 600 14px "IBM Plex Mono", monospace; }
+.case .verdict { font-weight: 600; }
+.case.pin1 .verdict, .case.pin0 .verdict { color: var(--fill); }
+.case.free .verdict { color: var(--muted); }
+.case.no { border-color: var(--bad); }
+.case.no .verdict { color: var(--bad); }
+.chips { display: flex; gap: 6px; }
+.chip { font: 600 13px "IBM Plex Mono", monospace; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 6px; background: var(--soft); }
+.chip.t { background: var(--fill); color: #fff; }
+.chip.x { background: none; border: 2px dashed var(--bad); color: var(--bad); }
+
+/* explorer */
+.explorer { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 20px; }
+.pickrow { display: grid; gap: 8px; }
+.pickrow .lab { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.pickrow .lab b { font: 600 15px "IBM Plex Mono", monospace; }
+.picker { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 5px; }
+.picker button { appearance: none; border: 2px solid transparent; background: var(--soft); border-radius: 7px; padding: 5px 3px 3px; cursor: pointer; display: grid; justify-items: center; gap: 3px; color: var(--muted); font: 600 10px "IBM Plex Mono", monospace; }
+.picker button .sq { --w: 100%; max-width: 30px; }
+.picker button[aria-pressed="true"] { border-color: var(--ink); background: var(--bg); color: var(--ink); }
+.picker button:focus-visible, .presets button:focus-visible, .map button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; }
+.presets button { appearance: none; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 5px 12px; font: 13px "IBM Plex Sans", sans-serif; cursor: pointer; }
+.presets button:hover { border-color: var(--hdr); }
+
+.rows { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.rowcard { border-radius: 8px; padding: 10px; display: grid; gap: 6px; background: var(--bg); border: 1px solid var(--line); border-top: 5px solid var(--kc); }
+.rowcard .reg { font-size: 12px; color: var(--muted); }
+.rowcard .io { font: 600 13px "IBM Plex Mono", monospace; }
+.rowcard .ver { font-weight: 600; font-size: 13px; }
+.rowcard.no { border-color: var(--bad); border-top-color: var(--bad); }
+.rowcard.no .ver { color: var(--bad); }
+.rowcard.free .ver { color: var(--muted); }
+
+.result { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px; align-items: start; }
+.bounds { display: grid; gap: 12px; }
+.bound { display: flex; align-items: center; gap: 12px; }
+.bound .sq { --w: 46px; }
+.bound .t { font-size: 13px; color: var(--muted); }
+.bound .t b { color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+.answer { font-size: 16px; font-weight: 600; }
+.answer.no { color: var(--bad); }
+.cands { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+.cand { display: grid; justify-items: center; gap: 2px; font: 600 10px "IBM Plex Mono", monospace; color: var(--muted); opacity: 0.25; }
+.cand .sq { --w: 100%; max-width: 32px; }
+.cand.in { opacity: 1; color: var(--ink); }
+.cube { width: 100%; height: auto; display: block; }
+.cube .edge { stroke: var(--gridline); stroke-width: 1.2; }
+.cube .edge.in { stroke: var(--fill); stroke-width: 3; }
+.cube .node rect.bg { fill: var(--surface); stroke: var(--line); }
+.cube .node.in rect.bg { stroke: var(--fill); stroke-width: 2.5; }
+.cube .node.out { opacity: 0.3; }
+.cube text { fill: var(--muted); font: 600 9px "IBM Plex Mono", monospace; }
+.cube .node.in text { fill: var(--ink); }
+.cube .lvl { fill: var(--muted); font: 11px "IBM Plex Sans", sans-serif; }
+
+/* the 16x16 map */
+.mapwrap { overflow-x: auto; }
+.map { border-collapse: separate; border-spacing: 2px; margin: 0; }
+.map th { font: 600 10px "IBM Plex Mono", monospace; color: var(--muted); padding: 0 4px; white-space: nowrap; }
+.map thead th { height: 64px; vertical-align: bottom; }
+.map thead th span { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; }
+.map tbody th { text-align: right; }
+.map td { padding: 0; }
+.map button { appearance: none; border: 0; width: 30px; height: 30px; border-radius: 3px; background: var(--empty); cursor: pointer; display: block; font: 600 10px "IBM Plex Mono", monospace; color: transparent; }
+.map button.c1 { background: var(--s1); } .map button.c2 { background: var(--s2); } .map button.c4 { background: var(--s3); }
+.map button.c8 { background: var(--s4); } .map button.c16 { background: var(--s5); }
+.map button.sel { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus); }
+.maplegend { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 13px; color: var(--muted); }
+.maplegend span { display: inline-flex; align-items: center; gap: 6px; }
+.maplegend i { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+.tip { position: fixed; pointer-events: none; z-index: 10; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 7px 10px; font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); max-width: 280px; }
+
+.count { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+table.plain { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+table.plain th, table.plain td { padding: 5px 12px 5px 0; text-align: left; border-bottom: 1px solid var(--line); }
+table.plain th { font-size: 12px; color: var(--muted); font-weight: 600; }
+table.plain td.num { text-align: right; font-family: "IBM Plex Mono", monospace; }
+.bar { height: 10px; background: var(--fill); border-radius: 0 3px 3px 0; display: inline-block; vertical-align: middle; }
+
+.eq { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.term { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.term .sq { --w: 64px; gap: 3px; }
+.term .sq i { border-radius: 3px; }
+.term .nm { font: 600 13px "IBM Plex Mono", monospace; }
+.term .sub { font-size: 12px; color: var(--muted); max-width: 12ch; line-height: 1.3; }
+.term.final .sq { outline: 3px solid var(--fill); outline-offset: 4px; border-radius: 4px; }
+.opr { font: 600 22px "IBM Plex Mono", monospace; color: var(--muted); height: 64px; display: grid; place-items: center; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 720px) {
+  .picker { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .rows { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .result { grid-template-columns: 1fr; }
+  h1 { font-size: 26px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Logic Research · sixteen functions</div>
+    <h1>Modus ponens in sixteen values</h1>
+    <p class="lede">Classical modus ponens says that from <b>P</b> and <b>P→Q</b> you may conclude <b>Q</b>. Here P and Q are not just TRUE or FALSE. Each is one of the sixteen two-input functions, read row by row, the same way as in Gates of gates. This page works out what the rule becomes.</p>
+    <div class="rule">
+      <div class="eyebrow">The result</div>
+      <div class="big">from P and R = P→Q:&nbsp; <b>P∧R ≤ Q ≤ R</b></div>
+      <p class="muted">It is possible only when <span class="mono">P∨R = TRUE</span>. Here ≤ means “implies on every row”. Q is pinned on the rows where P is true and free on the rows where P is false. When P is TRUE, the two bounds meet and you get classical modus ponens: Q = R.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">1 · The values</div>
+    <h2>Each value is a 2×2 square</h2>
+    <p>A sixteen-valued truth value has four rows, one for each input pair (p, q). Draw it as a square Venn diagram: a quarter is coloured when the value is TRUE in that region. The colours are the same as on the Gates of gates page.</p>
+    <div class="legend">
+      <div class="vkey" aria-label="Venn regions"><span class="k0">p and q<br>TT</span><span class="k1">p only<br>TF</span><span class="k2">q only<br>FT</span><span class="k3">neither<br>FF</span></div>
+      <p class="small muted" style="max-width: 36ch">Order is <span class="mono">TT TF FT FF</span>, as in lambda16.txt. Value <span class="mono">i</span> and value <span class="mono">15−i</span> are complements.</p>
+    </div>
+    <div class="values" id="values"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">2 · Modus ponens in squares</div>
+    <h2>The whole argument, one square per step</h2>
+    <p>Take P and Q as the plain variables. P is value 6 and Q is value 3, and every connective works quarter by quarter. Each step of <span class="mono">(P ∧ (P→Q)) → Q</span> is then a single square:</p>
+    <div class="eq" id="eqRow"></div>
+    <p>The formula ends as the solid TRUE square. The same happens for all 256 choices of P and Q (section 7).</p>
+
+    <h3 style="margin-top:10px">Implies means “fits inside”</h3>
+    <p>For squares, A → B is TRUE exactly when every lit quarter of A is also lit in B. So modus ponens is a picture of three nested squares. The conjunction fits inside the conclusion, and the conclusion fits inside the premise P→Q:</p>
+    <div class="eq" id="nestRow"></div>
+
+    <h3 style="margin-top:10px">The rule: what P and P→Q alone tell you</h3>
+    <p>Now hide Q and keep only the two premise squares. Where P is lit, Q copies P→Q. Where P is dark, the quarter is free (hatched), because P→Q is lit there whatever Q does:</p>
+    <div class="eq" id="ruleRow"></div>
+    <p>Four squares fill that pattern: <span id="ruleFits"></span>. The real Q is one of them. Only half of the quarters are pinned because P covers only half the rows. With P = TRUE, every quarter is pinned and exactly one square is left. That is classical modus ponens.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">3 · One row at a time</div>
+    <h2>Everything happens row by row</h2>
+    <p>The sixteen-valued connectives work on each row separately, so modus ponens does too. On a single row, P and R = P→Q are ordinary booleans, and there are only four cases:</p>
+    <div class="cases">
+      <div class="case pin1"><div class="io">p = 1, r = 1</div><div class="chips"><span class="chip t">1</span></div><div class="verdict">Q is pinned TRUE</div><p class="small muted">This is classical modus ponens on this row.</p></div>
+      <div class="case pin0"><div class="io">p = 1, r = 0</div><div class="chips"><span class="chip">0</span></div><div class="verdict">Q is pinned FALSE</div><p class="small muted">1→q is 0 only when q is 0.</p></div>
+      <div class="case free"><div class="io">p = 0, r = 1</div><div class="chips"><span class="chip">0</span><span class="chip t">1</span></div><div class="verdict">Q is free</div><p class="small muted">0→q is 1 whatever q is, so this row says nothing about Q.</p></div>
+      <div class="case no"><div class="io">p = 0, r = 0</div><div class="chips"><span class="chip x">✕</span></div><div class="verdict">Impossible</div><p class="small muted">0→q is always 1, so r can never be 0 here.</p></div>
+    </div>
+    <p>Stack four rows back together and you get the rule: the pinned rows make the lower bound <span class="mono">P∧R</span>. The free rows can be switched on up to <span class="mono">R</span>, which is TRUE on every free row. An impossible row anywhere rules out the whole pair.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">4 · Try it</div>
+    <h2>Pick P and P→Q, see which Q fit</h2>
+    <div class="explorer">
+      <div class="presets" id="presets">
+        <button type="button" data-p="15" data-r="5">Classical: P = TRUE</button>
+        <button type="button" data-p="5" data-r="11">P = XOR, R = P→Q</button>
+        <button type="button" data-p="7" data-r="13">P = OR, R = NAND</button>
+        <button type="button" data-p="0" data-r="15">P = FALSE</button>
+        <button type="button" data-p="6" data-r="3">Impossible pair</button>
+      </div>
+      <div class="pickrow"><div class="lab"><span>Premise <b>P</b></span><span class="small muted" id="pName"></span></div><div class="picker" id="pickP" role="group" aria-label="Choose P"></div></div>
+      <div class="pickrow"><div class="lab"><span>Premise <b>R = P→Q</b></span><span class="small muted" id="rName"></span></div><div class="picker" id="pickR" role="group" aria-label="Choose R"></div></div>
+      <div>
+        <h3 style="margin-bottom:8px">Row by row</h3>
+        <div class="rows" id="rows"></div>
+      </div>
+      <div class="result">
+        <div class="bounds">
+          <div class="answer" id="answer"></div>
+          <div class="bound" id="loB"></div>
+          <div class="bound" id="hiB"></div>
+          <div>
+            <p class="small muted" style="margin-bottom:6px">All sixteen values, with the ones that fit lit up:</p>
+            <div class="cands" id="cands"></div>
+          </div>
+        </div>
+        <div>
+          <p class="small muted" style="margin-bottom:6px">The sixteen values form a 4-cube: each edge flips one row. The answers always fill a sub-cube, running from P∧R at the bottom up to R. Each free row is one direction in it.</p>
+          <svg class="cube" id="cube" viewBox="0 0 420 330" role="img" aria-label="Sixteen values as a 4-cube with the answer interval highlighted"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">5 · All 256 pairs</div>
+    <h2>The whole map</h2>
+    <p>Each cell is one pair (P, R). Its shade is how many Q fit. Blank cells are impossible pairs. Click a cell to load it into the explorer above.</p>
+    <div class="maplegend" id="mapLegend"></div>
+    <div class="mapwrap"><table class="map" id="map" aria-label="Number of Q for each P and R"></table></div>
+    <p class="small muted" id="mapNote"></p>
+  </section>
+
+  <section>
+    <div class="eyebrow">6 · Counting</div>
+    <h2>Why 81 pairs and 256 answers</h2>
+    <div class="count">
+      <div style="display:grid; gap:10px">
+        <p>Each row allows three (p, r) combinations out of four, so <b>3⁴ = 81</b> pairs are possible.</p>
+        <p>Those three combinations give 1, 1 and 2 choices for q, which is 4 per row. So the answers add up to <b>4⁴ = 256</b>. That is every (P, Q) pair exactly once, because each (P, Q) produces exactly one R.</p>
+        <p>A P with <i>k</i> false rows leaves 2<sup><i>k</i></sup> answers. The more rows P covers, the more modus ponens tells you.</p>
+      </div>
+      <div class="mapwrap"><table class="plain" id="dist"></table></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">7 · The tautology form</div>
+    <h2>(P ∧ (P→Q)) → Q still holds</h2>
+    <p>Written as one formula, modus ponens is <span class="mono">(P ∧ (P→Q)) → Q</span>. Applied to sixteen-valued P and Q, gate of gates, it gives TRUE on all 256 pairs, because it is TRUE on every row separately. That formula is where the lower bound comes from: <span class="mono">P ∧ (P→Q)</span> is <span class="mono">P∧Q</span>, and it implies Q. The upper bound comes from the other tautology, <span class="mono">Q → (P→Q)</span>: Q can never be truer than R.</p>
+    <p class="small muted" id="check"></p>
+  </section>
+
+  <footer>Every value on this page is computed in the page from the sixteen truth tables, in the gate order of lambda16.txt. On load the page checks that the Q values that fit are exactly the interval P∧R ≤ Q ≤ R on all 81 possible pairs, and it reports the result in section 7.</footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+(() => {
+  const BITS = ["0000","0010","1000","1010","0100","0110","1100","1110","0001","0011","1001","1011","0101","0111","1101","1111"];
+  const NAME = ["FALSE","q∧¬p","AND","Q","p∧¬q","XOR","P","OR","NOR","¬P","XNOR","P→Q","¬Q","NAND","Q→P","TRUE"];
+  const REG = ["p and q", "p only", "q only", "neither"];
+  const KC = ["--v0", "--v1", "--v2", "--v3"];
+  const bits = i => BITS[i].split("").map(Number);
+  const idx = a => BITS.indexOf(a.join(""));
+  const op = f => (x, y) => { const a = bits(x), b = bits(y); return idx(a.map((_, k) => f(a[k], b[k]))); };
+  const AND = op((a, b) => a & b), OR = op((a, b) => a | b), IMP = op((a, b) => (1 - a) | b);
+  const LE = (a, b) => IMP(a, b) === 15;
+  const ALL = [...Array(16).keys()];
+  const fits = (p, r) => ALL.filter(q => IMP(p, q) === r);
+  const $ = id => document.getElementById(id);
+  const sq = (i, cls) => `<span class="sq" aria-hidden="true">${bits(i).map((b, k) => `<i class="${b ? "on k" + k : ""}${cls ? " " + cls(k) : ""}"></i>`).join("")}</span>`;
+
+  // self-check
+  let ok = 0, sum = 0, taut = 0;
+  for (const p of ALL) for (const r of ALL) {
+    const qs = fits(p, r), possible = OR(p, r) === 15;
+    const iv = possible ? ALL.filter(q => LE(AND(p, r), q) && LE(q, r)) : [];
+    if (qs.join() === iv.join()) ok++;
+    sum += qs.length;
+  }
+  for (const p of ALL) for (const q of ALL) if (IMP(AND(p, IMP(p, q)), q) === 15) taut++;
+  $("check").textContent = `Checked in this page: the interval rule is exact on ${ok} of 256 (P, R) pairs, the answers total ${sum}, and (P ∧ (P→Q)) → Q is TRUE on ${taut} of 256 (P, Q) pairs.`;
+
+  $("values").innerHTML = ALL.map(i => `<div class="val">${sq(i)}<span><span class="n">${i}</span>${NAME[i]}</span></div>`).join("");
+
+  // section 2: the argument drawn as squares, computed from P = 6 and Q = 3
+  {
+    const vP = 6, vQ = 3, vR = IMP(vP, vQ), vC = AND(vP, vR), vW = IMP(vC, vQ);
+    const term = (i, nm, sub, extra) => `<div class="term${extra || ""}">${sq(i)}<span class="nm">${nm}</span><span class="sub">${sub}</span></div>`;
+    const o = s => `<span class="opr" aria-hidden="true">${s}</span>`;
+    $("eqRow").innerHTML = term(vP, "P", `value ${vP}`) + o("∧") + term(vR, "P→Q", `value ${vR}`) + o("=") +
+      term(vC, "P∧(P→Q)", `value ${vC}, ${NAME[vC]}`) + o("→") + term(vQ, "Q", `value ${vQ}`) + o("=") + term(vW, NAME[vW], `value ${vW}`, " final");
+    $("nestRow").innerHTML = term(vC, "P∧(P→Q)", "lower bound") + o("⊆") + term(vQ, "Q", "conclusion") + o("⊆") + term(vR, "P→Q", "upper bound");
+    const p = bits(vP), r = bits(vR);
+    const ruleSq = `<span class="sq" aria-hidden="true">${[0, 1, 2, 3].map(k => p[k] ? `<i class="${r[k] ? "on k" + k : ""}"></i>` : `<i class="free"></i>`).join("")}</span>`;
+    const fitsQ = fits(vP, vR);
+    $("ruleRow").innerHTML = term(vP, "P", "premise") + o("+") + term(vR, "P→Q", "premise") + o("⊢") +
+      `<div class="term">${ruleSq}<span class="nm">Q = ?</span><span class="sub">2 quarters pinned, 2 free</span></div>` + o("=") +
+      fitsQ.map(q => term(q, NAME[q], q === vQ ? "the real Q" : "")).join("");
+    $("ruleFits").textContent = fitsQ.map(q => NAME[q]).join(", ");
+  }
+
+  let P = 5, R = 11;
+  const pick = (el, which) => {
+    el.innerHTML = ALL.map(i => `<button type="button" data-v="${i}" title="${i} ${NAME[i]}" aria-label="${NAME[i]}">${sq(i)}<span>${i}</span></button>`).join("");
+    el.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; if (which === "P") P = +b.dataset.v; else R = +b.dataset.v; render(); });
+  };
+  pick($("pickP"), "P"); pick($("pickR"), "R");
+  $("presets").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; P = +b.dataset.p; R = +b.dataset.r; render(); });
+
+  // 4-cube layout: layers by number of TRUE rows
+  const layers = [0, 1, 2, 3, 4].map(n => ALL.filter(i => bits(i).reduce((a, b) => a + b, 0) === n));
+  const pos = {};
+  layers.forEach((L, n) => L.forEach((v, j) => { pos[v] = [210 + (j - (L.length - 1) / 2) * 62, 300 - n * 68]; }));
+  const edges = [];
+  for (const a of ALL) for (const b of ALL) if (a < b && bits(a).filter((x, k) => x !== bits(b)[k]).length === 1) edges.push([a, b]);
+
+  function drawCube(set) {
+    const S = new Set(set);
+    let s = edges.map(([a, b]) => `<line class="edge${S.has(a) && S.has(b) ? " in" : ""}" x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}"/>`).join("");
+    s += ALL.map(v => {
+      const [x, y] = pos[v], c = S.has(v) ? "in" : "out", bb = bits(v), css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const cells = bb.map((b, k) => `<rect x="${x - 11 + (k % 2) * 11.5}" y="${y - 20 + Math.floor(k / 2) * 11.5}" width="10.5" height="10.5" rx="1.5" fill="${b ? css(KC[k]) : css("--empty")}"/>`).join("");
+      return `<g class="node ${c}"><title>${v} ${NAME[v]}</title><rect class="bg" x="${x - 14}" y="${y - 23}" width="28" height="29" rx="4"/>${cells}<text x="${x}" y="${y + 17}" text-anchor="middle">${NAME[v]}</text></g>`;
+    }).join("");
+    $("cube").innerHTML = s;
+  }
+
+  function render() {
+    for (const [el, v] of [["pickP", P], ["pickR", R]]) $(el).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.v === v)));
+    $("pName").textContent = `${P} · ${NAME[P]}`; $("rName").textContent = `${R} · ${NAME[R]}`;
+    const p = bits(P), r = bits(R);
+    $("rows").innerHTML = [0, 1, 2, 3].map(k => {
+      const [cls, ver] = p[k] ? (r[k] ? ["pin", "Q = 1 here"] : ["pin", "Q = 0 here"]) : (r[k] ? ["free", "Q free here"] : ["no", "impossible"]);
+      return `<div class="rowcard ${cls}" style="--kc: var(${KC[k]})"><span class="reg">${REG[k]}</span><span class="io">p=${p[k]} r=${r[k]}</span><span class="ver">${ver}</span></div>`;
+    }).join("");
+    const qs = fits(P, R), possible = qs.length > 0, lo = AND(P, R);
+    const a = $("answer");
+    a.className = "answer" + (possible ? "" : " no");
+    a.textContent = possible ? `${qs.length} value${qs.length > 1 ? "s" : ""} of Q fit` : "No Q fits: P∨R is not TRUE";
+    const badRows = k => (!p[k] && !r[k]) ? "bad" : "";
+    $("loB").innerHTML = possible ? `${sq(lo)}<span class="t">lower bound P∧R<br><b>${NAME[lo]}</b> · pinned rows only</span>` : `${sq(OR(P, R), badRows)}<span class="t">P∨R = <b>${NAME[OR(P, R)]}</b><br>the outlined rows have p = 0 and r = 0</span>`;
+    $("hiB").innerHTML = possible ? `${sq(R)}<span class="t">upper bound R<br><b>${NAME[R]}</b> · pinned rows plus every free row</span>` : "";
+    $("cands").innerHTML = ALL.map(i => `<div class="cand${qs.includes(i) ? " in" : ""}" title="${NAME[i]}">${sq(i)}<span>${NAME[i]}</span></div>`).join("");
+    drawCube(qs);
+    document.querySelectorAll("#map button").forEach(b => b.classList.toggle("sel", +b.dataset.p === P && +b.dataset.r === R));
+  }
+
+  // map
+  const counts = ALL.map(p => ALL.map(r => fits(p, r).length));
+  $("map").innerHTML = `<thead><tr><th class="small">P ↓ R →</th>${ALL.map(r => `<th scope="col"><span>${NAME[r]}</span></th>`).join("")}</tr></thead><tbody>` +
+    ALL.map(p => `<tr><th scope="row">${NAME[p]}</th>${ALL.map(r => { const n = counts[p][r]; return `<td><button type="button" class="${n ? "c" + n : ""}" data-p="${p}" data-r="${r}" aria-label="P ${NAME[p]}, R ${NAME[r]}: ${n ? n + " Q" : "impossible"}">${n}</button></td>`; }).join("")}</tr>`).join("") + "</tbody>";
+  $("mapLegend").innerHTML = `<span><i style="background:var(--empty)"></i>impossible</span>` + [1, 2, 4, 8, 16].map((n, j) => `<span><i style="background:var(--s${j + 1})"></i>${n} Q</span>`).join("");
+  const possibleCount = counts.flat().filter(n => n).length;
+  $("mapNote").textContent = `${possibleCount} of 256 pairs are possible; their answers add up to ${counts.flat().reduce((a, b) => a + b, 0)}. The TRUE row is the classical case: exactly one Q for every R.`;
+  const tip = $("tip");
+  $("map").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; P = +b.dataset.p; R = +b.dataset.r; render(); document.querySelector(".explorer").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
+  $("map").addEventListener("mousemove", e => {
+    const b = e.target.closest("button"); if (!b) { tip.hidden = true; return; }
+    const p = +b.dataset.p, r = +b.dataset.r, qs = fits(p, r);
+    tip.innerHTML = `P = <b>${NAME[p]}</b>, R = <b>${NAME[r]}</b><br>${qs.length ? qs.length + " Q: " + qs.map(q => NAME[q]).join(", ") : "impossible"}`;
+    tip.hidden = false;
+    tip.style.left = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (e.clientY + 14) + "px";
+  });
+  $("map").addEventListener("mouseleave", () => { tip.hidden = true; });
+
+  // distribution
+  const dist = {}; counts.flat().forEach(n => { if (n) dist[n] = (dist[n] || 0) + 1; });
+  $("dist").innerHTML = `<thead><tr><th>false rows in P</th><th>Q per pair</th><th>pairs</th><th></th></tr></thead><tbody>` +
+    [0, 1, 2, 3, 4].map(k => { const n = 2 ** k, c = dist[n] || 0; return `<tr><td class="num">${k}</td><td class="num">${n}</td><td class="num">${c}</td><td><span class="bar" style="width:${c * 3}px"></span></td></tr>`; }).join("") +
+    `<tr><td></td><td class="num"><b>total</b></td><td class="num"><b>${possibleCount}</b></td><td></td></tr></tbody>`;
+
+  render();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+
+</body>
+</html>

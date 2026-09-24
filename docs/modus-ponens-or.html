@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>[hidden]{display:none!important} body{margin:0}</style>
+</head>
+<body>
+<title>Modus Ponens from P∨Q</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root {
+  --bg: #f6f7f9; --surface: #fcfcfb; --ink: #0b0b0b; --muted: #52514e; --line: #dde1e8; --soft: #eceef2;
+  --fill: #2a78d6; --empty: #e3e6eb; --focus: #eb6834; --bad: #c0392b;
+  --v0: #d0408a; --v1: #1a9fc2; --v2: #3d9a2a; --v3: #9a2f1f;
+  --gridline: #c3c7cf; --hdr: #555d6b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+    --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926; --bad: #e0604f;
+    --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+    --gridline: #3d3d3a; --hdr: #a3abb8;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121212; --surface: #1a1a19; --ink: #ffffff; --muted: #c3c2b7; --line: #2e2e2c; --soft: #242423;
+  --fill: #3987e5; --empty: #2c2c2a; --focus: #d95926; --bad: #e0604f;
+  --v0: #dd5aa6; --v1: #2298c2; --v2: #4a9e2e; --v3: #bc3e22;
+  --gridline: #3d3d3a; --hdr: #a3abb8;
+}
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
+.wrap { max-width: 940px; margin: 0 auto; padding-inline: 16px; padding-block: 36px 72px; display: grid; gap: 44px; }
+.wrap > *, section > * { min-width: 0; }
+header, section { display: grid; gap: 14px; }
+h1 { font-size: 32px; line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: 21px; line-height: 1.25; margin: 0; text-wrap: balance; }
+h3 { font-size: 15px; margin: 0; }
+p { margin: 0; max-width: 66ch; }
+.lede { font-size: 17px; color: var(--muted); }
+.eyebrow { font: 600 12px "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.mono, code { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.92em; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; }
+.rule .big { font: 600 21px/1.35 "IBM Plex Mono", monospace; }
+.rule .big b { color: var(--fill); }
+
+.sq { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 3px; width: var(--w, 56px); aspect-ratio: 1; flex: none; }
+.sq i { background: var(--empty); border-radius: 3px; }
+.sq i.on.k0 { background: var(--v0); } .sq i.on.k1 { background: var(--v1); }
+.sq i.on.k2 { background: var(--v2); } .sq i.on.k3 { background: var(--v3); }
+.sq i.bad { outline: 3px solid var(--bad); outline-offset: -3px; }
+
+.vkey { display: grid; grid-template-columns: repeat(2, 84px); gap: 3px; }
+.vkey span { height: 36px; border-radius: 4px; display: grid; place-items: center; color: #fff; font: 600 12px/1.2 "IBM Plex Sans", sans-serif; text-align: center; }
+.vkey .k0 { background: var(--v0); } .vkey .k1 { background: var(--v1); } .vkey .k2 { background: var(--v2); } .vkey .k3 { background: var(--v3); }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+
+.eq { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.term { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.term .sq { --w: 64px; }
+.term .nm { font: 600 13px "IBM Plex Mono", monospace; }
+.term .sub { font-size: 12px; color: var(--muted); max-width: 13ch; line-height: 1.3; }
+.term.final .sq { outline: 3px solid var(--fill); outline-offset: 4px; border-radius: 4px; }
+.opr { font: 600 22px "IBM Plex Mono", monospace; color: var(--muted); height: 64px; display: grid; place-items: center; }
+
+.rowsplit { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.rc { border-radius: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--kc); display: grid; gap: 4px; font-size: 13px; }
+.rc .reg { color: var(--muted); font-size: 12px; }
+.rc .io { font: 600 13px "IBM Plex Mono", monospace; }
+.rc .who { font-weight: 600; }
+
+.cube { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.layer { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px 22px; }
+.node { display: grid; justify-items: center; gap: 4px; text-align: center; width: 104px; }
+.node .sq { --w: 52px; }
+.node .nm { font: 600 12.5px "IBM Plex Mono", monospace; }
+.node .sub { font-size: 11.5px; color: var(--muted); line-height: 1.3; }
+.node.top .sq { outline: 3px solid var(--fill); outline-offset: 4px; border-radius: 4px; }
+.node.mp .nm { color: var(--fill); }
+.fails { display: grid; grid-template-columns: repeat(4, 104px); gap: 14px 18px; }
+.fails .node { opacity: 0.9; }
+
+.try { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 16px; }
+.pickrow { display: grid; gap: 6px; }
+.pickrow .lab { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.pickrow .lab b { font-family: "IBM Plex Mono", monospace; }
+.picker { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 5px; }
+.picker button { appearance: none; border: 2px solid transparent; background: var(--soft); border-radius: 7px; padding: 5px 3px 3px; cursor: pointer; display: grid; justify-items: center; gap: 3px; color: var(--muted); font: 600 10px "IBM Plex Mono", monospace; }
+.picker button .sq { --w: 100%; max-width: 30px; gap: 2px; }
+.picker button .sq i { border-radius: 2px; }
+.picker button[aria-pressed="true"] { border-color: var(--ink); background: var(--bg); color: var(--ink); }
+.picker button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.cmp { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.cmp th, .cmp td { padding: 7px 14px 7px 0; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.cmp th { font-size: 12px; color: var(--muted); font-weight: 600; }
+.tw { overflow-x: auto; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+@media (max-width: 720px) {
+  .picker { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .rowsplit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  h1 { font-size: 26px; }
+  .node { width: 88px; }
+  .fails { grid-template-columns: repeat(4, 76px); gap: 12px 8px; }
+  .fails .node { width: 76px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Logic Research · sixteen functions</div>
+    <h1>Modus ponens from P∨Q</h1>
+    <p class="lede">Classical modus ponens needs P as its first premise. You can swap in the weaker premise P∨Q and still reach Q. Drawn as sixteen-valued squares, this version gives back exactly Q, with nothing left over and nothing left free.</p>
+    <div class="rule">
+      <div class="eyebrow">The result</div>
+      <div class="big">(P∨Q) ∧ (P→Q) → Q&nbsp; is a tautology</div>
+      <div class="big">(P∨Q) ∧ (P→Q) <b>= Q</b></div>
+      <p class="muted">P∨Q is the weakest first premise that works: every premise that works fits inside it. Classical modus ponens, with P, is one of those premises.</p>
+    </div>
+    <div class="legend">
+      <div class="vkey" aria-label="Venn regions"><span class="k0">p and q<br>TT</span><span class="k1">p only<br>TF</span><span class="k2">q only<br>FT</span><span class="k3">neither<br>FF</span></div>
+      <p class="small muted" style="max-width: 40ch">Each value is a 2×2 square in the Gates of gates colours. A quarter is coloured when the value is TRUE on that row. P is value 6, Q is value 3.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">1 · In squares</div>
+    <h2>The two premises rebuild Q</h2>
+    <div class="eq" id="eqOr"></div>
+    <p>Compare classical modus ponens. There the premises combine to P∧Q, which fits inside Q but is smaller. It has the TT quarter and misses the FT quarter:</p>
+    <div class="eq" id="eqMp"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">2 · Row by row</div>
+    <h2>Each premise covers the rows the other can't</h2>
+    <p>On the rows where P is true, <span class="mono">P→Q</span> reduces to Q. On the rows where P is false, <span class="mono">P∨Q</span> reduces to Q. Together they cover all four rows, so Q is pinned everywhere:</p>
+    <div class="rowsplit" id="rows"></div>
+    <p>Classical modus ponens has only the first half. Its premise P is false on the FT and FF rows, and there it says nothing about Q.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">3 · Every premise that works</div>
+    <h2>Eight squares can replace P</h2>
+    <p>Put any square X in <span class="mono">(X ∧ (P→Q)) → Q</span>. It is a tautology exactly when X leaves the FF quarter empty, which means X fits inside P∨Q. The eight that work form a cube, with P∨Q at the top. Under each is what <span class="mono">X ∧ (P→Q)</span> becomes.</p>
+    <div class="cube" id="cube"></div>
+    <p>The other eight all fill the FF quarter, outlined in red. On that row P and Q are both false, P→Q is true, and so the premises hold while Q fails:</p>
+    <div class="fails" id="fails"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">4 · All sixteen values</div>
+    <h2>It holds for every P and Q</h2>
+    <p>Now let P and Q be any of the sixteen values. Pick them below. The identity <span class="mono">(P∨Q) ∧ (P→Q) = Q</span> holds every time.</p>
+    <div class="try">
+      <div class="pickrow"><div class="lab"><span>P</span><b id="pN"></b></div><div class="picker" id="pickP" role="group" aria-label="Choose P"></div></div>
+      <div class="pickrow"><div class="lab"><span>Q</span><b id="qN"></b></div><div class="picker" id="pickQ" role="group" aria-label="Choose Q"></div></div>
+      <div class="eq" id="eqTry" style="background: var(--bg)"></div>
+    </div>
+    <div class="tw"><table class="cmp">
+      <thead><tr><th></th><th>classical: P, P→Q</th><th>this version: P∨Q, P→Q</th></tr></thead>
+      <tbody id="cmp"></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">5 · Where it sits</div>
+    <h2>Other names for the same step</h2>
+    <p><b>Resolution.</b> P→Q is ¬P∨Q, so the argument is “P∨Q and ¬P∨Q, therefore Q”. This is the resolution rule, which cancels P against ¬P.</p>
+    <p><b>Proof by cases.</b> Either P or Q holds. If P, then Q by P→Q. If Q, then Q. Both cases end at Q.</p>
+    <p><b>Modus ponens as a special case.</b> P fits inside P∨Q, so any argument that starts from P also starts from P∨Q. Starting from P gives the smaller result P∧Q. Starting from P∨Q gives all of Q.</p>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+(() => {
+  const BITS = ["0000","0010","1000","1010","0100","0110","1100","1110","0001","0011","1001","1011","0101","0111","1101","1111"];
+  const NAME = ["FALSE","¬P∧Q","P∧Q","Q","P∧¬Q","XOR","P","P∨Q","NOR","¬P","XNOR","P→Q","¬Q","NAND","Q→P","TRUE"];
+  const REG = ["p and q · TT", "p only · TF", "q only · FT", "neither · FF"];
+  const KC = ["--v0", "--v1", "--v2", "--v3"];
+  const bits = i => BITS[i].split("").map(Number);
+  const idx = a => BITS.indexOf(a.join(""));
+  const op = f => (x, y) => { const a = bits(x), b = bits(y); return idx(a.map((_, k) => f(a[k], b[k]))); };
+  const AND = op((a, b) => a & b), OR = op((a, b) => a | b), IMP = op((a, b) => (1 - a) | b);
+  const ALL = [...Array(16).keys()];
+  const $ = id => document.getElementById(id);
+  const sq = (i, bad) => `<span class="sq" aria-hidden="true">${bits(i).map((b, k) => `<i class="${b ? "on k" + k : ""}${bad && bad(k) ? " bad" : ""}"></i>`).join("")}</span>`;
+  const term = (i, nm, sub, extra) => `<div class="term${extra || ""}">${sq(i)}<span class="nm">${nm}</span><span class="sub">${sub || ""}</span></div>`;
+  const o = s => `<span class="opr" aria-hidden="true">${s}</span>`;
+  const P = 6, Q = 3, S = OR(P, Q), R = IMP(P, Q);
+
+  // 1
+  $("eqOr").innerHTML = term(S, "P∨Q", "premise") + o("∧") + term(R, "P→Q", "premise") + o("=") + term(AND(S, R), NAME[AND(S, R)], "exactly Q", " final") + o("→") + term(Q, "Q", "conclusion") + o("=") + term(IMP(AND(S, R), Q), NAME[IMP(AND(S, R), Q)], "tautology");
+  $("eqMp").innerHTML = term(P, "P", "premise") + o("∧") + term(R, "P→Q", "premise") + o("=") + term(AND(P, R), NAME[AND(P, R)], "part of Q") + o("⊆") + term(Q, "Q", "conclusion");
+
+  // 2
+  const p = bits(P), q = bits(Q), s = bits(S), r = bits(R);
+  $("rows").innerHTML = [0, 1, 2, 3].map(k => `<div class="rc" style="--kc: var(${KC[k]})"><span class="reg">${REG[k]}</span><span class="io">p=${p[k]} q=${q[k]}</span><span>P∨Q=${s[k]}, P→Q=${r[k]}</span><span class="who">${p[k] ? "P→Q" : "P∨Q"} gives q = ${p[k] ? r[k] : s[k]}</span></div>`).join("");
+
+  // 3
+  const works = ALL.filter(x => IMP(AND(x, R), Q) === 15);
+  const ones = x => bits(x).reduce((a, b) => a + b, 0);
+  const node = (x, cls) => `<div class="node ${cls || ""}">${sq(x)}<span class="nm">${NAME[x]}</span><span class="sub">X∧(P→Q) = ${NAME[AND(x, R)]}</span></div>`;
+  $("cube").innerHTML = [3, 2, 1, 0].map(n => `<div class="layer">${works.filter(x => ones(x) === n).map(x => node(x, x === S ? "top" : x === P ? "mp" : "")).join("")}</div>`).join("");
+  const fails = ALL.filter(x => !works.includes(x));
+  $("fails").innerHTML = fails.map(x => `<div class="node">${sq(x, k => k === 3)}<span class="nm">${NAME[x]}</span><span class="sub">result ${NAME[IMP(AND(x, R), Q)]}</span></div>`).join("");
+
+  // 4
+  let tp = 5, tq = 12;
+  const pick = (el, set) => {
+    el.innerHTML = ALL.map(i => `<button type="button" data-v="${i}" title="${NAME[i]}" aria-label="${NAME[i]}">${sq(i)}<span>${i}</span></button>`).join("");
+    el.addEventListener("click", e => { const b = e.target.closest("button"); if (b) { set(+b.dataset.v); renderTry(); } });
+  };
+  pick($("pickP"), v => tp = v); pick($("pickQ"), v => tq = v);
+  function renderTry() {
+    for (const [el, v] of [["pickP", tp], ["pickQ", tq]]) $(el).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.v === v)));
+    $("pN").textContent = `${tp} · ${NAME[tp]}`; $("qN").textContent = `${tq} · ${NAME[tq]}`;
+    const s = OR(tp, tq), r = IMP(tp, tq), c = AND(s, r);
+    $("eqTry").innerHTML = term(s, "P∨Q", NAME[s]) + o("∧") + term(r, "P→Q", NAME[r]) + o("=") + term(c, NAME[c], c === tq ? "equals Q" : "differs from Q", " final") + o("→") + term(tq, "Q", NAME[tq]) + o("=") + term(IMP(c, tq), NAME[IMP(c, tq)], "");
+  }
+  renderTry();
+
+  // counts, computed here
+  let taut = 0, same = 0; const fromOr = new Map(), fromP = new Map();
+  for (const a of ALL) for (const b of ALL) {
+    const s = OR(a, b), r = IMP(a, b);
+    if (IMP(AND(s, r), b) === 15) taut++;
+    if (AND(s, r) === b) same++;
+    const k1 = s + "," + r, k2 = a + "," + r;
+    (fromOr.get(k1) || fromOr.set(k1, new Set()).get(k1)).add(b);
+    (fromP.get(k2) || fromP.set(k2, new Set()).get(k2)).add(b);
+  }
+  const uniq = m => [...m.values()].filter(x => x.size === 1).length;
+  let mpTaut = 0; for (const a of ALL) for (const b of ALL) if (IMP(AND(a, IMP(a, b)), b) === 15) mpTaut++;
+  $("cmp").innerHTML = [
+    ["tautology on (P, Q) pairs", `${mpTaut} of 256`, `${taut} of 256`],
+    ["premises combine to", "P∧Q, inside Q", `exactly Q on ${same} of 256`],
+    ["possible premise pairs", `${fromP.size}`, `${fromOr.size}`],
+    ["pairs that pin Q to one value", `${uniq(fromP)} (only when P = TRUE)`, `${uniq(fromOr)} (all of them)`],
+  ].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+  $("foot").textContent = `Every square and count on this page is computed in the page from the sixteen truth tables, in the gate order of lambda16.txt. Checked on load: ${works.length} premises work in place of P, and (P∨Q) ∧ (P→Q) = Q on ${same} of 256 sixteen-valued pairs.`;
+})();
+</script>
+
+</body>
+</html>
