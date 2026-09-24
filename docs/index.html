@@ -119,7 +119,7 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 <p><strong>Each solution set is a cone.</strong> If a weight vector works, so does every larger multiple of it &mdash; scaling up drives the sigmoid harder, which can only sharpen an already-accepted pattern. Verified on 400 accepted weight sets across five scale factors: 2,000 checks, zero failures.</p>
 <p>The set is therefore <em class="q">unbounded</em>. It has an inner surface, where weights become too small to push outputs away from 0.5, but no outer one. Every flat face and straight edge in the clouds is the sampling box slicing an infinite cone &mdash; the outside is drawn by where you stopped looking, not by the logic.</p></div>
 
-<p>Sampling from a cube puts 18.9% of accepted points within 5% of a face. Swap in a ball and 77.8% press against the new boundary instead: the cloud refills whatever container it is given. Only the <strong>directions</strong> are intrinsic, which is what the second viewer shows.</p>
+<p>Sampling from a cube puts about 19% of accepted points within 5% of a face (counting the fourteen non-constant functions). Swap in a ball and about 17% sit within 5% of its surface instead: the cloud refills whatever container it is given. Only the <strong>directions</strong> are intrinsic, which is what the second viewer shows.</p>
 
 <h3>Difficulty, as a measurable area</h3>
 <p>Because the set is a cone, its cross-section on the unit sphere describes it completely. How much of the sphere each function covers:</p>
