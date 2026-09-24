@@ -141,8 +141,9 @@ forward pass rather than trusting names:
 | `(1,0,1,1)` | `R9IMPLICATION__*` | **Q → P**, the converse |
 | `(1,1,0,1)` | `R9REVIMPLICATION__*` | **P → Q**, implication |
 
-Real `NAND` was never searched for in those scripts. The errors are not
-uniform — the `262k` folder's names are correct, from a later fix.
+Real `NAND` was never searched for in those scripts; later runs found it. The
+errors are not uniform: in the `262k` folder, `R9NAND` holds real `NAND`, but
+`R9IMPLICATION` still holds the converse, like the older files.
 
 Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 (`TypeError`, string arithmetic on `sys.argv`) and

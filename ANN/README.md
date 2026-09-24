@@ -141,8 +141,13 @@ Derived by reading the accept conditions, not the filenames:
 | `(1,1,0,1)` | `R9REVIMPLICATION__*` | **P→Q**, implication |
 
 So implication and its converse are swapped, and the NAND-named files hold
-NOR solutions. **Real NAND `(1,1,1,0)` was never searched for at all** — no
-accept condition exists for it, despite `nand_syn0` / `nand_syn1` on disk.
+NOR solutions. **The six `RandomWeightSearch_N.py` never searched for real
+NAND `(1,1,1,0)`**: none has an accept condition for it, and `nand_syn0` /
+`nand_syn1` are the same 931 NOR rows as `Sixteen/R9NAND__*`. Later runs did
+find it. `Sixteen/tempp/262k/R9NAND__syn1_262k` and 819 rows of
+`Sixteen/tempp/NAND/NAND_syn1.txt` compute NAND, and the `tempp/` scripts
+still carry a NAND condition, commented out. In the same `262k` folder,
+`R9IMPLICATION` holds the converse, like the files above.
 `search_all_functions.py` uses correct names; `--legacy-names` reproduces the
 2019 filenames, errors included, for comparison. Asserted in the tests.
 
