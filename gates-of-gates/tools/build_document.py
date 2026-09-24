@@ -97,6 +97,7 @@ extra = f"""
 iframe.embed {{ display: block; width: 100%; height: 900px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }}
 iframe.embed.tall {{ height: 85vh; min-height: 600px; }}
 details.appx pre {{ max-height: 70vh; overflow: auto; font-size: 12px; line-height: 1.45; }}
+main a {{ overflow-wrap: anywhere; }}   /* long URLs as link text must not widen the page on phones */
 </style>
 <script>
 (() => {{

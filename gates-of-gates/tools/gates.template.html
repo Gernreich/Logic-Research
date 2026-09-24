@@ -28,6 +28,7 @@
 body { background: var(--bg); color: var(--ink); font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif; }
 .wrap { max-width: 1060px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; display: grid; gap: 28px; }
 header, section { display: grid; gap: 12px; }
+.wrap > *, header > *, section > * { min-width: 0; }
 h1 { font-size: 30px; line-height: 1.2; margin: 0; text-wrap: balance; }
 h2 { font-size: 19px; margin: 0; text-wrap: balance; }
 p { margin: 0; max-width: 70ch; }
@@ -41,7 +42,7 @@ code, .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font
 .key .cellkey span.on { background: var(--fill); color: #fff; }
 
 .controls { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: 14px; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg { display: inline-flex; flex-wrap: wrap; max-width: 100%; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
 .seg button { font: inherit; font-size: 13.5px; padding: 6px 12px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .seg button + button { border-left: 1px solid var(--line); }
