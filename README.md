@@ -4,8 +4,9 @@ There are exactly sixteen boolean functions of two variables. This asks two
 questions about them at once.
 
 **Symbolically** — compose them into deep expression trees and find which
-compositions are tautologies. 2²⁸ expressions filter down to 32 irreducible
-ones, rendered as English.
+compositions are tautologies. Of 2²⁸ expressions, the tautologies built from
+the eight two-input operations filter down to 32 irreducible ones, rendered as
+English.
 
 **Geometrically** — a 2–3–1 network's hidden→output weights are three numbers,
 so every set of weights that computes a given function is a *point in 3D*.
@@ -42,13 +43,14 @@ is on the public site.
     gates-of-gates/  all 16 gates applied to every pair of gates (the 1995 poster, recomputed)
     lambda16.txt     the sixteen functions as lambda terms, with every β-reduction
 
-Both halves have their own README with file-by-file detail. Original 2019
+`python/`, `ANN/` and `gates-of-gates/` each have their own README with
+file-by-file detail. Original 2019
 scripts are preserved untouched in each `original_2019/`.
 
 ## Quick start
 
-    python3 python/test_boolean16.py          # 18 checks
-    python3 ANN/test_nncore.py                # 29 checks
+    python3 python/test_boolean16.py          # 17 checks
+    python3 ANN/test_nncore.py                # 30 checks
 
     # measure how hard each function is to hit
     python3 ANN/generate_clouds.py --samples 4000000 --range 20 --rates
@@ -74,15 +76,16 @@ Sampling uniformly from ±20:
 |---|---|
 | `TRUE` / `FALSE` | 2.0 × 10⁻¹ |
 | `IMPLICATION` and kin | 1.3 × 10⁻² |
+| `OR` / `NOR` | 1.1 × 10⁻² |
 | `P`, `Q`, `NOT P`, `NOT Q` | ~1.0 × 10⁻² |
 | `AND`, `NAND` | 1.6 × 10⁻³ |
 | `XOR`, `XNOR` | 4.4 × 10⁻⁵ |
 
-Below about ±15, `XOR` is not merely rare — it is **absent**: zero hits in four
-million samples at ±10.
+At ±10, `XOR` is not merely rare — it is **absent**: zero hits in four million
+samples.
 
 The deeper reason: **each solution set is a cone.** If a weight vector works, so
-does every positive multiple of it — verified on 400 accepted sets across five
+does every larger multiple of it — verified on 400 accepted sets across five
 scale factors, 2,000 checks, zero failures. The set is unbounded, so whatever
 region you sample from draws the cloud's outer surface; a cube gives flat faces,
 a ball gives a round hull, and neither is real. Only the directions are
@@ -93,6 +96,7 @@ intrinsic, and on the unit sphere:
 | `TRUE` / `FALSE` | 47.2% |
 | `IMPLICATION` and kin | 35.0% |
 | `P`, `Q`, `NOT P`, `NOT Q` | 34.8% |
+| `OR` / `NOR` | 34.1% |
 | `AND` / `NAND` | 28.4% |
 | `XOR` / `XNOR` | **4.8%** |
 
@@ -140,6 +144,10 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 
 ## Publishing the viewer
 
-`docs/` holds three self-contained pages — an explanation at `index.html` and
-the two viewers — with all data inlined, no build step, and no external requests
-beyond Google Fonts. Pages serves from **main / docs**.
+`docs/` holds six self-contained pages — an explanation at `index.html`, the
+Shells and Cones viewers, the Gates of gates and 506 programs pages, and the
+Gates of gates document — plus `lambda16.txt` and the poster photo. All data is
+inlined, with no external requests beyond Google Fonts. Pages serves from
+**main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
+photo are put there by the recipe in
+[`gates-of-gates/README.md`](gates-of-gates/README.md).

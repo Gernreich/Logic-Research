@@ -18,7 +18,7 @@ Gates are numbered 0–15 in the [`boolean16.py`](../python/boolean16.py) order,
 
 ![The hand-made 1995 gates-of-gates poster](images/poster-1995.jpg)
 
-The same idea, drawn by hand in 1995: sixteen 16 × 16 squares in a 4 × 4 layout, F in the top-left corner and T in the bottom-right. Every gate, including the input gates along the top and left edges, is drawn as a **square Venn diagram** on graph paper. Each colour marks a **position in the square Venn**, one region of the truth table, and the Venn served as both logic and data. P and ~P show vertical stripes, Q and ~Q horizontal stripes, and the complement pairs sit in mirrored positions (P and ~P are squares 5 and 10, Q and ~Q are 9 and 6, F and T are 0 and 15, each pair adding to 15).
+The same idea, drawn by hand in 1995: sixteen 16 × 16 squares in a 4 × 4 layout, F in the top-left corner and T in the bottom-right. Every gate, including the input gates along the top and left edges, is drawn as a **square Venn diagram** on graph paper. Each colour marks a **position in the square Venn**, one region of the truth table, and the Venn served as both logic and data. P and ~P show vertical stripes, Q and ~Q horizontal stripes, and the complement pairs sit in mirrored positions (counting the poster's squares 0–15 row by row from the top left, which is not the gate numbering used below: P and ~P are squares 5 and 10, Q and ~Q are 9 and 6, F and T are 0 and 15, each pair adding to 15).
 
 The poster took some liberties and probably contains mistakes, so treat it with a grain of salt. The recomputation below is checked cell by cell. Two details are still open:
 - **Grey:** on the poster the T square is solid grey. It may be that grey meant "every region TRUE".
@@ -187,9 +187,14 @@ wrap() { printf '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8
 wrap tools/gates.html > page/gates-of-gates.html        # make the two standalone pages (see below)
 wrap tools/programs506.html > page/programs-506.html
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
+cp tools/gates-data.json data/       # the data file the page uses
 python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
 ```
 
-`tools/gates.html` and `tools/programs506.html` are page bodies: they were written to be published as claude.ai pages, which add the document skeleton themselves, so they have no `<!doctype>`, `<head>` or viewport tag. `wrap` adds that skeleton: the doctype, the character set, the viewport tag (without it, phones draw the page at desktop width) and the `[hidden]` rule the pages rely on. The result is `page/gates-of-gates.html` and `page/programs-506.html`, which open on their own in any browser; the copy in `docs/` is what the public site serves, and `build_document.py` embeds the `page/` files in the document. That is why `build_document.py` runs last. The two `tools/*.html` files are only intermediate output; they are not in the repository, so delete them afterwards.
+`tools/gates.html` and `tools/programs506.html` are page bodies: they were written to be published as claude.ai pages, which add the document skeleton themselves, so they have no `<!doctype>`, `<head>` or viewport tag. `wrap` adds that skeleton: the doctype, the character set, the viewport tag (without it, phones draw the page at desktop width) and the `[hidden]` rule the pages rely on. The result is `page/gates-of-gates.html` and `page/programs-506.html`, which open on their own in any browser; the copy in `docs/` is what the public site serves, and `build_document.py` embeds the `page/` files in the document. That is why `build_document.py` runs last. `tools/gates.html`, `tools/programs506.html` and `tools/gates-data.json` are only intermediate output; they are not in the repository, so delete them afterwards.
+
+Nothing here writes `data/cells.csv` or `data/programs.csv`; they have no generator in the repository. Both agree with the regenerated data cell for cell.
+
+`tools/allreduce.js` rebuilds the reduction half of `lambda16.txt`: run from any folder, it writes `reductions.txt` there, and that file appears verbatim in `lambda16.txt` from the "Beta reduction of all sixteen" heading on.
 
 `gates.js` stops with an error if any cell, pattern or program count fails its check, and `programs506.js` stops if any notation fails its check.

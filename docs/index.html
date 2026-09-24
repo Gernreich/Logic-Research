@@ -95,11 +95,11 @@ figure.poster figcaption{flex:1 1 220px;color:var(--dim);font-size:14px;font-fam
 
 <pre><code>16 seeds  &rarr;  4,096  &rarr;  1,048,576  &rarr;  268,435,456   (2&sup2;&#8312;)</code></pre>
 
-<p>A composition is a <strong>tautology</strong> when its value is 15 &mdash; every truth-table bit set, true under any assignment. Narrowing to the eight functions that genuinely combine both inputs collapses the space to 8,192, and filtering those is a chain, each stage a verified strict subset of the last:</p>
+<p>A composition is a <strong>tautology</strong> when its value is 15 &mdash; every truth-table bit set, true under any assignment. Keeping only the eight functions that genuinely combine both inputs, and four of the sixteen values as operands, leaves 131,072 of those 2&sup2;&#8312; positions; filtering their tautologies is a chain, each stage a verified strict subset of the last:</p>
 
 <div class="wide"><table>
 <tr><th>Stage</th><th class="num">Entries</th></tr>
-<tr><td>All tautologies in the narrowed space</td><td class="num">17,744</td></tr>
+<tr><td>All tautologies among those 131,072</td><td class="num">17,744</td></tr>
 <tr><td>Restricted to and / implies</td><td class="num">1,176</td></tr>
 <tr><td>Restricted to P, Q</td><td class="num">70</td></tr>
 <tr><td>Deduplicated</td><td class="num">38</td></tr>
@@ -116,7 +116,7 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 <p>Take a 2&ndash;3&ndash;1 network. The hidden&rarr;output weights are three numbers, so <strong>every working set of them is a point in 3D</strong>. Sample weights at random, run one forward pass, keep those whose output matches a truth table. Accumulate and you have that function's solution region.</p>
 
 <div class="callout"><span class="tag">The structural fact</span>
-<p><strong>Each solution set is a cone.</strong> If a weight vector works, so does every positive multiple of it &mdash; scaling up drives the sigmoid harder, which can only sharpen an already-accepted pattern. Verified on 400 accepted weight sets across five scale factors: 2,000 checks, zero failures.</p>
+<p><strong>Each solution set is a cone.</strong> If a weight vector works, so does every larger multiple of it &mdash; scaling up drives the sigmoid harder, which can only sharpen an already-accepted pattern. Verified on 400 accepted weight sets across five scale factors: 2,000 checks, zero failures.</p>
 <p>The set is therefore <em class="q">unbounded</em>. It has an inner surface, where weights become too small to push outputs away from 0.5, but no outer one. Every flat face and straight edge in the clouds is the sampling box slicing an infinite cone &mdash; the outside is drawn by where you stopped looking, not by the logic.</p></div>
 
 <p>Sampling from a cube puts 18.9% of accepted points within 5% of a face. Swap in a ball and 77.8% press against the new boundary instead: the cloud refills whatever container it is given. Only the <strong>directions</strong> are intrinsic, which is what the second viewer shows.</p>
@@ -129,11 +129,12 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 <tr><td><code>FALSE</code> / <code>TRUE</code></td><td class="num">47.2%</td><td><span class="bar" style="width:132px"></span></td></tr>
 <tr><td><code>IMPLICATION</code> and kin</td><td class="num">35.0%</td><td><span class="bar" style="width:98px"></span></td></tr>
 <tr><td><code>P</code>, <code>Q</code>, <code>NOT P</code>, <code>NOT Q</code></td><td class="num">34.8%</td><td><span class="bar" style="width:97px"></span></td></tr>
+<tr><td><code>OR</code> / <code>NOR</code></td><td class="num">34.1%</td><td><span class="bar" style="width:95px"></span></td></tr>
 <tr><td><code>AND</code> / <code>NAND</code></td><td class="num">28.4%</td><td><span class="bar" style="width:79px"></span></td></tr>
 <tr><td><code>XOR</code> / <code>XNOR</code></td><td class="num">4.8%</td><td><span class="bar" style="width:13px"></span></td></tr>
 </table></div>
 
-<p><code>XOR</code> is not hard because of a subtle obstruction. <strong>Only 4.8% of directions in weight space work for it</strong>, against 47% for the constants. Random search fails on it the way a dart rarely hits a small target &mdash; and below about &plusmn;15 it is not merely rare but <em class="q">absent</em>: zero hits in four million samples at &plusmn;10, because it needs large weights and none were sampled.</p>
+<p><code>XOR</code> is not hard because of a subtle obstruction. <strong>Only 4.8% of directions in weight space work for it</strong>, against 47% for the constants. Random search fails on it the way a dart rarely hits a small target &mdash; and at &plusmn;10 it is not merely rare but <em class="q">absent</em>: zero hits in four million samples, because it needs large weights and none were sampled.</p>
 
 <h2>What the 2026 pass changed</h2>
 <p class="deck">Refactoring, and what refactoring turned up.</p>
@@ -170,8 +171,8 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 <p>But complementary functions have mirror-image solution regions because <code>sigmoid(&minus;x) = 1 &minus; sigmoid(x)</code> &mdash; one line of algebra, not a discovery. And that <code>XOR</code> needs a hidden layer has been known since Minsky and Papert in 1969.</p>
 
 <h2>Running it</h2>
-<pre><code>python3 python/test_boolean16.py          # 18 checks
-python3 ANN/test_nncore.py                # 29 checks
+<pre><code>python3 python/test_boolean16.py          # 17 checks
+python3 ANN/test_nncore.py                # 30 checks
 
 # how hard is each function to hit?
 python3 ANN/generate_clouds.py --samples 4000000 --range 20 --rates

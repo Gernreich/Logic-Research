@@ -77,7 +77,7 @@ by hand. `search_weights.py` defaults to 1,000,000 samples; pass
 
 | dir | size | contents |
 |---|---|---|
-| `iamtrask_boolean_function_runs/` | 28M | weights per function — `nand`, `or`, `implication`, `revimplication`, `notp`, `notq`, `p`, `q`, `pminusq`, `qminusp`, `R9XOR`; plus `RandomWeightSearch_0..6.py` |
+| `iamtrask_boolean_function_runs/` | 28M | weights per function — `nand`, `or`, `implication`, `revimplication`, `notp`, `notq`, `p`, `q`, `pminusq`, `qminusp`, `R9XOR`; plus the six `RandomWeightSearch_N.py`: `RandomWeightSearch_0.py`, `RandomWeightSearch_1.py`, `RandomWeightSearch_2.py`, `RandomWeightSearch_3.py`, `RandomWeightSearch_5.py` and `RandomWeightSearch_6.py` (there is no `_4`) |
 | `identity_function_runs/` | 5.2M | identity-function experiments (was `IDENITY`) |
 | `relu_activation_runs/` | 128K | the same `a..g` layout, ReLU |
 | `four_to_sixteen_architecture/` | 28K | 4→16 width experiments |

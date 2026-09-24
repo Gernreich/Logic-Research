@@ -46,15 +46,20 @@ Each file below is a verified strict subset of the one above:
 
 | file | entries | meaning |
 |---|---|---|
-| `tautologies_1_all_17744.hex` | 17,744 | all tautologies in the narrowed space |
+| `tautologies_1_all_17744.hex` | 17,744 | every tautology in the full run's third expansion that uses only the eight narrowed operations and the four narrowed q-values (131,072 positions) |
 | `tautologies_2_and_implies_1176.hex` | 1,176 | restricted to and/implies forms |
 | `tautologies_3_pq_and_implies_70.hex` | 70 | restricted to P,Q and/implies |
 | `tautologies_4_deduped_38.hex` | 38 | duplicates removed |
 | `tautologies_5_no_reflections_32.hex` | 32 | P↔Q reflections removed |
-| `tautologies_6_english_39.txt` | 39 | rendered as English, e.g. `P and Q and Q -> P   reduces to P and Q -> P` |
+| `tautologies_6_english_39.txt` | 32 | rendered as English, in 39 lines (blank lines separate the groups), e.g. `P and Q and Q -> P   reduces to P and Q -> P` |
 | `tautologies_english_draft_incomplete.txt` | 32 | earlier rendering attempt; placeholders never substituted |
 
 The scripts that produced the filter chain were not kept — only their output.
+The first file can be recomputed: it is exactly the value-15 positions of the
+full run with the seed and every q drawn from `Q_VALUES` and every operation
+from `NARROWED_OPS` (4 × 32³ = 131,072 positions). Its
+entries are full-run indices (seven hex digits), not positions in the
+8,192-value narrowed run, which holds only 980 tautologies.
 
 ## Deleted, and how to get it back
 
