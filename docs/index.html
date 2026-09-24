@@ -134,7 +134,7 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 <tr><td><code>XOR</code> / <code>XNOR</code></td><td class="num">4.8%</td><td><span class="bar" style="width:13px"></span></td></tr>
 </table></div>
 
-<p><code>XOR</code> is not hard because of a subtle obstruction. <strong>Only 4.8% of directions in weight space work for it</strong>, against 47% for the constants. Random search fails on it the way a dart rarely hits a small target &mdash; and at &plusmn;10 it is not merely rare but <em class="q">absent</em>: zero hits in four million samples, because it needs large weights and none were sampled.</p>
+<p><code>XOR</code> is not hard because of a subtle obstruction. <strong>Only 4.8% of directions in weight space work for it</strong>, against 47% for the constants. Random search fails on it the way a dart rarely hits a small target &mdash; and at &plusmn;10 it all but vanishes: 10 hits in 400 million samples, more than a thousand times rarer than at &plusmn;20, because it needs large weights and few are sampled.</p>
 
 <h2>What the 2026 pass changed</h2>
 <p class="deck">Refactoring, and what refactoring turned up.</p>

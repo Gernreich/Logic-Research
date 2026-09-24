@@ -88,8 +88,9 @@ Sampling uniformly from ±20:
 | `AND`, `NAND` | 1.6 × 10⁻³ |
 | `XOR`, `XNOR` | 4.4 × 10⁻⁵ |
 
-At ±10, `XOR` is not merely rare — it is **absent**: zero hits in four million
-samples.
+At ±10, `XOR` all but vanishes: 10 hits in 400 million samples (2.5 × 10⁻⁸),
+more than a thousand times rarer than at ±20. The 2019 ±10 runs in
+`Sixteen/tempp/toot/` did find some.
 
 The deeper reason: **each solution set is a cone.** If a weight vector works, so
 does every larger multiple of it — verified on 400 accepted sets across five

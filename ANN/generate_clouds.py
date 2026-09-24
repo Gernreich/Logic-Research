@@ -10,8 +10,8 @@ The 2019 scripts used several parameter regimes, which is why their yields
 differ so much:
 
     top-level RandomWeightSearch_N.py   +/-6   n=0.976   almost never hits
-    Sixteen/tempp/RandomWeightSearch*   +/-10  n=0.9     the 262k runs
-    R9FullPoints                        +/-20            the biggest clouds
+    Sixteen/tempp/RandomWeightSearch*   +/-10  n=0.9     the toot, toot2, temek runs
+    262k and R9FullPoints               +/-20  n=0.9     the biggest clouds
 
 Wider ranges and a looser threshold hit far more often. ``--range`` and
 ``--n`` expose both.
