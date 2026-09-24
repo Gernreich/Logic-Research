@@ -12,7 +12,8 @@ this script replaces with ``const DATA={...};`` built from the point clouds:
 
 Make the three cloud folders first with the ``generate_clouds.py`` commands
 in the top-level README; the defaults below are the folders those write.
-With those clouds this reproduces the published pages byte for byte.
+With those clouds this reproduces the published pages byte for byte;
+``--check`` confirms it.
 
 USAGE
 -----
@@ -46,12 +47,11 @@ including two quirks worth knowing before reading the Shells archive view:
   * The names follow the corrected labels in the README, not the filenames:
     ``R9IMPLICATION__*`` is drawn as CONVERSE_IMPL and ``revimplication_syn1``
     as IMPLICATION.
-  * NAND joins seven files, and two of them are not points any run found.
-    ``sorted_NAND_syn1.txt`` is ``NAND_syn1.txt`` with the three coordinates
-    of every row sorted into ascending order, and the ``point5`` ``sorted_XYZ``
-    file is the same to its ``notsorted_XYZ`` partner. Of those 1,179 rows,
-    180 were already ascending and repeat a real point; the other 999 are
-    permuted weights. They are kept here because the published page has them.
+  * NAND leaves out ``NAND/sorted_NAND_syn1.txt`` and
+    ``NAND/point5/NAND_point5_syn1_sorted_XYZ``. Each is its unsorted partner
+    with the three coordinates of every row sorted into ascending order: of
+    their 1,179 rows, 180 repeat a real point and the other 999 are permuted
+    weights no run found. The page published before 2026-09-24 included them.
 """
 
 import argparse
@@ -93,8 +93,7 @@ ARCHIVE = {   # no AND: the 2019 runs never produced an AND cloud
                                                        _T + "R9FullPoints/R9IMPLICATION__syn1"],
     "NOT_P": _LETTERS("R9NOTP__syn1"),
     "IMPLICATION": ["revimplication_syn1"],
-    "NAND": ["nand_syn1", _T + "262k/R9NAND__syn1_262k", _T + "NAND/sorted_NAND_syn1.txt",
-             _T + "NAND/NAND_syn1.txt", _T + "NAND/point5/NAND_point5_syn1_sorted_XYZ",
+    "NAND": ["nand_syn1", _T + "262k/R9NAND__syn1_262k", _T + "NAND/NAND_syn1.txt",
              _T + "NAND/point5/NAND_point5_syn1_notsorted_XYZ",
              _T + "R9FullPoints/R9NAND__syn1_combined_oneline"],
     "TRUE": [_S + "true_syn1"],
