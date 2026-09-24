@@ -158,7 +158,7 @@ P and Q and !P -&gt; Q    becomes     FALSE -&gt; Q</code></pre>
 </ul>
 
 <h3>The a&ndash;g mystery</h3>
-<p>Files named <code>asyn0</code>, <code>bl2</code>, <code>run_c_*</code> carried an unexplained letter. It is an output prefix passed as <code>argv[4]</code> &mdash; and independently, six script variants hardcode the same letters against seeds. The letters encode the random seed. Nothing more.</p>
+<p>Files named <code>asyn0</code>, <code>bl2</code>, <code>run_c_*</code> carried an unexplained letter. There are two families. In <code>asyn0</code> and its neighbours the letter is an output prefix passed as <code>argv[4]</code>, a label typed on the command line; the seed was a separate argument and was never recorded. The <code>run_*</code> files carry the same letters but are sigmoid runs, which no surviving script writes as it stands. Separately, six <code>RandomWeightSearch</code> variants hardcode a letter against a seed (<code>z</code> is 0, <code>a</code> to <code>f</code> are 1 to 6), and there the letter does encode the seed.</p>
 
 <h3>Four hundred thousand times faster</h3>
 <p>The 2019 loops ran one weight set per Python iteration inside <code>range(30000000000)</code>, meant to be killed by hand. Vectorised in numpy the same sampling does <strong>200 million samples in 46 seconds</strong> and collects all sixteen functions in one pass. That is what made <code>XOR</code> and <code>AND</code> obtainable; the archive contains no <code>AND</code> cloud at all.</p>

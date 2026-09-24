@@ -32,11 +32,21 @@ lands inside a tolerance window. No gradient, no learning.
 
 ## Three things found while refactoring
 
-**Where the `a`–`g` files came from.** `train_relu_5arg.py` took an output
-prefix as `argv[4]` and appended to `<prefix>l2`, `<prefix>syn0`,
-`<prefix>syn1`. Running it as `... a`, `... b` produced `run_a_*` through
-`run_g_*`. An earlier README here claimed that mapping was "lost"; it was in
-the source all along. The letters are command-line labels, nothing more.
+**Where the `a`–`g` files came from.** Two different families of files carry
+these letters, and they mean different things.
+
+`train_relu_5arg.py` took an output prefix as `argv[4]` and appended to
+`<prefix>l2`, `<prefix>syn0`, `<prefix>syn1`, so running it as `... a`,
+`... b` wrote `relu_activation_runs/al2`, `asyn0` and so on. Here the letter
+is only a command-line label: the seed is a separate argument, `argv[1]`, and
+was never recorded. An earlier README here claimed the mapping was "lost"; it
+was in the source all along.
+
+`run_a_*` to `run_g_*` have the same letters and the same 2–2–1 shape, but they
+are sigmoid networks. Every saved row reproduces its predictions through
+sigmoid and none through ReLU, so no surviving script wrote them as it
+stands. The likeliest source is `train_relu_5arg.py` before its activation was
+switched; its sigmoid line is still there, commented out.
 
 **`train_random_weight_search_v4.py` has never run.** Line 16 is
 `zz=int(arg2/2)` where `arg2` is a string from `sys.argv` — `TypeError:
@@ -79,7 +89,7 @@ by hand. `search_weights.py` defaults to 1,000,000 samples; pass
 |---|---|---|
 | `iamtrask_boolean_function_runs/` | 28M | weights per function — `nand`, `or`, `implication`, `revimplication`, `notp`, `notq`, `p`, `q`, `pminusq`, `qminusp`, `R9XOR`; plus the six `RandomWeightSearch_N.py`: `RandomWeightSearch_0.py`, `RandomWeightSearch_1.py`, `RandomWeightSearch_2.py`, `RandomWeightSearch_3.py`, `RandomWeightSearch_5.py` and `RandomWeightSearch_6.py` (there is no `_4`) |
 | `identity_function_runs/` | 5.2M | identity-function experiments (was `IDENITY`) |
-| `relu_activation_runs/` | 128K | the same `a..g` layout, ReLU |
+| `relu_activation_runs/` | 128K | `train_relu_5arg.py` output; `a..g` are its `argv[4]` labels |
 | `four_to_sixteen_architecture/` | 28K | 4→16 width experiments |
 
 ### Subdirectory scripts (refactored 2026-08-26)
@@ -89,8 +99,11 @@ The 22 scripts inside those folders collapsed into two:
 **`search_all_functions.py`** replaces the six `RandomWeightSearch_N.py`
 (175 lines each). They differed in exactly two things: the seed, and a letter
 appended to every filename — `_0`→seed 0/`z`, `_1`→1/`a`, `_2`→2/`b`,
-`_3`→3/`c`, `_5`→5/`e`, `_6`→6/`f`. **So the `a`–`g` suffixes encode the
-random seed**, confirming from a second direction what `argv[4]` showed.
+`_3`→3/`c`, `_5`→5/`e`, `_6`→6/`f`. **So in `Sixteen/`, the suffix letter
+encodes the random seed**: `z` is seed 0 and `a` to `f` are seeds 1 to 6. The
+`d` files are presumably seed 4, whose script has not survived. This is a different
+family from the `argv[4]` labels above, so it says nothing about which seed
+went with `run_a_*` or `relu_activation_runs/a*`.
 
 **`train_graded.py`** replaces the `four_to_sixteen_architecture/` variants.
 That folder's name is literal: feed all sixteen 4-bit patterns, ask one
