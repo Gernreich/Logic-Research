@@ -108,6 +108,8 @@ For each gate, exactly one program is its term in `lambda16.txt`. **2,064 cells*
 | 14 CONVERSE (q -> p) | 1101 | 32 | 216 | `λpqab.p a (q b a)` |
 | 15 TRUE | 1111 | 63 | 680 | `λpqab.a` |
 
+Every one of the 506 programs is drawn as a Tromp diagram and written in eight notations (lambda short and long form, de Bruijn, Tromp binary, Polish, reverse Polish, SKI combinators and JavaScript) in [`page/programs-506.html`](page/programs-506.html), also online as [The 506 programs](https://claude.ai/artifact/WvgZEadpag2UVS7NeEr46d) (a private claude.ai page until shared). Each notation was checked: the text forms read back to the same term, and the lambda, SKI and JavaScript versions all reproduce the truth table.
+
 ![Same term? Filled cells reduce to the lambda16.txt term](images/all16-same-term.jpg)
 
 ![The programs for XOR, from the interactive page](images/page-programs-xor.jpg)
@@ -121,6 +123,7 @@ For each gate, exactly one program is its term in `lambda16.txt`. **2,064 cells*
 | `data/programs.csv` | the 506 programs: behaviour, number of cells, whether it is the lambda16.txt term, short form, an example cell |
 | `data/gates-data.json` | the same data as used by the page |
 | `page/gates-of-gates.html` | a local copy of the interactive page |
+| `page/programs-506.html` | all 506 programs, each as a Tromp diagram and in eight notations |
 | `tools/` | the scripts that regenerate everything |
 
 Truth-table columns in the CSV files start with an apostrophe (`'1000`) so spreadsheets keep the leading zeros.
@@ -130,6 +133,7 @@ To regenerate, from this folder:
 ```
 node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
+node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
 ```
 
-`gates.js` stops with an error if any cell, pattern or program count fails its check.
+`gates.js` stops with an error if any cell, pattern or program count fails its check, and `programs506.js` stops if any notation fails its check.
