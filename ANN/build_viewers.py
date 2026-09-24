@@ -52,6 +52,11 @@ including two quirks worth knowing before reading the Shells archive view:
     with the three coordinates of every row sorted into ascending order: of
     their 1,179 rows, 180 repeat a real point and the other 999 are permuted
     weights no run found. Builds before commit d48ef77 included them.
+  * NAND also leaves out ``nand_syn1``. It is the same 931 rows as
+    ``Sixteen/R9NAND__syn1*``, and a forward pass through their ``syn0``
+    partners gives NOR on every row, matching the saved outputs. Those are the
+    NOR solutions the README's label table describes; builds before this
+    change drew them as NAND.
 """
 
 import argparse
@@ -93,7 +98,7 @@ ARCHIVE = {   # no AND: the 2019 runs never produced an AND cloud
                                                        _T + "R9FullPoints/R9IMPLICATION__syn1"],
     "NOT_P": _LETTERS("R9NOTP__syn1"),
     "IMPLICATION": ["revimplication_syn1"],
-    "NAND": ["nand_syn1", _T + "262k/R9NAND__syn1_262k", _T + "NAND/NAND_syn1.txt",
+    "NAND": [_T + "262k/R9NAND__syn1_262k", _T + "NAND/NAND_syn1.txt",
              _T + "NAND/point5/NAND_point5_syn1_notsorted_XYZ",
              _T + "R9FullPoints/R9NAND__syn1_combined_oneline"],
     "TRUE": [_S + "true_syn1"],
