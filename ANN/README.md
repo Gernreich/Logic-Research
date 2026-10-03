@@ -100,15 +100,17 @@ by hand. `search_weights.py` defaults to 1,000,000 samples; pass
 
 ### Subdirectory scripts (refactored 2026-08-26)
 
-Seven of the 22 scripts inside those folders collapsed into two; the other 15
+Seven of the 23 scripts inside those folders collapsed into two; the other 16
 are kept as originals and have no replacement.
 
 **`search_all_functions.py`** replaces the six `RandomWeightSearch_N.py`
 (175 lines each). They differed in exactly two things: the seed, and a letter
 appended to every filename — `_0`→seed 0/`z`, `_1`→1/`a`, `_2`→2/`b`,
-`_3`→3/`c`, `_5`→5/`e`, `_6`→6/`f`. **So in `Sixteen/`, the suffix letter
-encodes the random seed**: `z` is seed 0 and `a` to `f` are seeds 1 to 6. The
-`d` files are presumably seed 4, whose script has not survived. This is a different
+`_3`→3/`c`, `_5`→5/`e`, `_6`→6/`f`. **So in
+`iamtrask_boolean_function_runs/Sixteen/` (`Sixteen/` from here on), the suffix
+letter encodes the random seed**: `z` is seed 0 and `a` to `f` are seeds 1 to 6. The
+`d` files are presumably seed 4, whose script has not survived. (`@!` also sets
+seed 4, but it is not that script: see the list below.) This is a different
 family from the `argv[4]` labels above, so it says nothing about which seed
 went with `run_a_*` or `relu_activation_runs/a*`.
 
@@ -118,7 +120,7 @@ output neuron for sixteen distinguishable levels (target = i/15, the values
 `fourthreeone.py` used). It works —
 120,000 iterations gives max error 0.0065 against a level spacing of 0.0667.
 
-Not covered, 15 scripts:
+Not covered, 16 scripts:
 
 - the rest of `four_to_sixteen_architecture/`: `workin.py` (sixteen one-hot
   outputs, not one graded output), `working.py` (targets 0 to 15 unscaled;
@@ -127,6 +129,13 @@ Not covered, 15 scripts:
   `[0.5, 0.51, 0.51, 0.0]`)
 - the eight scripts in `iamtrask_boolean_function_runs/Sixteen/tempp/`
 - the three in `identity_function_runs/`
+- `iamtrask_boolean_function_runs/@!`, a Python script despite its name. It
+  sets seed 4 but is not the lost seed-4 `RandomWeightSearch` script: it is a
+  2–1–1 network (one hidden unit, no bias) searching ±50 for XOR, and it only
+  prints, writing no files. It can never print anything. With one hidden unit
+  and no bias the output rises or falls with a single weighted sum, and XOR
+  needs (1,1) low while (0,1) and (1,0) are both high, which no weighted sum
+  allows. 20 million draws of its sampling, checked 2026-10-02, gave no hits.
 
 All originals remain where they were.
 

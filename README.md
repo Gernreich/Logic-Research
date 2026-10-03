@@ -96,9 +96,10 @@ Sampling uniformly from ±20:
 | `AND`, `NAND` | 1.6 × 10⁻³ |
 | `XOR`, `XNOR` | 4.4 × 10⁻⁵ |
 
-At ±10, `XOR` all but vanishes: 10 hits in 400 million samples (2.5 × 10⁻⁸),
-more than a thousand times rarer than at ±20. The 2019 ±10 runs in
-`Sixteen/tempp/toot/` did find some.
+At ±10, `XOR` all but vanishes: 8 to 14 hits per 400 million samples on seeds
+0–3 (48 in 1.6 billion, 3.0 × 10⁻⁸), more than a thousand times rarer than at
+±20. The 2019 ±10 runs in
+`ANN/iamtrask_boolean_function_runs/Sixteen/tempp/toot/` did find some.
 
 The deeper reason: **each solution set is a cone.** If a weight vector works, so
 does every larger multiple of it — verified on 400 accepted sets across five
@@ -164,7 +165,8 @@ forward pass rather than trusting names:
 | `(1,1,0,1)` | `R9REVIMPLICATION__*` | **P → Q**, implication |
 
 Real `NAND` was never searched for in those scripts; later runs found it. The
-errors are not uniform: in the `262k` folder, `R9NAND` holds real `NAND`, but
+errors are not uniform: in
+`ANN/iamtrask_boolean_function_runs/Sixteen/tempp/262k/`, `R9NAND` holds real `NAND`, but
 `R9IMPLICATION` still holds the converse, like the older files.
 
 Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
