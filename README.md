@@ -1,5 +1,7 @@
 # Sixteen Functions, Three Ways
 
+**[← All projects](https://gernreich.github.io/)**
+
 There are exactly sixteen boolean functions of two variables. This asks three
 questions about them at once.
 
