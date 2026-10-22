@@ -20,3 +20,6 @@ __pycache__/
 #           --seed 3 --shape ball --normalise --cap 11000 --out ANN/clouds_dir
 ANN/clouds_ball/
 ANN/clouds_dir/
+
+# Google Drive folder icons
+Icon?
