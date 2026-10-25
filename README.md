@@ -33,6 +33,9 @@ reduce to 506 distinct programs, each behaving like one of the sixteen.
   — from P and P→Q when both are sixteen-valued
 - **[Modus Ponens from P∨Q](https://gernreich.github.io/Logic-Research/modus-ponens-or.html)**
   — the weaker premise P∨Q gives back exactly Q
+- **[Zellweger's Logic Alphabet](https://gernreich.github.io/Logic-Research/zellweger.html)**
+  — ten rules of inference worked in Shea Zellweger's script, and his 2006
+  letter on modus ponens; every line checked
 - **[Gates of Gates, the document](https://gernreich.github.io/Logic-Research/gates-of-gates-document.html)**
   — all of it in one self-contained file (13 MB)
 - **[The 1995 poster](https://gernreich.github.io/Logic-Research/poster-1995.jpg)**
@@ -55,6 +58,7 @@ is on the public site.
     docs/            the viewer (GitHub Pages serves from here)
     gates-of-gates/  all 16 gates applied to every pair of gates (the 1995 poster, recomputed)
     sum-carry/       a full adder's sum and carry as Venn diagrams: hand drawings and a checked redraw
+    zellweger/       rules of inference in Shea Zellweger's Logic Alphabet: scans, transcription, checker
     lambda16.txt     the sixteen functions as lambda terms, with every β-reduction
 
 `python/`, `ANN/` and `gates-of-gates/` each have their own README with
@@ -178,16 +182,18 @@ Two scripts have never run: `ANN/original_2019/train_random_weight_search_v4.py`
 
 ## Publishing the viewer
 
-`docs/` holds eight self-contained pages — an explanation at `index.html`, the
+`docs/` holds nine pages — an explanation at `index.html`, the
 Shells and Cones viewers, the Gates of Gates and 506 Programs pages, the
-Gates of Gates document, and the two modus ponens pages — plus `lambda16.txt`,
-the poster photo and the sum and carry image. All data is
+Gates of Gates document, the two modus ponens pages and the Zellweger page —
+plus `lambda16.txt`, the poster photo, the sum and carry image and the
+Zellweger scans in `docs/zellweger/`. All data is
 inlined, with no external requests beyond Google Fonts. Pages serves from
 **main / docs**. The three gates-of-gates pages, `lambda16.txt` and the poster
 photo are put there by the recipe in
 [`gates-of-gates/README.md`](gates-of-gates/README.md); the modus ponens pages
-are copies of the ones in `python/`, and `sum-carry.png` of the one in
-`sum-carry/`.
+are copies of the ones in `python/`, `sum-carry.png` of the one in
+`sum-carry/`, and `zellweger.html` with its scans is written by
+`python3 zellweger/build_page.py`.
 
 ## Licence
 
@@ -195,4 +201,6 @@ Released under [CC0 1.0](LICENSE). **The 2019 networks start from Andrew
 Trask's [A Neural Network in 11 lines of
 Python](https://iamtrask.github.io/2015/07/12/basic-python-network/)** —
 `ANN/iamtrask_boolean_function_runs/Sixteen/tempp/elevenlines.py` is his code as
-published, and CC0 covers only what is original here.
+published, and CC0 covers only what is original here. **The Logic Alphabet is
+Shea Zellweger's**, and so are his letter and its scans in
+[`zellweger/`](zellweger/); CC0 does not cover them.
