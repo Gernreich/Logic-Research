@@ -1,0 +1,30 @@
+[package]
+name = "gates-of-gates"
+version = "0.1.0"
+edition = "2021"
+description = "Gates of gates: every gate applied to every pair of gates, by lambda reduction"
+publish = false
+autobins = false
+
+[lib]
+name = "lambda"
+path = "src/lib.rs"
+
+[dependencies]
+regex = "1"
+
+[[bin]]
+name = "gates"
+path = "tools/gates.rs"
+[[bin]]
+name = "programs506"
+path = "tools/programs506.rs"
+[[bin]]
+name = "allreduce"
+path = "tools/allreduce.rs"
+[[bin]]
+name = "tromp"
+path = "tools/tromp.rs"
+
+[profile.release]
+overflow-checks = true

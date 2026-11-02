@@ -23,3 +23,6 @@ ANN/clouds_dir/
 
 # Google Drive folder icons
 Icon?
+
+# Rust build output -- cargo build --release, from gates-of-gates/
+gates-of-gates/target/

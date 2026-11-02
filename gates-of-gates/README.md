@@ -102,7 +102,7 @@ Two more properties set XOR and XNOR apart:
 - **Latin squares:** every row and every column contains all 16 gates exactly once, like a row of a Sudoku. No other square does this. XOR's square is the addition table of 4-bit numbers where 1 + 1 = 0.
 - **A constant diagonal:** anything XOR itself is FALSE, so XOR's diagonal is all FALSE and XNOR's all TRUE.
 
-All of these (the Latin squares, the diagonals, the four checkerboards, and the triangle family being exactly those eight gates) are checked by `tools/gates.js` on every build. The triangle-family check also confirms that the other eight gates fail the same test.
+All of these (the Latin squares, the diagonals, the four checkerboards, and the triangle family being exactly those eight gates) are checked by `tools/gates.rs` on every build. The triangle-family check also confirms that the other eight gates fail the same test.
 
 ### One quarter at a time, all 16 squares
 
@@ -173,16 +173,19 @@ Every one of the 506 programs is drawn as a Tromp diagram, written in eight nota
 | `data/gates-data.json` | the same data as used by the page |
 | `page/gates-of-gates.html` | a local copy of the interactive page |
 | `page/programs-506.html` | all 506 programs, each as a Tromp diagram, in eight notations, with a map of the cells it comes from |
-| `tools/` | the scripts that regenerate everything |
+| `tools/` | the programs that regenerate everything: four in Rust (`gates.rs`, `programs506.rs`, `allreduce.rs`, `tromp.rs`) and two in Python |
+| `src/` | the code the Rust tools share: the lambda reducer, the Tromp layout, the short form |
+| `Cargo.toml`, `Cargo.lock` | the Rust build; its one dependency is `regex`, for reading `lambda16.txt` |
 
 Truth-table columns in the CSV files start with an apostrophe (`'1000`) so spreadsheets keep the leading zeros.
 
-To regenerate, from this folder:
+To regenerate, from this folder (Rust from [rustup.rs](https://rustup.rs/)):
 
 ```
-node tools/gates.js                 # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
+cargo build --release               # build the Rust tools into target/release/
+target/release/gates                # recompute every cell by lambda reduction; writes tools/gates.html and tools/gates-data.json
 python3 tools/figures.py images     # redraw the figures from tools/gates-data.json
-node tools/programs506.js           # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
+target/release/programs506          # rebuild the 506-programs page from tools/gates-data.json; writes tools/programs506.html
 wrap() { printf '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<style>[hidden]{display:none!important} body{margin:0}</style>\n</head>\n<body>\n'; cat "$1"; printf '\n</body>\n</html>\n'; }
 wrap tools/gates.html > page/gates-of-gates.html        # make the two standalone pages (see below)
 wrap tools/programs506.html > page/programs-506.html
@@ -195,6 +198,8 @@ python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-
 
 Nothing here writes `data/cells.csv` or `data/programs.csv`; they have no generator in the repository. Both agree with the regenerated data cell for cell.
 
-`tools/allreduce.js` rebuilds the reduction half of `lambda16.txt`: run from any folder, it writes `reductions.txt` there, and that file appears verbatim in `lambda16.txt` from the "Beta reduction of all sixteen" heading on.
+`target/release/allreduce` rebuilds the reduction half of `lambda16.txt`: run from any folder, it writes `reductions.txt` there, and that file appears verbatim in `lambda16.txt` from the "Beta reduction of all sixteen" heading on.
 
-`gates.js` stops with an error if any cell, pattern or program count fails its check, and `programs506.js` stops if any notation fails its check.
+`gates` stops with an error if any cell, pattern or program count fails its check, and `programs506` stops if any notation fails its check. `cargo test --release` tests the `programs506` checks on small programs whose answers are known, wrong ones included, which must fail.
+
+The tools were JavaScript, run with Node, until 2026-11-02. The Rust versions write every file above byte for byte as the JavaScript did. One check works differently: Node ran each program's JavaScript form directly, and `programs506.rs` now reads the arrow functions with its own small evaluator, which runs them the way JavaScript does (arguments first, each function keeping its scope). `tromp` prints two example reductions and the diagram of TRUE; the pages draw with the layout in `src/core.rs`.
