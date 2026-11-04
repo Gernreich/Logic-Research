@@ -2,6 +2,7 @@
 name = "gates-of-gates"
 version = "0.1.0"
 edition = "2021"
+authors = ["Michael Gernreich", "Claude (Anthropic) <noreply@anthropic.com>"]
 description = "Gates of gates: every gate applied to every pair of gates, by lambda reduction"
 publish = false
 autobins = false

@@ -204,3 +204,7 @@ Python](https://iamtrask.github.io/2015/07/12/basic-python-network/)** —
 published, and CC0 covers only what is original here. **The Logic Alphabet is
 Shea Zellweger's**, and so are his letter and its scans in
 [`zellweger/`](zellweger/); CC0 does not cover them.
+
+## Credits
+
+The research is Michael Gernreich's; [Claude](https://www.anthropic.com/claude) (Anthropic), working in Claude Code, co-wrote code and documentation in this repository. Commits Claude made carry a `Co-Authored-By: Claude` line.
