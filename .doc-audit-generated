@@ -1,0 +1,20 @@
+# Run archives, described folder by folder in ANN/README.md's table.
+ANN/iamtrask_boolean_function_runs
+ANN/identity_function_runs
+ANN/relu_activation_runs
+ANN/four_to_sixteen_architecture
+# The seven loose weight files of runs a to g ("run_a_* to run_g_*").
+ANN/run_*
+# The untouched 2019 originals, each folder named as a whole.
+ANN/original_2019
+python/original_2019
+# Templates build_viewers.py reads ("the templates in viewers/").
+ANN/viewers
+# The code the Rust tools share, one row in gates-of-gates/README.md's table.
+gates-of-gates/src
+# Page templates and the stylesheet the Rust tools fill in.
+gates-of-gates/tools/*.html
+gates-of-gates/tools/*.css
+# The Zellweger scans and their published copies, named as a range.
+zellweger/scans
+docs/zellweger

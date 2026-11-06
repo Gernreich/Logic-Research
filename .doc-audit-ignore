@@ -1,0 +1,16 @@
+# ANN/README.md names the six RandomWeightSearch_0..6 scripts by their pattern
+# before listing each in full.
+RandomWeightSearch_N.py
+
+# gates-of-gates/README.md: intermediate output of the Rust tools, deleted after
+# wrap (the README says they are not in the repository), and the converter that
+# lives in the lasermade-tools repository.
+gates.html
+programs506.html
+md2html.py
+
+# zellweger/: the scans are named as a range ("page-01.jpg to page-13.jpg") and
+# shown on docs/zellweger.html, not in the markdown.
+page-01.jpg
+page-03.jpg
+page-13.jpg
