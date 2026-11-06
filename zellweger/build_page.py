@@ -9,6 +9,7 @@ with what check_sheets.py finds. It stops if the check fails.
 """
 import html
 import os
+import re
 import shutil
 import sys
 
@@ -119,6 +120,9 @@ def main():
 </section>''')
 
     page = TEMPLATE.replace("{{GLYPHS}}", glyph_rows).replace("{{SHEETS}}", "\n".join(sheets_html))
+    # every link but an in-page #anchor opens in a new tab
+    page = re.sub(r"<a\b[^>]*>", lambda m: m.group(0) if re.search(
+        r'href="#|\btarget=', m.group(0)) else m.group(0)[:-1] + ' target="_blank" rel="noopener">', page)
     with open(os.path.join(DOCS, "zellweger.html"), "w") as f:
         f.write(page)
     print("wrote docs/zellweger.html and docs/zellweger/page-01.jpg to page-13.jpg")

@@ -47,6 +47,8 @@ LINKS = {
 for old, new in LINKS.items():
     if f'href="{old}"' not in doc:
         sys.exit(f'link not found in the converted README: {old}')
+    if new.startswith('#'):   # md2html opens links in a new tab; one into this document stays
+        doc = doc.replace(f'href="{old}" target="_blank" rel="noopener"', f'href="{new}"')
     doc = doc.replace(f'href="{old}"', f'href="{new}"')
 
 # ---- the two interactive pages, stored as base64 and loaded into frames ----
