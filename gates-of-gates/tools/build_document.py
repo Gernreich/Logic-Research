@@ -3,7 +3,7 @@
 It is written straight into docs/, the folder GitHub Pages serves; there is no other copy.
 lambda16.txt and the 1995 poster photo are also copied into docs/ so the public site can serve them.
 
-The README is converted with md2html.py (from the lasermade-tools repository), then:
+The README is converted with md2html (from the lasermade-tools repository), then:
   * every image is embedded as a data: URI,
   * the interactive Gates of Gates page and The 506 Programs page are embedded, each in its own
     frame (their styles would clash if merged), stored in the file and loaded without any network,
@@ -11,7 +11,7 @@ The README is converted with md2html.py (from the lasermade-tools repository), t
   * links to the separate files are pointed at sections of this document.
 Nothing is loaded from the network: Google Fonts links are removed and the pages fall back to system fonts.
 
-usage: python3 tools/build_document.py PATH/TO/md2html.py      (run from the gates-of-gates folder)
+usage: python3 tools/build_document.py PATH/TO/lasermade-tools/target/release/md2html      (run from the gates-of-gates folder)
 """
 import base64, html, pathlib, re, shutil, subprocess, sys, tempfile
 
@@ -24,7 +24,7 @@ OUT = REPO / 'docs' / 'gates-of-gates-document.html'
 
 with tempfile.TemporaryDirectory() as tmp:
     conv = pathlib.Path(tmp) / 'readme.html'
-    subprocess.run([sys.executable, str(MD2HTML), str(ROOT / 'README.md'), str(conv)], check=True, capture_output=True)
+    subprocess.run([str(MD2HTML), str(ROOT / 'README.md'), str(conv)], check=True, capture_output=True)
     doc = conv.read_text()
 
 # ---- images: embed as data: URIs ----

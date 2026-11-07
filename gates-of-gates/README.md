@@ -191,7 +191,7 @@ wrap tools/gates.html > page/gates-of-gates.html        # make the two standalon
 wrap tools/programs506.html > page/programs-506.html
 cp page/gates-of-gates.html page/programs-506.html ../docs/   # update the public site (GitHub Pages serves docs/)
 cp tools/gates-data.json data/       # keep data/ in step (the page itself carries its data inline)
-python3 tools/build_document.py PATH/TO/md2html.py   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html.py is in the lasermade-tools repository)
+python3 tools/build_document.py PATH/TO/lasermade-tools/target/release/md2html   # rebuild ../docs/gates-of-gates-document.html and copy lambda16.txt and the poster photo to ../docs/ (md2html is a program in the lasermade-tools repository: cargo build --release there first)
 ```
 
 `tools/gates.html` and `tools/programs506.html` are page bodies: they were written to be published as claude.ai pages, which add the document skeleton themselves, so they have no `<!doctype>`, `<head>` or viewport tag. `wrap` adds that skeleton: the doctype, the character set, the viewport tag (without it, phones draw the page at desktop width) and the `[hidden]` rule the pages rely on. The result is `page/gates-of-gates.html` and `page/programs-506.html`, which open on their own in any browser; the copy in `docs/` is what the public site serves, and `build_document.py` embeds the `page/` files in the document. That is why `build_document.py` runs last. `tools/gates.html`, `tools/programs506.html` and `tools/gates-data.json` are only intermediate output; they are not in the repository, so delete them afterwards.

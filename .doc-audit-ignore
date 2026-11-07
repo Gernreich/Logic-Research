@@ -7,7 +7,6 @@ RandomWeightSearch_N.py
 # lives in the lasermade-tools repository.
 gates.html
 programs506.html
-md2html.py
 
 # zellweger/: the scans are named as a range ("page-01.jpg to page-13.jpg") and
 # shown on docs/zellweger.html, not in the markdown.
